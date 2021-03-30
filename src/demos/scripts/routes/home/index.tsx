@@ -28,13 +28,13 @@ export class HomeRouteComponent extends React.Component {
       <div className={bem()}>
         <h1>
           <img src={logoImg} />
-          <span>Pant</span>
-          <a className="github" href="https://github.com/webyom/pant" target="_blank">
+          <span>Pant React</span>
+          <a className="github" href="https://github.com/webyom/pant-react" target="_blank">
             <img src={githubLogo} />
           </a>
         </h1>
         <h2>
-          Mobile UI Components built on Preact
+          Mobile UI Components built on React
           <br />
           Ported from{' '}
           <a href="https://github.com/youzan/vant" target="_blank">
