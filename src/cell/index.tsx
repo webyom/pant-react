@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactElement, ReactChild } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { Icon } from '../icon';
 import { isDef } from '../utils';
@@ -6,10 +6,10 @@ import { createBEM } from '../utils/bem';
 import './index.scss';
 
 export type CellProps = {
-  title?: ReactChild | ReactChild[];
-  label?: ReactChild | ReactChild[];
-  icon?: string | ReactElement;
-  rightIcon?: string | ReactElement;
+  title?: React.ReactChild | React.ReactChild[];
+  label?: React.ReactChild | React.ReactChild[];
+  icon?: string | React.ReactElement;
+  rightIcon?: string | React.ReactElement;
   size?: 'large';
   border?: boolean;
   center?: boolean;
@@ -17,7 +17,7 @@ export type CellProps = {
   className?: string;
   titleClassName?: string;
   valueClassName?: string;
-  onClick?(event: MouseEvent): void;
+  onClick?(event: React.MouseEvent): void;
 };
 
 const bem = createBEM('pant-cell');
@@ -65,7 +65,7 @@ export const Cell: React.FC<CellProps> = props => {
     }
   }
 
-  function onClick(event: MouseEvent): void {
+  function onClick(event: React.MouseEvent): void {
     props.onClick && props.onClick(event);
   }
 

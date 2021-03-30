@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Toast, ToastProps } from './toast';
 import './index.scss';
@@ -29,7 +29,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
   let container = document.createElement('div');
   container.className = 'pant-toast-container';
 
-  const onClick = function(event: MouseEvent): void {
+  const onClick = function(event: React.MouseEvent): void {
     if (opt.onClick) {
       opt.onClick(event);
     } else if (opt.clearOnClick) {

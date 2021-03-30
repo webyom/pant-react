@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { Icon } from '../icon';
 import { createBEM } from '../utils/bem';
@@ -42,7 +42,7 @@ export const Tag: React.FC<TagProps> = props => {
     <Icon
       name="cross"
       className={bem('close')}
-      onClick={(event: MouseEvent): void => {
+      onClick={(event: React.MouseEvent): void => {
         event.stopPropagation();
         props.onClose && props.onClose();
       }}

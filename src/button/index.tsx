@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { BORDER_SURROUND, WHITE } from '../utils/constant';
 import { createBEM } from '../utils/bem';
@@ -31,7 +31,7 @@ export type ButtonProps = {
   loadingText?: string;
   className?: string;
   style?: Record<string, string | number>;
-  onClick?(event: MouseEvent): void;
+  onClick?(event: React.MouseEvent): void;
 };
 
 const bem = createBEM('pant-button');
@@ -59,7 +59,7 @@ export const Button: React.FC<ButtonProps> = props => {
 
   style = { ...style, ...props.style };
 
-  function onClick(event: MouseEvent): void {
+  function onClick(event: React.MouseEvent): void {
     if (!loading && !disabled && props.onClick) {
       props.onClick(event);
     }

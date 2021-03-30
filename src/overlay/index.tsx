@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { Transition, TransitionEvents } from '../transition';
 import { createBEM } from '../utils/bem';
@@ -13,7 +13,7 @@ export type OverlayProps = {
   duration?: number;
   className?: any;
   style?: Record<string, string | number>;
-  onClick?(event: MouseEvent): void;
+  onClick?(event: React.MouseEvent): void;
 } & TransitionEvents;
 
 const bem = createBEM('pant-overlay');

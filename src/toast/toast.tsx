@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
@@ -28,7 +28,7 @@ export type ToastProps = {
   textAlign?: ToastTextAlign;
   onClosed?(): void;
   onOpened?(): void;
-  onClick?(event: MouseEvent): void;
+  onClick?(event: React.MouseEvent): void;
 };
 
 const bem = createBEM('pant-toast');

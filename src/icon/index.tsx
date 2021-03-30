@@ -1,4 +1,4 @@
-import React, { MouseEvent, TouchEvent } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { addUnit } from '../utils';
 import { createBEM } from '../utils/bem';
@@ -14,8 +14,8 @@ export type IconProps = {
   className?: string;
   classPrefix?: string;
   style?: Record<string, string>;
-  onClick?(event: MouseEvent): void;
-  onTouchStart?(event: TouchEvent): void;
+  onClick?(event: React.MouseEvent): void;
+  onTouchStart?(event: React.TouchEvent): void;
 };
 
 const bem = createBEM('pant-icon');

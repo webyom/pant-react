@@ -1,4 +1,4 @@
-import { MouseEvent, TouchEvent } from 'react';
+import React from 'react';
 import { pantConfig } from '../';
 
 const isServer = pantConfig('isServer');
@@ -36,17 +36,17 @@ export function off(target: EventTarget, event: string, handler: EventListenerOr
   }
 }
 
-export function stopPropagation(event: MouseEvent | TouchEvent): void {
+export function stopPropagation(event: React.MouseEvent | React.TouchEvent): void {
   event.stopPropagation();
 }
 
-export function preventDefault(event: MouseEvent | TouchEvent): void {
+export function preventDefault(event: React.MouseEvent | React.TouchEvent): void {
   if (typeof event.cancelable !== 'boolean' || event.cancelable) {
     event.preventDefault();
   }
 }
 
-export function preventDefaultAndStopPropagation(event: MouseEvent | TouchEvent): void {
+export function preventDefaultAndStopPropagation(event: React.MouseEvent | React.TouchEvent): void {
   preventDefault(event);
   stopPropagation(event);
 }
