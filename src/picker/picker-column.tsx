@@ -25,6 +25,7 @@ const getIndex = (options: ColumnsItemType[], value: string): number => {
   });
   return index;
 };
+
 export type PickerProps = {
   visibleItemCount: number;
   options: ColumnsItemType[];
@@ -33,7 +34,7 @@ export type PickerProps = {
   value?: string;
   onChange?: (value: number) => void;
   swipeDuration?: number;
-  injectChildren?: Function;
+  injectChildren?: (column: PickerColumn) => void;
   disabledValue?: string;
 };
 
@@ -145,6 +146,7 @@ export class PickerColumn extends React.Component<PickerProps, PickerState> {
     const trigger = (): void => {
       props.onChange(index);
     };
+
     // trigger the change event after transitionend when moving
     if (this.state.moving && offset !== this.state.offset) {
       this.transitionEndTrigger = trigger;

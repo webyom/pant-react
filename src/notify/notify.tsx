@@ -18,7 +18,7 @@ export type NotifyProps = PopupProps & {
 
 const bem = createBEM('pant-notify');
 
-export const Notify: React.FC<NotifyProps> = props => {
+export const Notify: React.FC<NotifyProps> = (props) => {
   const style = {
     ...props.style,
     color: props.color,

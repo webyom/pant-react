@@ -23,6 +23,7 @@ export type ColumnsType = {
   label?: string;
   children?: ColumnsType[];
 };
+
 export class PickerRouteComponent extends React.Component<any, PickerState> {
   private ele: any;
   state: PickerState = {
@@ -68,7 +69,7 @@ export class PickerRouteComponent extends React.Component<any, PickerState> {
   onChangeColumns(value: string[], index: number): void {
     const { dynamicColumns } = this.state;
     if (index === 0) {
-      dynamicColumns.forEach(item => {
+      dynamicColumns.forEach((item) => {
         if (item.value === value[0] && !item.children) {
           this.setState({
             loading: true,
@@ -84,7 +85,7 @@ export class PickerRouteComponent extends React.Component<any, PickerState> {
         });
       }, 500);
     } else if (index === 1) {
-      dynamicColumns.forEach(item => {
+      dynamicColumns.forEach((item) => {
         if (item.value === value[0] && item.children) {
           item.children.forEach((subItem: any) => {
             if (subItem.value === value[1] && !subItem.children) {

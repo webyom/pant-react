@@ -8,7 +8,7 @@ import './index.scss';
 
 const bem = createBEM('demo-pull-refresh');
 
-const PullingDoge: React.FC<{ distance?: number }> = props => (
+const PullingDoge: React.FC<{ distance?: number }> = (props) => (
   <img
     className="doge"
     src="https://b.yzcdn.cn/vant/doge.png"
@@ -16,7 +16,7 @@ const PullingDoge: React.FC<{ distance?: number }> = props => (
   />
 );
 
-export class PullRefreshRouteComponent extends React.Component<{}, { count: number }> {
+export class PullRefreshRouteComponent extends React.Component<any, { count: number }> {
   state = {
     count: 0,
   };
@@ -30,7 +30,7 @@ export class PullRefreshRouteComponent extends React.Component<{}, { count: numb
             <Tab title="Basic Usage">
               <PullRefresh
                 onRefresh={(): Promise<void> => {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     setTimeout(() => {
                       this.setState({ count: this.state.count + 1 });
                       toast('Refresh success');
@@ -46,7 +46,7 @@ export class PullRefreshRouteComponent extends React.Component<{}, { count: numb
               <PullRefresh
                 successText="Refresh success"
                 onRefresh={(): Promise<void> => {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     setTimeout(() => {
                       this.setState({ count: this.state.count + 1 });
                       resolve();
@@ -64,7 +64,7 @@ export class PullRefreshRouteComponent extends React.Component<{}, { count: numb
                 loosingNode={<PullingDoge />}
                 loadingNode={<img src="https://b.yzcdn.cn/vant/doge-fire.jpg" className="doge" />}
                 onRefresh={(): Promise<void> => {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     setTimeout(() => {
                       this.setState({ count: this.state.count + 1 });
                       toast('Refresh success');

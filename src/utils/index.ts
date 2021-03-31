@@ -3,7 +3,7 @@ import { Z_INDEX_INCREMENTAL_START } from './constant';
 
 export const inBrowser = typeof window !== 'undefined';
 
-export function isDef(val: any): boolean {
+export function isDef(val: any): boolean { // eslint-disable-line
   return val !== undefined && val !== null;
 }
 
@@ -43,6 +43,7 @@ export function removeUnit(value?: number | string): number | undefined {
   if (!isDef(value)) {
     return undefined;
   }
+
   if (typeof value === 'number') {
     return value;
   } else {
@@ -58,16 +59,17 @@ export function removeUnit(value?: number | string): number | undefined {
 export function omit(obj: Record<string, any>, keys: string[]): Record<string, any> {
   const res: Record<string, any> = {};
   Object.keys(obj)
-    .filter(function(key: string): boolean {
+    .filter(function (key: string): boolean {
       return !keys.includes(key);
     })
-    .forEach(function(key): void {
+    .forEach(function (key): void {
       res[key] = obj[key];
     });
   return res;
 }
 
 let zIndex = Z_INDEX_INCREMENTAL_START;
+
 export function getIncrementalZIndex(base = 0): number {
   return base + zIndex++;
 }

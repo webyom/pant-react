@@ -64,7 +64,7 @@ export class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxG
         return this.normalizeOption(option).value;
       });
       if (
-        newValue.every(function(value): boolean {
+        newValue.every(function (value): boolean {
           return oldValue.includes(value);
         })
       ) {
@@ -82,7 +82,7 @@ export class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxG
   private setNewValue(value: string[]): void {
     const props = this.props;
     const { onChange } = props;
-    this.setState({ value }, function(): void {
+    this.setState({ value }, function (): void {
       onChange && onChange(value, props);
     });
   }
@@ -104,7 +104,7 @@ export class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxG
       if (props.role === 'radio') {
         return;
       }
-      newValue = oldValue.filter(function(value): boolean {
+      newValue = oldValue.filter(function (value): boolean {
         return value !== checkboxProps.value;
       });
     } else {
@@ -171,10 +171,10 @@ export class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxG
     const passProps = omit(props, ['name', 'options', 'defaultValue', 'max', 'onClick', 'onChange', 'onMaxLimit']);
 
     if (props.cellGroup) {
-      return <CellGroup {...props.cellGroup}>{options.map(option => this.genOption(option, passProps))}</CellGroup>;
+      return <CellGroup {...props.cellGroup}>{options.map((option) => this.genOption(option, passProps))}</CellGroup>;
     }
 
-    return options.map(option => this.genOption(option, passProps));
+    return options.map((option) => this.genOption(option, passProps));
   }
 
   render(): JSX.Element {

@@ -119,7 +119,7 @@ export class List extends React.Component<ListProps, ListState> {
 
   private load(error?: boolean): void {
     this.setState({ loading: true, loadResult: {} }, () => {
-      this.props.onLoad(error).then(res => {
+      this.props.onLoad(error).then((res) => {
         this.setState({ loading: false, loadResult: res || {} });
       });
     });

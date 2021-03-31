@@ -20,7 +20,7 @@ const DEFAULT_LAST_ROW_WIDTH = '60%';
 
 const bem = createBEM('pant-skeleton');
 
-export const Skeleton: React.FC<SkeletonProps> = props => {
+export const Skeleton: React.FC<SkeletonProps> = (props) => {
   if (!props.loading) {
     return <React.Fragment>{props.children}</React.Fragment>;
   }

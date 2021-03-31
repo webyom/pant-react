@@ -24,6 +24,7 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
   } else {
     opt = options;
   }
+
   if (type) {
     opt.type = type;
   }
@@ -32,7 +33,7 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
   let container = document.createElement('div');
   container.className = 'pant-notify-container';
 
-  const onClick = function(event: React.MouseEvent): void {
+  const onClick = function (event: React.MouseEvent): void {
     if (opt.onClick) {
       opt.onClick(event);
     } else if (opt.clearOnClick) {
@@ -50,7 +51,7 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
           {...opt}
           message={message}
           onClick={onClick}
-          onClosed={function(): void {
+          onClosed={function (): void {
             document.body.removeChild(container);
             container = null;
             opt.onClosed && opt.onClosed();
@@ -84,5 +85,5 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
 }
 
 export function clearAllNotifies(): void {
-  notifyReturnList.forEach(item => item.clear());
+  notifyReturnList.forEach((item) => item.clear());
 }

@@ -36,7 +36,7 @@ export type ButtonProps = {
 
 const bem = createBEM('pant-button');
 
-export const Button: React.FC<ButtonProps> = props => {
+export const Button: React.FC<ButtonProps> = (props) => {
   const { url, icon, type, color, plain, disabled, loading, hairline, loadingText } = props;
 
   let style: Record<string, string | number> = {};

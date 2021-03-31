@@ -30,7 +30,7 @@ export type CheckboxProps = CheckboxBaseProps & {
 
 const bem = createBEM('pant-checkbox');
 
-export const Checkbox: React.FC<CheckboxProps> = props => {
+export const Checkbox: React.FC<CheckboxProps> = (props) => {
   function iconStyle(): Record<string, string> {
     const checkedColor = props.checkedColor;
 
@@ -46,6 +46,7 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
     if (props.disabled) {
       return;
     }
+
     if (props.role == 'radio' && props.checked) {
       return;
     }

@@ -1,7 +1,8 @@
 {
   "env": {
     "es6": true,
-    "browser": true
+    "browser": true,
+    "node": true
   },
   "globals": {},
   "parser": "@typescript-eslint/parser",
@@ -39,6 +40,19 @@
       {
         "blankLine": "always",
         "prev": [
+          "export",
+          "class",
+          "block-like"
+        ],
+        "next": [
+          "export",
+          "class",
+          "block-like"
+        ]
+      },
+      {
+        "blankLine": "always",
+        "prev": [
           "import",
           "cjs-import"
         ],
@@ -53,6 +67,14 @@
         "next": [
           "import",
           "cjs-import"
+        ]
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": [
+          "export",
+          "cjs-export"
         ]
       }
     ],
@@ -75,17 +97,8 @@
     // Import
     "import/no-duplicates": 2,
     "import/no-unresolved": 0,
-    // React
-    "react/jsx-uses-vars": 2,
     // Typescript
-    "@typescript-eslint/camelcase": [
-      2,
-      {
-        "properties": "never"
-      }
-    ],
     "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/no-non-null-assertion": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/no-var-requires": 0,
     // Prettier

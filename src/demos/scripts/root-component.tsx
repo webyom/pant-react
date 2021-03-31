@@ -11,10 +11,10 @@ import { CardRouteComponent } from '../../card/demo';
 import { CellRouteComponent } from '../../cell/demo';
 import { CheckboxRouteComponent } from '../../checkbox/demo';
 import { DialogRouteComponent } from '../../dialog/demo';
-// import { FieldRouteComponent } from '../../field/demo';
-// import { FormRouteComponent } from '../../form/demo';
+import { FieldRouteComponent } from '../../field/demo';
+import { FormRouteComponent } from '../../form/demo';
 import { ImgRouteComponent } from '../../img/demo';
-// import { LayoutRouteComponent } from '../../col/demo';
+import { LayoutRouteComponent } from '../../col/demo';
 import { LazyloadRouteComponent } from '../../lazyload/demo';
 import { ListRouteComponent } from '../../list/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
@@ -64,9 +64,6 @@ export class RootComponent extends React.Component {
       <Router>
         <Switch>
           {/*
-          <FieldRouteComponent path="/field/" />
-          <FormRouteComponent path="/form/" />
-          <LayoutRouteComponent path="/layout/" />
           <NumberKeyboardRouteComponent path="/number-keyboard" />
           <PasswordInputRouteComponent path="/password-input/" />
           */}
@@ -88,11 +85,20 @@ export class RootComponent extends React.Component {
           <Route path="/dialog/">
             <DialogRouteComponent />
           </Route>
+          <Route path="/field/">
+            <FieldRouteComponent />
+          </Route>
+          <Route path="/form/">
+            <FormRouteComponent />
+          </Route>
           <Route path="/img/">
             <ImgRouteComponent />
           </Route>
           <Route path="/lazyload/">
             <LazyloadRouteComponent />
+          </Route>
+          <Route path="/layout/">
+            <LayoutRouteComponent />
           </Route>
           <Route path="/list/">
             <ListRouteComponent />

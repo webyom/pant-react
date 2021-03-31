@@ -106,7 +106,7 @@ export class ToastRouteComponent extends React.Component {
               onClick={(): void => {
                 toast({
                   message: 'On Opened',
-                  onOpened: function() {
+                  onOpened: function () {
                     alert('On Opened');
                   },
                 });
@@ -119,7 +119,7 @@ export class ToastRouteComponent extends React.Component {
               onClick={(): void => {
                 toast({
                   message: 'On Closed',
-                  onClosed: function() {
+                  onClosed: function () {
                     alert('On Closed');
                   },
                 });

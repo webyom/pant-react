@@ -17,7 +17,7 @@ export type LoadingProps = {
 
 const bem = createBEM('pant-loading');
 
-const LoadingIcon: React.FC<LoadingProps> = props => {
+const LoadingIcon: React.FC<LoadingProps> = (props) => {
   if (props.type === 'spinner') {
     const Spin = [];
     for (let i = 0; i < 12; i++) {
@@ -33,7 +33,7 @@ const LoadingIcon: React.FC<LoadingProps> = props => {
   );
 };
 
-const LoadingText: React.FC<LoadingProps> = props => {
+const LoadingText: React.FC<LoadingProps> = (props) => {
   const { children } = props;
   if (children) {
     const style = props.textSize && {
@@ -49,7 +49,7 @@ const LoadingText: React.FC<LoadingProps> = props => {
   return null;
 };
 
-export const Loading: React.FC<LoadingProps> = props => {
+export const Loading: React.FC<LoadingProps> = (props) => {
   const { color, size, type } = props;
 
   const style: Record<string, string> = { color };

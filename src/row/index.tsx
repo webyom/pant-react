@@ -13,7 +13,7 @@ export type RowProps = {
 
 const bem = createBEM('pant-row');
 
-export const Row: React.FC<RowProps> = props => {
+export const Row: React.FC<RowProps> = (props) => {
   const { align, justify } = props;
   const flex = props.type === 'flex';
   const margin = `-${Number(props.gutter) / 2}px`;

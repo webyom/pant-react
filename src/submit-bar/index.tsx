@@ -28,7 +28,7 @@ export type SubmitBarProps = {
 
 const bem = createBEM('pant-submit-bar');
 
-export const SubmitBar: React.FC<SubmitBarProps> = props => {
+export const SubmitBar: React.FC<SubmitBarProps> = (props) => {
   const { tip, price, tipIcon } = props;
 
   function Text(): JSX.Element {

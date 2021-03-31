@@ -27,7 +27,7 @@ export type TitleProps = TitleParentProps & {
 
 const bem = createBEM('pant-tab');
 
-export const Title: React.FC<TitleProps> = props => {
+export const Title: React.FC<TitleProps> = (props) => {
   const {
     dot,
     type,

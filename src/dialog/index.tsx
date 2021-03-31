@@ -4,7 +4,7 @@ import './index.scss';
 
 export { Dialog, DialogProps } from './dialog';
 
-export type DialogOptions = DialogProps & {};
+export type DialogOptions = DialogProps;
 
 export type DialogReturn = {
   close(): void;
@@ -25,7 +25,7 @@ export function dialog(options: string | DialogOptions): DialogReturn {
   let container = document.createElement('div');
   container.className = 'pant-dialog-container';
 
-  const onClick = function(): void {
+  const onClick = function (): void {
     res.close();
   };
 
@@ -40,7 +40,7 @@ export function dialog(options: string | DialogOptions): DialogReturn {
           {...props}
           onCancelClick={opt.onCancelClick || onClick}
           onConfirmClick={opt.onConfirmClick || onClick}
-          onClosed={function(): void {
+          onClosed={function (): void {
             document.body.removeChild(container);
             container = null;
             opt.onClosed && opt.onClosed();
@@ -87,5 +87,5 @@ export function dialog(options: string | DialogOptions): DialogReturn {
 }
 
 export function closeAllDialogs(): void {
-  dialogReturnList.forEach(item => item.close());
+  dialogReturnList.forEach((item) => item.close());
 }

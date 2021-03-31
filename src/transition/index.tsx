@@ -107,6 +107,7 @@ export class Transition extends React.Component<TransitionProps, TransitionState
     } else {
       style = childrenStyle;
     }
+
     if (active) {
       style = { ...style, animationDuration: `${duration}s`, WebkitAnimationDuration: `${duration}s` };
     }

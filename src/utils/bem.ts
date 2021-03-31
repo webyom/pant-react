@@ -24,12 +24,12 @@ function prefix(name: string, mods: BemMods): string {
   }
 
   if (Array.isArray(mods)) {
-    return mods.map(item => prefix(name, item)).join(' ');
+    return mods.map((item) => prefix(name, item)).join(' ');
   }
 
   const ret: string[] = [];
   if (mods) {
-    Object.keys(mods).forEach(key => {
+    Object.keys(mods).forEach((key) => {
       if (mods[key]) {
         ret.push(name + MODS + key);
       }
@@ -40,7 +40,7 @@ function prefix(name: string, mods: BemMods): string {
 }
 
 export function createBEM(name: string) {
-  return function(el?: BemMods, mods?: BemMods): string {
+  return function (el?: BemMods, mods?: BemMods): string {
     let res: string;
     if (typeof el === 'string') {
       res = join(name, el, ELEMENT);

@@ -12,7 +12,7 @@ const bem = createBEM('demo-list');
 export class ListRouteComponent extends React.Component<any, { list1: number[]; list2: number[]; list3: number[] }> {
   private list3Ref = React.createRef<List>();
 
-  constructor(props: any) {
+  constructor(props: React.PropsWithChildren<any>) {
     super(props);
     this.state = {
       list1: [],
@@ -39,7 +39,7 @@ export class ListRouteComponent extends React.Component<any, { list1: number[]; 
               <List
                 finishedText="Finished"
                 onLoad={(): Promise<ListLoadResult> => {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     setTimeout(() => {
                       const list1 = this.state.list1;
                       this.setState({ list1: list1.concat(this.genList(list1.length, list1.length + 10)) }, () => {
@@ -51,7 +51,7 @@ export class ListRouteComponent extends React.Component<any, { list1: number[]; 
                   });
                 }}
               >
-                {this.state.list1.map(i => (
+                {this.state.list1.map((i) => (
                   <Cell key={i} title={i}></Cell>
                 ))}
               </List>
@@ -60,7 +60,7 @@ export class ListRouteComponent extends React.Component<any, { list1: number[]; 
               <List
                 errorText="Request failed. Click to reload"
                 onLoad={(): Promise<ListLoadResult> => {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     setTimeout(() => {
                       const list2 = this.state.list2;
                       this.setState({ list2: list2.concat(this.genList(list2.length, list2.length + 10)) }, () => {
@@ -73,7 +73,7 @@ export class ListRouteComponent extends React.Component<any, { list1: number[]; 
                   });
                 }}
               >
-                {this.state.list2.map(i => (
+                {this.state.list2.map((i) => (
                   <Cell title={i}></Cell>
                 ))}
               </List>
@@ -81,7 +81,7 @@ export class ListRouteComponent extends React.Component<any, { list1: number[]; 
             <Tab title="PullRefresh" lazyRender>
               <PullRefresh
                 onRefresh={(): Promise<void> => {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     setTimeout(() => {
                       this.setState({ list3: this.genList(0, 10) }, () => {
                         this.list3Ref.current.reset();
@@ -95,7 +95,7 @@ export class ListRouteComponent extends React.Component<any, { list1: number[]; 
                   ref={this.list3Ref}
                   finishedText="Finished"
                   onLoad={(): Promise<ListLoadResult> => {
-                    return new Promise(resolve => {
+                    return new Promise((resolve) => {
                       setTimeout(() => {
                         const list3 = this.state.list3;
                         this.setState({ list3: list3.concat(this.genList(list3.length, list3.length + 10)) }, () => {
@@ -107,7 +107,7 @@ export class ListRouteComponent extends React.Component<any, { list1: number[]; 
                     });
                   }}
                 >
-                  {this.state.list3.map(i => (
+                  {this.state.list3.map((i) => (
                     <Cell title={i}></Cell>
                   ))}
                 </List>

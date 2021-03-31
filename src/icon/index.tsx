@@ -24,7 +24,7 @@ function isImage(name?: string): boolean {
   return name ? name.indexOf('/') !== -1 : false;
 }
 
-export const Icon: React.FC<IconProps> = props => {
+export const Icon: React.FC<IconProps> = (props) => {
   const name = props.name;
   const imageIcon = isImage(name);
 

@@ -29,7 +29,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
   let container = document.createElement('div');
   container.className = 'pant-toast-container';
 
-  const onClick = function(event: React.MouseEvent): void {
+  const onClick = function (event: React.MouseEvent): void {
     if (opt.onClick) {
       opt.onClick(event);
     } else if (opt.clearOnClick) {
@@ -47,7 +47,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
           {...opt}
           message={message}
           onClick={onClick}
-          onClosed={function(): void {
+          onClosed={function (): void {
             document.body.removeChild(container);
             container = null;
             opt.onClosed && opt.onClosed();
@@ -81,5 +81,5 @@ export function toast(options: string | ToastOptions): ToastReturn {
 }
 
 export function clearAllToasts(): void {
-  toastReturnList.forEach(item => item.clear());
+  toastReturnList.forEach((item) => item.clear());
 }

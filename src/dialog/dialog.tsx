@@ -74,7 +74,7 @@ function genButtons(props: DialogProps): JSX.Element {
   );
 }
 
-export const Dialog: React.FC<DialogProps> = props => {
+export const Dialog: React.FC<DialogProps> = (props) => {
   const { show, zIndex, message, messageAlign } = props;
   const incZIndex = zIndex || getIncrementalZIndex();
   const messageNode = props.messageNode;

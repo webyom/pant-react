@@ -12,7 +12,7 @@ export type ColProps = {
 
 const bem = createBEM('pant-col');
 
-export const Col: React.FC<ColProps> = props => {
+export const Col: React.FC<ColProps> = (props) => {
   const { span, offset } = props;
   const gutter = Number(props.gutter) || 0;
   const padding = `${gutter / 2}px`;

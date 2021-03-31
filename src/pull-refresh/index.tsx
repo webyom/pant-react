@@ -96,6 +96,7 @@ export class PullRefresh extends React.Component<PullRefreshProps, PullRefreshSt
     if (!this.touchable) {
       return false;
     }
+
     if (!this.ceiling) {
       this.checkPullStart(event);
     }
@@ -170,12 +171,15 @@ export class PullRefresh extends React.Component<PullRefreshProps, PullRefreshSt
     if (status === 'success') {
       return props.successNode || <div className={bem('text')}>{props.successText}</div>;
     }
+
     if (status === 'loading') {
       return props.loadingNode || <Loading size="16">{props.loadingText || i18n().loading}</Loading>;
     }
+
     if (status === 'loosing') {
       return props.loosingNode || <div className={bem('text')}>{props.loosingText || i18n().pullRefresh.loosing}</div>;
     }
+
     if (status === 'pulling') {
       return (
         (props.pullingNode && React.cloneElement(props.pullingNode, { distance })) || (

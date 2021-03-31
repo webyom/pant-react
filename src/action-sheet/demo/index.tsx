@@ -24,7 +24,7 @@ export class ActionSheetRouteComponent extends React.Component {
                 onClick={(): void => {
                   actionSheet({
                     actions: [{ name: 'Option' }, { name: 'Option' }, { name: 'Option', subname: 'Description' }],
-                    onSelect: function(item: ActionSheetItem) {
+                    onSelect: function (item: ActionSheetItem) {
                       toast(item.name);
                     },
                   });
@@ -37,7 +37,7 @@ export class ActionSheetRouteComponent extends React.Component {
                   actionSheet({
                     actions: [{ name: 'Option' }, { name: 'Option' }, { name: 'Option', subname: 'Description' }],
                     cancelText: 'Cancel',
-                    onSelect: function(item: ActionSheetItem) {
+                    onSelect: function (item: ActionSheetItem) {
                       toast(item.name);
                     },
                   });
@@ -50,7 +50,7 @@ export class ActionSheetRouteComponent extends React.Component {
                   actionSheet({
                     actions: [{ name: 'Option' }, { name: 'Option' }, { name: 'Option', subname: 'Description' }],
                     description: 'Description',
-                    onSelect: function(item: ActionSheetItem) {
+                    onSelect: function (item: ActionSheetItem) {
                       toast(item.name);
                     },
                   });
@@ -73,7 +73,7 @@ export class ActionSheetRouteComponent extends React.Component {
                       { name: 'Disabled Option', disabled: true },
                     ],
                     cancelText: 'Cancel',
-                    onSelect: function(item: ActionSheetItem) {
+                    onSelect: function (item: ActionSheetItem) {
                       toast(item.name);
                     },
                   });

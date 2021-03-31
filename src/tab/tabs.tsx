@@ -76,7 +76,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     const { activeName, children } = props;
     let activeIndex;
     if (activeName) {
-      activeIndex = [].concat(children).findIndex(item => item.props.name === activeName);
+      activeIndex = [].concat(children).findIndex((item) => item.props.name === activeName);
     } else {
       activeIndex = +props.activeIndex;
     }
@@ -89,7 +89,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     const { activeName, children, swipeable, scrollspy } = this.props;
     this.tabHeight = getVisibleHeight(this.tabListRef.current.parentNode as HTMLElement);
     if (activeName) {
-      const activeIndex = [].concat(children).findIndex(item => item.props.name === activeName);
+      const activeIndex = [].concat(children).findIndex((item) => item.props.name === activeName);
       if (activeIndex >= 0) {
         this.setState({ activeIndex });
       }
@@ -99,6 +99,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     if (swipeable) {
       this.touchHandler = new TouchHandler(this.contentRef.current, { onTouchEnd: this.onTouchEnd.bind(this) });
     }
+
     if (scrollspy) {
       this.scroller = getScroller(this.containerRef.current);
       on(this.scroller, 'scroll', this.bindedOnScroll);
@@ -116,6 +117,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
       this.touchHandler.destroy();
       this.touchHandler = null;
     }
+
     if (this.scroller) {
       off(this.scroller, 'scroll', this.bindedOnScroll);
       this.scroller = null;
@@ -187,6 +189,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     if (!immediate) {
       lineEl.style.transitionDuration = `${duration}s`;
     }
+
     if (isDef(lineHeight)) {
       const height = addUnit(lineHeight);
       lineEl.style.height = height;

@@ -8,6 +8,7 @@ function isWindow(val: unknown): val is Window {
 // http://w3help.org/zh-cn/causes/SD9013
 // http://stackoverflow.com/questions/17016740/onscroll-function-is-not-working-for-chrome
 const overflowScrollReg = /scroll|auto/i;
+
 export function getScroller(el: HTMLElement, root: ScrollElement = window): ScrollElement {
   let node = el;
 
@@ -109,7 +110,7 @@ export function scrollLeftTo(scroller: HTMLElement, to: number, duration: number
   animate();
 }
 
-export function scrollTopTo(scroller: ScrollElement, to: number, duration: number, callback: Function): void {
+export function scrollTopTo(scroller: ScrollElement, to: number, duration: number, callback: () => void): void {
   let current = getScrollTop(scroller);
 
   const isDown = current < to;

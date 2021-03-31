@@ -9,7 +9,7 @@ import './index.scss';
 
 const bem = createBEM('demo-tab');
 
-class LazyContent extends React.Component<{}, { inited: boolean }> {
+class LazyContent extends React.Component<any, { inited: boolean }> {
   state = {
     inited: false,
   };
@@ -226,7 +226,7 @@ export class TabRouteComponent extends React.Component {
                   message: 'Loading...',
                   loading: true,
                 });
-                return new Promise(resolve => {
+                return new Promise((resolve) => {
                   setTimeout(() => {
                     resolve(true);
                     disposer.clear();

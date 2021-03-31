@@ -30,7 +30,7 @@ export type ActionSheetProps = PopupProps & {
 
 const bem = createBEM('pant-action-sheet');
 
-export const ActionSheet: React.FC<ActionSheetProps> = props => {
+export const ActionSheet: React.FC<ActionSheetProps> = (props) => {
   const { show, title, cancelText } = props;
 
   function Header(): JSX.Element {

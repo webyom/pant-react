@@ -22,7 +22,7 @@ export type CellProps = {
 
 const bem = createBEM('pant-cell');
 
-export const Cell: React.FC<CellProps> = props => {
+export const Cell: React.FC<CellProps> = (props) => {
   const { icon, title, label, rightIcon } = props;
   const showTitle = isDef(title);
 

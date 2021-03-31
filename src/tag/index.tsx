@@ -23,7 +23,7 @@ export type TagProps = {
 
 const bem = createBEM('pant-tag');
 
-export const Tag: React.FC<TagProps> = props => {
+export const Tag: React.FC<TagProps> = (props) => {
   const { type, mark, plain, color, round, size } = props;
 
   const key = plain ? 'color' : 'backgroundColor';

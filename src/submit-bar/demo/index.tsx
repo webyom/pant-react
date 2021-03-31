@@ -8,7 +8,7 @@ import './index.scss';
 
 const bem = createBEM('demo-submit-bar');
 
-export class SubmitBarRouteComponent extends React.Component<{}, { checked: boolean }> {
+export class SubmitBarRouteComponent extends React.Component<any, { checked: boolean }> {
   state = {
     checked: true,
   };

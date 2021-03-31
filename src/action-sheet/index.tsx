@@ -41,7 +41,7 @@ export function actionSheet(options: ActionSheetOptions): ActionSheetReturn {
           {...opt}
           onCancel={opt.onCancel || onCancel}
           onSelect={onSelect}
-          onClosed={function(): void {
+          onClosed={function (): void {
             document.body.removeChild(container);
             container = null;
             opt.onClosed && opt.onClosed();
@@ -63,5 +63,5 @@ export function actionSheet(options: ActionSheetOptions): ActionSheetReturn {
 }
 
 export function closeAllactionSheets(): void {
-  actionSheetReturnList.forEach(item => item.close());
+  actionSheetReturnList.forEach((item) => item.close());
 }

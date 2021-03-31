@@ -54,7 +54,7 @@ export class DialogRouteComponent extends React.Component {
                   title: 'Title',
                   message: 'Content',
                   showCancelButton: true,
-                  onConfirmClick: function(): void {
+                  onConfirmClick: function (): void {
                     dialogRef.update({ confirmLoading: true });
                     setTimeout(dialogRef.close, 2000);
                   },

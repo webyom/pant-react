@@ -10,7 +10,7 @@ export type InfoProps = {
 
 const bem = createBEM('pant-info');
 
-export const Info: React.FC<InfoProps> = props => {
+export const Info: React.FC<InfoProps> = (props) => {
   const { dot, info } = props;
   const showInfo = isDef(info) && info !== '';
 

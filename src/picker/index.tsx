@@ -130,7 +130,7 @@ const getFormatted = (
         filter = (filter[0] as ColumnsType).children || [];
       } else {
         // 当存在item.value === pickerValue[i]时，展示该数据下的children；当不存在时，filter=[]
-        filter = (filter as ColumnsType[]).filter(item => item.value === pickerValue[i]);
+        filter = (filter as ColumnsType[]).filter((item) => item.value === pickerValue[i]);
         if (filter.length !== 0) {
           filter = (filter[0] as ColumnsType).children || [];
         }

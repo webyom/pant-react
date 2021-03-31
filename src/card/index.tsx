@@ -34,7 +34,7 @@ export type CardProps = {
 
 const bem = createBEM('pant-card');
 
-export const Card: React.FC<CardProps> = props => {
+export const Card: React.FC<CardProps> = (props) => {
   const { thumb } = props;
 
   const showNum = isDef(props.num);
@@ -94,7 +94,7 @@ export const Card: React.FC<CardProps> = props => {
   }
 
   function PriceContent(): JSX.Element {
-    const priceArr = props.price!.toString().split('.');
+    const priceArr = props.price.toString().split('.');
     return (
       <div>
         <span className={bem('price-currency')}>{props.currency}</span>

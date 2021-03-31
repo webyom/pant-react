@@ -18,7 +18,7 @@ export type OverlayProps = {
 
 const bem = createBEM('pant-overlay');
 
-export const Overlay: React.FC<OverlayProps> = props => {
+export const Overlay: React.FC<OverlayProps> = (props) => {
   const style: Record<string, any> = {
     backgroundColor: pantConfig('defaultOverlayBgColor'),
     ...props.style,

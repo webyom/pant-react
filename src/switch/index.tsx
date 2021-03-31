@@ -20,7 +20,7 @@ export type SwitchProps = {
 
 const bem = createBEM('pant-switch');
 
-export const Switch: React.FC<SwitchProps> = props => {
+export const Switch: React.FC<SwitchProps> = (props) => {
   const { on, loading, disabled } = props;
 
   const style = {

@@ -11,6 +11,7 @@ import { Loading, LoadingType } from '../loading';
 import './index.scss';
 
 export type ToastPosition = 'top' | 'middle' | 'bottom';
+
 export type ToastTextAlign = 'left' | 'center' | 'right';
 
 export type ToastProps = {
@@ -57,7 +58,7 @@ function genMessage(props: ToastProps): JSX.Element {
   return <div className={bem('text')}>{message}</div>;
 }
 
-export const Toast: React.FC<ToastProps> = props => {
+export const Toast: React.FC<ToastProps> = (props) => {
   const { show, zIndex, overlay } = props;
   const incZIndex = zIndex || getIncrementalZIndex(Z_INDEX_TOAST_BASE);
 
