@@ -2,7 +2,6 @@ const path = require('path');
 const { HotModuleReplacementPlugin, ProvidePlugin } = require('webpack');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
@@ -22,6 +21,7 @@ module.exports = {
     publicPath: getPublicPath(),
     filename: '[name].[hash:8].js',
     path: path.resolve(__dirname, 'docs/demos'),
+    clean: true,
   },
   module: {
     rules: [
@@ -72,7 +72,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/demos/index.ejs',
       minify: true,
