@@ -1,13 +1,20 @@
 const path = require('path');
+const { HotModuleReplacementPlugin, ProvidePlugin } = require('webpack');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 function getPublicPath() {
-  return process.env.NODE_ENV === 'production' ? 'https://webyom.github.io/pant-react/demos/' : '/demos/';
+  return !isDevelopment ? 'https://webyom.github.io/pant-react/demos/' : '/demos/';
 }
 
 module.exports = {
-  mode: process.env.NODE_ENV || 'development',
+  mode: isDevelopment ? 'development' : 'production',
+  target: 'web',
   entry: {
     app: './src/demos/scripts/main.ts',
   },
@@ -19,8 +26,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
+        test: /\.(j|t)sx?$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+          },
+        },
         exclude: /node_modules/,
       },
       {
@@ -47,11 +59,17 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    plugins: [new TsconfigPathsPlugin()],
   },
   devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, 'docs'),
-    historyApiFallback: true,
+    hot: true,
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin(),
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -59,5 +77,10 @@ module.exports = {
       template: 'src/demos/index.ejs',
       minify: true,
     }),
-  ],
+    new ProvidePlugin({
+      React: 'react',
+    }),
+    isDevelopment && new HotModuleReplacementPlugin(),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
 };

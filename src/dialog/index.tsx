@@ -2,7 +2,8 @@ import ReactDOM from 'react-dom';
 import { Dialog, DialogProps } from './dialog';
 import './index.scss';
 
-export { Dialog, DialogProps } from './dialog';
+export { Dialog } from './dialog';
+export type { DialogProps } from './dialog';
 
 export type DialogOptions = DialogProps;
 

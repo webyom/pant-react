@@ -3,7 +3,8 @@ import { Notify, NotifyProps, NotifyType } from './notify';
 import './index.scss';
 import React from 'react';
 
-export { Notify, NotifyProps } from './notify';
+export { Notify } from './notify';
+export type { NotifyProps } from './notify';
 
 export type NotifyOptions = NotifyProps & {
   duration?: number;

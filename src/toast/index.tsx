@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { Toast, ToastProps } from './toast';
 import './index.scss';
 
-export { Toast, ToastProps, ToastPosition } from './toast';
+export { Toast } from './toast';
+export type { ToastProps, ToastPosition } from './toast';
 
 export type ToastOptions = ToastProps & {
   duration?: number;

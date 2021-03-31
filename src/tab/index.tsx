@@ -1,7 +1,8 @@
 import React from 'react';
 import './index.scss';
 
-export { Tabs, TabInfo } from './tabs';
+export { Tabs } from './tabs';
+export type { TabInfo } from './tabs';
 
 export type TabProps = {
   title: string;

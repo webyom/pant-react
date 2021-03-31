@@ -13,12 +13,13 @@
     "lib": [
       "esnext",
       "dom"
-    ]
-  },
-  "paths": {
-    "*": [
-      "./types/*"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "./types/*"
+      ]
+    }
   },
   "include": [
     "src/**/*",
