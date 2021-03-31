@@ -7,13 +7,13 @@ import { clearAllToasts } from '../../toast';
 import { HomeRouteComponent } from './routes/home';
 import { ActionSheetRouteComponent } from '../../action-sheet/demo';
 import { ButtonRouteComponent } from '../../button/demo';
-// import { CardRouteComponent } from '../../card/demo';
+import { CardRouteComponent } from '../../card/demo';
 import { CellRouteComponent } from '../../cell/demo';
 // import { CheckboxRouteComponent } from '../../checkbox/demo';
 import { DialogRouteComponent } from '../../dialog/demo';
 // import { FieldRouteComponent } from '../../field/demo';
 // import { FormRouteComponent } from '../../form/demo';
-// import { ImgRouteComponent } from '../../img/demo';
+import { ImgRouteComponent } from '../../img/demo';
 // import { LayoutRouteComponent } from '../../col/demo';
 // import { LazyloadRouteComponent } from '../../lazyload/demo';
 // import { ListRouteComponent } from '../../list/demo';
@@ -64,11 +64,9 @@ export class RootComponent extends React.Component {
       <Router>
         <Switch>
           {/*
-          <CardRouteComponent path="/card/" />
           <CheckboxRouteComponent path="/checkbox/" />
           <FieldRouteComponent path="/field/" />
           <FormRouteComponent path="/form/" />
-          <ImgRouteComponent path="/img/" />
           <LayoutRouteComponent path="/layout/" />
           <LazyloadRouteComponent path="/lazyload/" />
           <ListRouteComponent path="/list/" />
@@ -82,8 +80,6 @@ export class RootComponent extends React.Component {
           <StylesRouteComponent path="/styles/" />
           <SubmitBarRouteComponent path="/submit-bar/" />
           <SwitchRouteComponent path="/switch/" />
-          <TabRouteComponent path="/tab/" />
-          <TagRouteComponent path="/tag/" />
           */}
           <Route path="/action-sheet/">
             <ActionSheetRouteComponent />
@@ -91,11 +87,17 @@ export class RootComponent extends React.Component {
           <Route path="/button/">
             <ButtonRouteComponent />
           </Route>
+          <Route path="/card/">
+            <CardRouteComponent />
+          </Route>
           <Route path="/cell/">
             <CellRouteComponent />
           </Route>
           <Route path="/dialog/">
             <DialogRouteComponent />
+          </Route>
+          <Route path="/img/">
+            <ImgRouteComponent />
           </Route>
           <Route path="/loading/">
             <LoadingRouteComponent />
