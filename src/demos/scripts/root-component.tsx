@@ -9,7 +9,7 @@ import { ActionSheetRouteComponent } from '../../action-sheet/demo';
 import { ButtonRouteComponent } from '../../button/demo';
 import { CardRouteComponent } from '../../card/demo';
 import { CellRouteComponent } from '../../cell/demo';
-// import { CheckboxRouteComponent } from '../../checkbox/demo';
+import { CheckboxRouteComponent } from '../../checkbox/demo';
 import { DialogRouteComponent } from '../../dialog/demo';
 // import { FieldRouteComponent } from '../../field/demo';
 // import { FormRouteComponent } from '../../form/demo';
@@ -64,7 +64,6 @@ export class RootComponent extends React.Component {
       <Router>
         <Switch>
           {/*
-          <CheckboxRouteComponent path="/checkbox/" />
           <FieldRouteComponent path="/field/" />
           <FormRouteComponent path="/form/" />
           <LayoutRouteComponent path="/layout/" />
@@ -92,6 +91,9 @@ export class RootComponent extends React.Component {
           </Route>
           <Route path="/cell/">
             <CellRouteComponent />
+          </Route>
+          <Route path="/checkbox/">
+            <CheckboxRouteComponent />
           </Route>
           <Route path="/dialog/">
             <DialogRouteComponent />
