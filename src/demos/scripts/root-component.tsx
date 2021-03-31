@@ -19,9 +19,9 @@ import { LazyloadRouteComponent } from '../../lazyload/demo';
 import { ListRouteComponent } from '../../list/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
 import { NotifyRouteComponent } from '../../notify/demo';
-// import { NumberKeyboardRouteComponent } from '../../number-keyboard/demo';
+import { NumberKeyboardRouteComponent } from '../../number-keyboard/demo';
 import { OverlayRouteComponent } from '../../overlay/demo';
-// import { PasswordInputRouteComponent } from '../../password-input/demo';
+import { PasswordInputRouteComponent } from '../../password-input/demo';
 import { PickerRouteComponent } from '../../picker/demo';
 import { PopupRouteComponent } from '../../popup/demo';
 import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
@@ -37,18 +37,21 @@ import { ToastRouteComponent } from '../../toast/demo';
 import { NotFoundRouteComponent } from './routes/404';
 
 export class RootComponent extends React.Component {
+  private bindedOnHashChange = this.onHashChange.bind(this);
+
   componentDidMount(): void {
-    window.addEventListener('hashchange', this.onHashChange);
+    window.addEventListener('hashchange', this.bindedOnHashChange);
   }
 
   componentWillUnmount(): void {
-    window.removeEventListener('hashchange', this.onHashChange);
+    window.removeEventListener('hashchange', this.bindedOnHashChange);
   }
 
   private onHashChange(): void {
     const parentRoute = (parent as any).$componentRoute;
     if (parentRoute) {
       parentRoute(location.hash);
+      this.onRouteChange();
     }
   }
 
@@ -63,10 +66,6 @@ export class RootComponent extends React.Component {
     return (
       <Router>
         <Switch>
-          {/*
-          <NumberKeyboardRouteComponent path="/number-keyboard" />
-          <PasswordInputRouteComponent path="/password-input/" />
-          */}
           <Route path="/action-sheet/">
             <ActionSheetRouteComponent />
           </Route>
@@ -109,8 +108,14 @@ export class RootComponent extends React.Component {
           <Route path="/notify/">
             <NotifyRouteComponent />
           </Route>
+          <Route path="/number-keyboard/">
+            <NumberKeyboardRouteComponent />
+          </Route>
           <Route path="/overlay/">
             <OverlayRouteComponent />
+          </Route>
+          <Route path="/password-input/">
+            <PasswordInputRouteComponent />
           </Route>
           <Route path="/picker/">
             <PickerRouteComponent />
