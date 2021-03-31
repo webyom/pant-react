@@ -22,7 +22,7 @@ import { NotifyRouteComponent } from '../../notify/demo';
 // import { NumberKeyboardRouteComponent } from '../../number-keyboard/demo';
 import { OverlayRouteComponent } from '../../overlay/demo';
 // import { PasswordInputRouteComponent } from '../../password-input/demo';
-// import { PickerRouteComponent } from '../../picker/demo';
+import { PickerRouteComponent } from '../../picker/demo';
 import { PopupRouteComponent } from '../../popup/demo';
 import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
@@ -69,7 +69,6 @@ export class RootComponent extends React.Component {
           <LayoutRouteComponent path="/layout/" />
           <NumberKeyboardRouteComponent path="/number-keyboard" />
           <PasswordInputRouteComponent path="/password-input/" />
-          <PickerRouteComponent path="/picker/" />
           */}
           <Route path="/action-sheet/">
             <ActionSheetRouteComponent />
@@ -106,6 +105,9 @@ export class RootComponent extends React.Component {
           </Route>
           <Route path="/overlay/">
             <OverlayRouteComponent />
+          </Route>
+          <Route path="/picker/">
+            <PickerRouteComponent />
           </Route>
           <Route path="/popup/">
             <PopupRouteComponent />
