@@ -27,8 +27,8 @@ function ArrowBack(): JSX.Element {
 
 function GithubLink({ type }: { type?: string }): JSX.Element {
   const url = type
-    ? `https://github.com/webyom/pant/blob/master/src/${type}/demo/index.tsx`
-    : 'https://github.com/webyom/pant/blob/master';
+    ? `https://github.com/webyom/pant-react/blob/master/src/${type}/demo/index.tsx`
+    : 'https://github.com/webyom/pant-react/blob/master';
   return (
     <a className={bem('github')} href={url} target="_blank">
       <img src={githubLogo} />

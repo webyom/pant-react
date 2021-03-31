@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-// import { closeAllactionSheets } from '../../action-sheet';
-// import { closeAllDialogs } from '../../dialog';
+import { closeAllactionSheets } from '../../action-sheet';
+import { closeAllDialogs } from '../../dialog';
 import { clearAllNotifies } from '../../notify';
 import { clearAllToasts } from '../../toast';
 import { HomeRouteComponent } from './routes/home';
@@ -24,13 +24,13 @@ import { OverlayRouteComponent } from '../../overlay/demo';
 // import { PasswordInputRouteComponent } from '../../password-input/demo';
 // import { PickerRouteComponent } from '../../picker/demo';
 import { PopupRouteComponent } from '../../popup/demo';
-// import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
+import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
-// import { SkeletonRouteComponent } from '../../skeleton/demo';
+import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { StickyRouteComponent } from '../../sticky/demo';
-// import { StylesRouteComponent } from '../../styles/demo';
-// import { SubmitBarRouteComponent } from '../../submit-bar/demo';
-// import { SwitchRouteComponent } from '../../switch/demo';
+import { StylesRouteComponent } from '../../styles/demo';
+import { SubmitBarRouteComponent } from '../../submit-bar/demo';
+import { SwitchRouteComponent } from '../../switch/demo';
 import { TabRouteComponent } from '../../tab/demo';
 import { TagRouteComponent } from '../../tag/demo';
 import { ToastRouteComponent } from '../../toast/demo';
@@ -53,8 +53,8 @@ export class RootComponent extends React.Component {
   }
 
   private onRouteChange(): void {
-    // closeAllactionSheets();
-    // closeAllDialogs();
+    closeAllactionSheets();
+    closeAllDialogs();
     clearAllNotifies();
     clearAllToasts();
   }
@@ -70,11 +70,6 @@ export class RootComponent extends React.Component {
           <NumberKeyboardRouteComponent path="/number-keyboard" />
           <PasswordInputRouteComponent path="/password-input/" />
           <PickerRouteComponent path="/picker/" />
-          <PullRefreshRouteComponent path="/pull-refresh/" />
-          <SkeletonRouteComponent path="/skeleton/" />
-          <StylesRouteComponent path="/styles/" />
-          <SubmitBarRouteComponent path="/submit-bar/" />
-          <SwitchRouteComponent path="/switch/" />
           */}
           <Route path="/action-sheet/">
             <ActionSheetRouteComponent />
@@ -115,11 +110,17 @@ export class RootComponent extends React.Component {
           <Route path="/popup/">
             <PopupRouteComponent />
           </Route>
+          <Route path="/pull-refresh/">
+            <PullRefreshRouteComponent />
+          </Route>
           <Route path="/radio/">
             <RadioRouteComponent />
           </Route>
           <Route path="/sticky/">
             <StickyRouteComponent />
+          </Route>
+          <Route path="/switch/">
+            <SwitchRouteComponent />
           </Route>
           <Route path="/tab/">
             <TabRouteComponent />
@@ -129,6 +130,15 @@ export class RootComponent extends React.Component {
           </Route>
           <Route path="/toast/">
             <ToastRouteComponent />
+          </Route>
+          <Route path="/skeleton/">
+            <SkeletonRouteComponent />
+          </Route>
+          <Route path="/styles/">
+            <StylesRouteComponent />
+          </Route>
+          <Route path="/submit-bar/">
+            <SubmitBarRouteComponent />
           </Route>
           <Route path="/" exact>
             <HomeRouteComponent />
