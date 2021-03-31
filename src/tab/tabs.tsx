@@ -253,6 +253,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
       const itemProps = item.props;
       return (
         <Title
+          key={index}
           type={type}
           dot={itemProps.dot}
           info={itemProps.info}
@@ -318,13 +319,23 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
       const isActive = this.state.activeIndex === index;
       if (animated) {
         return (
-          <div role="tabpanel" aria-hidden={!isActive} className={bem('pane-wrapper', { inactive: !isActive })}>
+          <div
+            key={index}
+            role="tabpanel"
+            aria-hidden={!isActive}
+            className={bem('pane-wrapper', { inactive: !isActive })}
+          >
             <div className={bem('pane')}>{React.cloneElement(item, { isActive })}</div>
           </div>
         );
       } else {
         return (
-          <div role="tabpanel" className={bem('pane')} style={{ display: scrollspy || isActive ? 'block' : 'none' }}>
+          <div
+            key={index}
+            role="tabpanel"
+            className={bem('pane')}
+            style={{ display: scrollspy || isActive ? 'block' : 'none' }}
+          >
             {React.cloneElement(item, { isActive: scrollspy || isActive })}
           </div>
         );

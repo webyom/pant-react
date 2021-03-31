@@ -72,7 +72,9 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
   function genLabel(): JSX.Element {
     if (props.children) {
       return (
-        <span key="label" className={bem('label', [props.labelPosition, { disabled: props.disabled }])}>{props.children}</span>
+        <span key="label" className={bem('label', [props.labelPosition, { disabled: props.disabled }])}>
+          {props.children}
+        </span>
       );
     }
   }
