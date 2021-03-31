@@ -18,7 +18,7 @@ export type TitleProps = TitleParentProps & {
   dot?: boolean;
   info?: number | string;
   title: string;
-  titleNode?: React.ReactChild;
+  titleNode?: React.ReactNode;
   name?: string;
   isActive?: boolean;
   disabled?: boolean;

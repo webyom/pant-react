@@ -15,11 +15,11 @@ export type DialogProps = {
   lockScroll?: boolean;
   title?: string;
   className?: string;
-  titleNode?: React.ReactChild | React.ReactChild[];
+  titleNode?: React.ReactNode;
   width?: number | string;
   zIndex?: number;
   message?: string;
-  messageNode?: React.ReactChild | React.ReactChild[];
+  messageNode?: React.ReactNode;
   messageAlign?: string;
   cancelButtonText?: string;
   cancelButtonColor?: string;

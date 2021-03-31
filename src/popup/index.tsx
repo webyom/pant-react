@@ -30,7 +30,7 @@ export type PopupProps = {
   style?: Record<string, string | number>;
   zIndex?: number | string;
   className?: string;
-  children?: React.ReactChild | React.ReactChild[];
+  children?: React.ReactNode;
   closePopup?(confirm?: boolean): void;
   onClosed?(): void;
   onOpened?(): void;
@@ -88,7 +88,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     this.props.onClosed && this.props.onClosed();
   }
 
-  private genChildren(): React.ReactChild | React.ReactChild[] {
+  private genChildren(): React.ReactNode {
     const { closePopup, children } = this.props;
     if (closePopup) {
       return [].concat(children).map(child => {

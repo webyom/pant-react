@@ -69,13 +69,20 @@ export const ActionSheet: React.FC<ActionSheetProps> = props => {
       }
 
       return [
-        <span className={bem('name')}>{item.name}</span>,
-        item.subname && <span className={bem('subname')}>{item.subname}</span>,
+        <span key="name" className={bem('name')}>
+          {item.name}
+        </span>,
+        item.subname && (
+          <span key="subname" className={bem('subname')}>
+            {item.subname}
+          </span>
+        ),
       ];
     }
 
     return (
       <button
+        key={index}
         type="button"
         className={clsx(bem('item', { disabled, loading }), item.className, BORDER_TOP)}
         style={{ color: item.color }}

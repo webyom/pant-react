@@ -5,7 +5,7 @@ export { Tabs, TabInfo } from './tabs';
 
 export type TabProps = {
   title: string;
-  titleNode?: React.ReactChild;
+  titleNode?: React.ReactNode;
   name?: string;
   dot?: boolean;
   info?: number | string;

@@ -6,10 +6,10 @@ import { createBEM } from '../utils/bem';
 import './index.scss';
 
 export type CellProps = {
-  title?: React.ReactChild | React.ReactChild[];
-  label?: React.ReactChild | React.ReactChild[];
-  icon?: string | React.ReactElement;
-  rightIcon?: string | React.ReactElement;
+  title?: React.ReactNode;
+  label?: React.ReactNode;
+  icon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
   size?: 'large';
   border?: boolean;
   center?: boolean;
@@ -49,7 +49,7 @@ export const Cell: React.FC<CellProps> = props => {
     }
   }
 
-  function LeftIcon(): JSX.Element {
+  function LeftIcon(): React.ReactNode {
     if (typeof icon === 'string') {
       return <Icon className={bem('left-icon')} name={icon} />;
     } else if (icon) {
@@ -57,7 +57,7 @@ export const Cell: React.FC<CellProps> = props => {
     }
   }
 
-  function RightIcon(): JSX.Element {
+  function RightIcon(): React.ReactNode {
     if (typeof rightIcon === 'string') {
       return <Icon className={bem('right-icon')} name={rightIcon} />;
     } else if (rightIcon) {

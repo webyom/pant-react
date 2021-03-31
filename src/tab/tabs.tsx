@@ -33,8 +33,8 @@ export type TabsProps = TitleParentProps & {
   lineHeight?: number | string;
   lineWidth?: number | string;
   background?: string;
-  navLeft?: React.ReactChild;
-  navRight?: React.ReactChild;
+  navLeft?: React.ReactNode;
+  navRight?: React.ReactNode;
   onClick?(event: Event, info: TabInfo): void;
   onBeforeChange?(info: TabInfo): Promise<boolean>;
 };
@@ -295,7 +295,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     );
   }
 
-  private warpAnimatedContents(contents: React.ReactChild | React.ReactChild[]): React.ReactChild | React.ReactChild[] {
+  private warpAnimatedContents(contents: React.ReactNode): React.ReactNode {
     const props = this.props;
     if (props.animated) {
       const style = {
