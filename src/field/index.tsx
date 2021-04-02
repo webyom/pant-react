@@ -71,6 +71,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   onClosePopup?(field: Field<T>, confirm?: boolean): void;
   onInputKeyDown?(evt: React.KeyboardEvent): void;
   onInputChange?(evt: React.ChangeEvent): string | void;
+  onChange?(value: T): void;
   onClick?: (evt: React.MouseEvent) => void;
 };
 
@@ -224,10 +225,11 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
     if (onChange) {
       onChange(...args);
     }
+    this.props.onChange && this.props.onChange(this.getValue());
   }
 
   private onInputChange(evt: React.ChangeEvent): void {
-    const { onInputChange } = this.props;
+    const { onInputChange, onChange } = this.props;
     const returnValue = onInputChange && onInputChange(evt);
     this.setState(
       { value: returnValue !== undefined ? String(returnValue) : ((evt.target as HTMLInputElement).value as any) },
@@ -235,6 +237,7 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
         this.validateWithTrigger('change').then((msg) => {
           msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
         });
+        onChange && onChange(this.getValue());
       },
     );
   }
@@ -244,6 +247,7 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
       this.validateWithTrigger('change').then((msg) => {
         msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
+      this.props.onChange && this.props.onChange(this.getValue());
     });
   }
 
@@ -252,6 +256,7 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
       this.validateWithTrigger('change').then((msg) => {
         msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
+      this.props.onChange && this.props.onChange(this.getValue());
     });
   }
 
@@ -266,7 +271,7 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
     if (!this.isPopup) {
       return;
     }
-    const { onClosePopup } = this.props;
+    const { onClosePopup, onChange } = this.props;
     if (confirm) {
       this.setState(
         { showPopup: false, popupValue: this.formatReturnValue((this.inputRef.current as any).getValue()) },
@@ -275,6 +280,7 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
             msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
           });
           onClosePopup && onClosePopup(this, confirm);
+          onChange && onChange(this.getValue());
         },
       );
     } else {
