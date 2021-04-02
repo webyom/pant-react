@@ -2,6 +2,7 @@ import React from 'react';
 import './index.scss';
 
 export { Tabs } from './tabs';
+
 export type { TabInfo } from './tabs';
 
 export type TabProps = {

@@ -3,6 +3,7 @@ import { Dialog, DialogProps } from './dialog';
 import './index.scss';
 
 export { Dialog } from './dialog';
+
 export type { DialogProps } from './dialog';
 
 export type DialogOptions = DialogProps;

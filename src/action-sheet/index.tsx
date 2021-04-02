@@ -3,6 +3,7 @@ import { ActionSheet, ActionSheetProps, ActionSheetItem } from './action-sheet';
 import './index.scss';
 
 export { ActionSheet } from './action-sheet';
+
 export type { ActionSheetProps, ActionSheetItem } from './action-sheet';
 
 export type ActionSheetOptions = ActionSheetProps & {

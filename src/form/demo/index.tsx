@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form as FinalForm, Field as FinalField } from 'react-final-form';
 import { toast } from '../../toast';
 import { Form } from '../../form';
 import { Field } from '../../field';
@@ -253,6 +254,184 @@ export class FormRouteComponent extends React.Component {
                 </Button>
               </div>
             </Form>
+          </section>
+
+          <section>
+            <h2>React Final Form</h2>
+            <FinalForm
+              initialValuesEqual={() => true}
+              initialValues={{
+                switch: true,
+                checkbox: true,
+                'checkbox-group': [],
+                input: 'Hello',
+              }}
+              onSubmit={(values: any): void => {
+                toast({
+                  message: JSON.stringify(values, null, 2),
+                  textAlign: 'left',
+                  duration: 10000,
+                  clearOnClick: true,
+                });
+              }}
+            >
+              {({ handleSubmit }) => {
+                return (
+                  <form onSubmit={handleSubmit}>
+                    <FinalField<boolean>
+                      name="switch"
+                      validateOnBlur
+                      validateFields={[]}
+                      validate={(value: boolean) => {
+                        return !value ? 'Required field' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<boolean>
+                          name={input.name}
+                          onChange={input.onChange}
+                          defaultValue={input.value}
+                          type="switch"
+                          inputAlign="right"
+                          title="Switch"
+                          errorMessage={meta.error}
+                        ></Field>
+                      )}
+                    </FinalField>
+                    <FinalField<boolean>
+                      name="checkbox"
+                      validateOnBlur
+                      validateFields={[]}
+                      validate={(value: boolean) => {
+                        return !value ? 'Required field' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<boolean>
+                          name={input.name}
+                          onChange={input.onChange}
+                          defaultValue={input.value}
+                          type="checkbox"
+                          title="Checkbox"
+                          errorMessage={meta.error}
+                        ></Field>
+                      )}
+                    </FinalField>
+                    <FinalField<string[]>
+                      name="checkbox-group"
+                      validateOnBlur
+                      validateFields={[]}
+                      validate={(value: string[]) => {
+                        return !value || value.length === 0 ? 'Required field' : value.length > 2 ? 'Max select 2' : '';
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<string[]>
+                          name={input.name}
+                          onChange={input.onChange}
+                          title="Checkbox Group"
+                          errorMessage={meta.error}
+                        >
+                          <CheckboxGroup
+                            shape="square"
+                            options={['Checkbox a', 'Checkbox b', 'Checkbox c']}
+                            defaultValue={input.value}
+                          />
+                        </Field>
+                      )}
+                    </FinalField>
+                    <FinalField<string>
+                      name="radio-group"
+                      validateOnBlur
+                      validateFields={[]}
+                      validate={(value: string) => {
+                        return !value ? 'Required field' : '';
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<[]>
+                          name={input.name}
+                          onChange={input.onChange}
+                          title="Radio Group"
+                          errorMessage={meta.error}
+                        >
+                          <RadioGroup
+                            direction="horizontal"
+                            options={['Radio a', 'Radio b']}
+                            defaultValue={input.value}
+                          />
+                        </Field>
+                      )}
+                    </FinalField>
+                    <FinalField<string>
+                      name="input"
+                      validate={(value: string) => {
+                        return !value ? 'Input is required' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<string>
+                          name={input.name}
+                          onChange={input.onChange}
+                          defaultValue={input.value}
+                          title="Input"
+                          placeholder="Input something"
+                          errorMessage={meta.error}
+                        ></Field>
+                      )}
+                    </FinalField>
+                    <FinalField<string>
+                      name="city"
+                      validate={(value: string) => {
+                        return !value ? 'City is required' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<string>
+                          name={input.name}
+                          onChange={input.onChange}
+                          title="Picker"
+                          placeholder="Select city"
+                          errorMessage={meta.error}
+                        >
+                          <Popup round position="bottom" closeOnClickOverlay>
+                            <Picker columns={columns1} defaultValue={input.value} />
+                          </Popup>
+                        </Field>
+                      )}
+                    </FinalField>
+                    <FinalField<string[]>
+                      name="Location"
+                      validate={(value: string[]) => {
+                        return !value || !value.length ? 'Location is required' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<string[]>
+                          name={input.name}
+                          onChange={input.onChange}
+                          title="Cascade"
+                          placeholder="Select Location"
+                          errorMessage={meta.error}
+                          displayValueFormatter={(value): string => {
+                            return value.join('/');
+                          }}
+                        >
+                          <Popup round position="bottom" closeOnClickOverlay>
+                            <Picker columns={columns3} cols={3} cascade={true} defaultValue={input.value} />
+                          </Popup>
+                        </Field>
+                      )}
+                    </FinalField>
+                    <div className={bem('submit')}>
+                      <Button nativeType="submit" type="info" block round>
+                        Submit
+                      </Button>
+                    </div>
+                  </form>
+                );
+              }}
+            </FinalForm>
           </section>
         </div>
       </React.Fragment>

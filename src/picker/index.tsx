@@ -28,9 +28,7 @@ export type PickerProps = {
   /** 可选项数据源 */
   columns?: ColumnsType[] | ColumnsType[][];
   /** 默认的选中项 */
-  defaultValue?: string[];
-  /** 指定选中项 */
-  value?: string[];
+  defaultValue?: string | string[];
   /** 展示标题栏 */
   showToolbar?: boolean;
   /** 标题栏位置 */
@@ -74,7 +72,6 @@ type PickerState = {
   formattedColumns: ColumnsItemType[][];
   children?: PickerColumn[];
   prevColumns?: ColumnsType[] | ColumnsType[][];
-  prevValue?: string[];
   pickerValue?: string[];
 };
 
@@ -142,17 +139,6 @@ const getFormatted = (
   return formatted;
 };
 
-// 将pickerValue中undefined的项设置为当前列第一个value
-const getPickerValue = (columns: ColumnsItemType[][], pickerValue: string[]): string[] => {
-  const newPickerValue = [...pickerValue];
-  columns.forEach((item: ColumnsItemType[], index: number) => {
-    if (item && item.length) {
-      newPickerValue[index] = newPickerValue[index] || item[0].value;
-    }
-  });
-  return newPickerValue;
-};
-
 export class Picker extends React.Component<PickerProps, PickerState> {
   static defaultProps = {
     showToolbar: true,
@@ -171,14 +157,34 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   private priChildren: PickerColumn[] = [];
   constructor(props: PickerProps) {
     super(props);
+    const defaultValue =
+      typeof props.defaultValue === 'string'
+        ? props.defaultValue
+          ? [props.defaultValue]
+          : undefined
+        : props.defaultValue;
     this.state = {
       formattedColumns: [],
       children: [],
       prevColumns: [],
-      prevValue: props.value,
-      pickerValue: props.value || props.defaultValue || [],
+      pickerValue: defaultValue || [],
     };
     this.injectChildren = this.injectChildren.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
+    const { valueKey, columns, labelKey, cols, cascade } = nextProps;
+    const { prevColumns, pickerValue } = state;
+    if (columns !== prevColumns) {
+      const formattedColumns = getFormatted(columns, valueKey, labelKey, pickerValue, cols, cascade);
+      return {
+        ...state,
+        formattedColumns: formattedColumns,
+        prevColumns: columns,
+      };
+    } else {
+      return null;
+    }
   }
 
   // 将pickerColumn实例注入到state.children
@@ -186,29 +192,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     this.priChildren.push(children);
     if (this.state.children.length < this.priChildren.length) {
       this.setState({ children: this.priChildren });
-    }
-  }
-
-  static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
-    const { valueKey, columns, labelKey, cols, cascade, value } = nextProps;
-    const { prevColumns, prevValue, pickerValue } = state;
-    if (columns !== prevColumns || value !== prevValue) {
-      let realPickerValue = pickerValue;
-
-      if (value !== prevValue) {
-        realPickerValue = value;
-      }
-
-      const formattedColumns = getFormatted(columns, valueKey, labelKey, realPickerValue, cols, cascade);
-      const newPickerValue = getPickerValue(formattedColumns, realPickerValue);
-      return {
-        ...state,
-        pickerValue: newPickerValue,
-        formattedColumns: formattedColumns,
-        prevColumns: columns,
-      };
-    } else {
-      return null;
     }
   }
 
@@ -308,9 +291,19 @@ export class Picker extends React.Component<PickerProps, PickerState> {
 
   confirm(): void {
     this.state.children.forEach((child: PickerColumn) => child.stopMomentum());
-    this.emit('onConfirm');
-    const { closePopup } = this.props;
-    closePopup && closePopup(true);
+    const newPickerValue = [...this.state.pickerValue];
+    this.state.formattedColumns.forEach((item: ColumnsItemType[], index: number) => {
+      if (item && item.length) {
+        if (typeof newPickerValue[index] === 'undefined') {
+          newPickerValue[index] = item[0].value;
+        }
+      }
+    });
+    this.setState({ pickerValue: newPickerValue }, () => {
+      this.emit('onConfirm');
+      const { closePopup } = this.props;
+      closePopup && closePopup(true);
+    });
   }
 
   cancel(): void {

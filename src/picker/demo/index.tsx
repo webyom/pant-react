@@ -132,7 +132,6 @@ export class PickerRouteComponent extends React.Component<any, PickerState> {
                 cancelButtonText="取消"
                 confirmButtonText="确定"
                 defaultValue={['绍兴']}
-                value={['湖州']}
                 columns={columns1}
                 onChange={this.onChange1}
               />

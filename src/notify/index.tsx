@@ -4,6 +4,7 @@ import './index.scss';
 import React from 'react';
 
 export { Notify } from './notify';
+
 export type { NotifyProps } from './notify';
 
 export type NotifyOptions = NotifyProps & {

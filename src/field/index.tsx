@@ -72,6 +72,8 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   onInputKeyDown?(evt: React.KeyboardEvent): void;
   onInputChange?(evt: React.ChangeEvent): string | void;
   onChange?(value: T): void;
+  onFocus?(evt: React.FocusEvent): void;
+  onBlur?(evt: React.FocusEvent): void;
   onClick?: (evt: React.MouseEvent) => void;
 };
 
@@ -154,7 +156,7 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
   componentDidMount(): void {
     this.adjustSize();
     if (this.isPopup) {
-      this.setState({ popupValue: this.getValue() });
+      this.setState({ popupValue: this.formatReturnValue(this.getRawValue()) });
     }
   }
 
@@ -206,16 +208,18 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
     return false;
   }
 
-  private onFocus(): void {
+  private onFocus(evt: React.FocusEvent): void {
     this.setState({ focused: true });
+    this.props.onFocus && this.props.onFocus(evt);
   }
 
-  private onBlur(): void {
+  private onBlur(evt: React.FocusEvent): void {
     this.setState({ focused: false }, () => {
       this.validateWithTrigger('blur').then((msg) => {
         msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
     });
+    this.props.onBlur && this.props.onBlur(evt);
   }
 
   private onCustomChange(onChange: (...args: any[]) => void, ...args: any[]): void {
@@ -273,16 +277,13 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
     }
     const { onClosePopup, onChange } = this.props;
     if (confirm) {
-      this.setState(
-        { showPopup: false, popupValue: this.formatReturnValue((this.inputRef.current as any).getValue()) },
-        () => {
-          this.validateWithTrigger('change').then((msg) => {
-            msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
-          });
-          onClosePopup && onClosePopup(this, confirm);
-          onChange && onChange(this.getValue());
-        },
-      );
+      this.setState({ showPopup: false, popupValue: this.formatReturnValue(this.getRawValue()) }, () => {
+        this.validateWithTrigger('change').then((msg) => {
+          msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
+        });
+        onClosePopup && onClosePopup(this, confirm);
+        onChange && onChange(this.getValue());
+      });
     } else {
       this.setState({ showPopup: false }, () => {
         onClosePopup && onClosePopup(this, confirm);
