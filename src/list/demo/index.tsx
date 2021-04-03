@@ -74,7 +74,7 @@ export class ListRouteComponent extends React.Component<any, { list1: number[]; 
                 }}
               >
                 {this.state.list2.map((i) => (
-                  <Cell title={i}></Cell>
+                  <Cell key={i} title={i}></Cell>
                 ))}
               </List>
             </Tab>
