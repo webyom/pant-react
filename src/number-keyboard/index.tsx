@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { closest } from '../utils/dom';
 import { createBEM } from '../utils/bem';
 import { Transition } from '../transition';
 import { Key } from './key';
@@ -45,29 +46,6 @@ export class NumberKeyboard extends React.Component<NumberKeyboardProps, NumberK
     safeAreaInsetBottom: true,
   };
 
-  constructor(props: NumberKeyboardProps) {
-    super(props);
-    this.state = {
-      prevShow: false,
-      prevTitle: '',
-      transition: true,
-    };
-    this.onBlur = this.onBlur.bind(this);
-    this.onAnimationEnd = this.onAnimationEnd.bind(this);
-    this.onClose = this.onClose.bind(this);
-    this.onPress = this.onPress.bind(this);
-  }
-
-  componentDidMount(): void {
-    if (this.props.hideOnClickOutside) {
-      document.body.addEventListener('touchstart', this.onBlur);
-    }
-  }
-
-  onTouchStart(event: React.TouchEvent): void {
-    event.stopPropagation();
-  }
-
   static getDerivedStateFromProps(nextProps: NumberKeyboardProps, state: NumberKeyboardState): NumberKeyboardState {
     const { title, show } = nextProps;
     const { prevTitle, prevShow } = state;
@@ -80,6 +58,43 @@ export class NumberKeyboard extends React.Component<NumberKeyboardProps, NumberK
     } else {
       return null;
     }
+  }
+
+  constructor(props: NumberKeyboardProps) {
+    super(props);
+    this.state = {
+      prevShow: false,
+      prevTitle: '',
+      transition: true,
+    };
+    this.onClickOutside = this.onClickOutside.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onAnimationEnd = this.onAnimationEnd.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.onPress = this.onPress.bind(this);
+  }
+
+  componentDidMount(): void {
+    if (this.props.hideOnClickOutside) {
+      document.body.addEventListener('touchstart', this.onClickOutside, false);
+    }
+  }
+
+  componentWillUnmount(): void {
+    if (this.props.hideOnClickOutside) {
+      document.body.removeEventListener('touchstart', this.onClickOutside);
+    }
+  }
+
+  onClickOutside(event: Event): void {
+    if (closest(event.target, '.pant-number-keyboard', true)) {
+      return;
+    }
+    this.props.show && this.props.onBlur();
+  }
+
+  onTouchStart(event: React.TouchEvent): void {
+    event.stopPropagation();
   }
 
   onBlur(): void {

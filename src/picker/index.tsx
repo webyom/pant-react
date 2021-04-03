@@ -155,6 +155,22 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   };
 
   private priChildren: PickerColumn[] = [];
+
+  static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
+    const { valueKey, columns, labelKey, cols, cascade } = nextProps;
+    const { prevColumns, pickerValue } = state;
+    if (columns !== prevColumns) {
+      const formattedColumns = getFormatted(columns, valueKey, labelKey, pickerValue, cols, cascade);
+      return {
+        ...state,
+        formattedColumns: formattedColumns,
+        prevColumns: columns,
+      };
+    } else {
+      return null;
+    }
+  }
+
   constructor(props: PickerProps) {
     super(props);
     const defaultValue =
@@ -170,21 +186,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       pickerValue: defaultValue || [],
     };
     this.injectChildren = this.injectChildren.bind(this);
-  }
-
-  static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
-    const { valueKey, columns, labelKey, cols, cascade } = nextProps;
-    const { prevColumns, pickerValue } = state;
-    if (columns !== prevColumns) {
-      const formattedColumns = getFormatted(columns, valueKey, labelKey, pickerValue, cols, cascade);
-      return {
-        ...state,
-        formattedColumns: formattedColumns,
-        prevColumns: columns,
-      };
-    } else {
-      return null;
-    }
   }
 
   // 将pickerColumn实例注入到state.children
