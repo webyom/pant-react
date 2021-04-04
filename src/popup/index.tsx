@@ -54,6 +54,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   static readonly __PANT_NAME__ = 'Popup';
+  static readonly __FIELD_BEHAVIOR__ = 'Popup';
 
   static defaultProps = {
     closeIcon: 'cross',
