@@ -33,9 +33,9 @@ export class PickerRouteComponent extends React.Component<any, PickerState> {
     });
   }
 
-  onChange1<T extends string | string[]>(value: T, index: number): void {
+  onChange1<T extends string | string[]>(value: T): void {
     toast({
-      message: `Value: ${value}, Index：${index}`,
+      message: `Value: ${value}`,
     });
   }
 

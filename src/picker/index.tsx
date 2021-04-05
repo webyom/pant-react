@@ -65,7 +65,7 @@ export type PickerProps = {
   onConfirm?: (value: string[] | string) => void;
   closePopup?: (confirm?: boolean) => void;
   /** 点击后回调 */
-  onChange?: (value: string[] | string, index: number) => void;
+  onChange?: (value: string[] | string) => void;
 };
 
 type PickerState = {
@@ -266,7 +266,7 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       newPickerValue = newPickerValue[0];
     }
 
-    onChange && onChange(newPickerValue, columnIndex);
+    onChange && onChange(newPickerValue);
   }
 
   onChange(selectedIndex: number, columnIndex: number): void {
@@ -289,7 +289,7 @@ export class Picker extends React.Component<PickerProps, PickerState> {
         newPickerValue = newPickerValue[0];
       }
 
-      onChange && onChange(newPickerValue, selectedIndex);
+      onChange && onChange(newPickerValue);
     }
   }
 
