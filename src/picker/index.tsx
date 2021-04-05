@@ -12,21 +12,21 @@ import './index.scss';
 
 export type ToolbarPosition = 'top' | 'bottom';
 
-export type ColumnsItemType = {
+export type StandardColumnItem = {
   value: string;
   label: string;
 };
 
-export type ColumnsType = {
-  [key: string]: string | string[] | ColumnsType[];
+export type ColumnItem = {
+  [key: string]: string | string[] | ColumnItem[];
   value?: string;
   label?: string;
-  children?: ColumnsType[];
+  children?: ColumnItem[];
 };
 
 export type PickerProps = {
   /** 可选项数据源 */
-  columns?: ColumnsType[] | ColumnsType[][];
+  columns?: string[] | string[][] | ColumnItem[] | ColumnItem[][];
   /** 默认的选中项 */
   defaultValue?: string | string[];
   /** 展示标题栏 */
@@ -52,7 +52,7 @@ export type PickerProps = {
   /** 加载中展示 */
   loading?: boolean;
   /** 自定义列样式 */
-  pickerColumnClassName?: string;
+  columnClassName?: string;
   /** 不可选值 */
   disabledValue?: string[];
   /** 列数 */
@@ -69,9 +69,9 @@ export type PickerProps = {
 };
 
 type PickerState = {
-  formattedColumns: ColumnsItemType[][];
+  formattedColumns: StandardColumnItem[][];
   children?: PickerColumn[];
-  prevColumns?: ColumnsType[] | ColumnsType[][];
+  prevColumns?: string[] | string[][] | ColumnItem[] | ColumnItem[][];
   pickerValue?: string[];
 };
 
@@ -79,28 +79,33 @@ const bem = createBEM('pant-picker');
 
 // 生成formattedColumns
 const getFormatted = (
-  columns: ColumnsType[] | ColumnsType[][],
+  columns: string[] | string[][] | ColumnItem[] | ColumnItem[][],
   valueKey: string,
   labelKey: string,
   pickerValue: string[],
   cols: number,
   cascade: boolean,
-): ColumnsItemType[][] => {
-  const formatted: ColumnsItemType[][] = [];
-  const realValueKey = valueKey || 'value';
-  const realLableKey = labelKey || 'label';
+): StandardColumnItem[][] => {
+  const formatted: StandardColumnItem[][] = [];
   let filter = [...columns];
 
-  // 多列非联动，columns类型为ColumnsType[][]
+  // 多列非联动，columns类型为ColumnItem[][]
   if (cols > 1 && !cascade) {
     for (let i = 0; i < cols; i++) {
       if (filter[i] && filter[i].length) {
-        const options: ColumnsItemType[] = [];
-        (filter[i] as ColumnsType[]).forEach((item: Record<string, any>) => {
-          options.push({
-            value: item[realValueKey] as string,
-            label: item[realLableKey] as string,
-          });
+        const options: StandardColumnItem[] = [];
+        (filter[i] as string[] | ColumnItem[]).forEach((item: string | ColumnItem) => {
+          if (typeof item === 'string') {
+            options.push({
+              value: item,
+              label: item,
+            });
+          } else {
+            options.push({
+              value: item[valueKey] as string,
+              label: item[labelKey] as string,
+            });
+          }
         });
         formatted.push(options);
       } else {
@@ -110,26 +115,36 @@ const getFormatted = (
     return formatted;
   }
 
-  // 单列或多列联动，columns类型为ColumnsType[]
+  // 单列或多列联动，columns类型为ColumnItem[]
   for (let i = 0; i < cols; i++) {
     if (filter.length) {
-      const options: ColumnsItemType[] = [];
-      filter.forEach((item: Record<string, any>) => {
-        options.push({
-          value: item[realValueKey] as string,
-          label: item[realLableKey] as string,
-        });
+      const options: StandardColumnItem[] = [];
+      filter.forEach((item: string | ColumnItem) => {
+        if (typeof item === 'string') {
+          options.push({
+            value: item,
+            label: item,
+          });
+        } else {
+          options.push({
+            value: item[valueKey] as string,
+            label: item[labelKey] as string,
+          });
+        }
       });
       formatted.push(options);
+      if (i === cols - 1) {
+        break;
+      }
 
       // 当某一列的pickerValue为空时，默认展示pickerValue为0时的数据
       if (pickerValue[i] === undefined) {
-        filter = (filter[0] as ColumnsType).children || [];
+        filter = (filter[0] as ColumnItem).children || [];
       } else {
         // 当存在item.value === pickerValue[i]时，展示该数据下的children；当不存在时，filter=[]
-        filter = (filter as ColumnsType[]).filter((item) => item.value === pickerValue[i]);
+        filter = (filter as ColumnItem[]).filter((item) => item.value === pickerValue[i]);
         if (filter.length !== 0) {
-          filter = (filter[0] as ColumnsType).children || [];
+          filter = (filter[0] as ColumnItem).children || [];
         }
       }
     } else {
@@ -293,7 +308,7 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   confirm(): void {
     this.state.children.forEach((child: PickerColumn) => child.stopMomentum());
     const newPickerValue = [...this.state.pickerValue];
-    this.state.formattedColumns.forEach((item: ColumnsItemType[], index: number) => {
+    this.state.formattedColumns.forEach((item: StandardColumnItem[], index: number) => {
       if (item && item.length) {
         if (typeof newPickerValue[index] === 'undefined') {
           newPickerValue[index] = item[0].value;
@@ -348,14 +363,14 @@ export class Picker extends React.Component<PickerProps, PickerState> {
   }
 
   genColumnItems(): JSX.Element[] {
-    const { pickerColumnClassName, swipeDuration, disabledValue, visibleItemCount } = this.props;
+    const { columnClassName, swipeDuration, disabledValue, visibleItemCount } = this.props;
     const { pickerValue, formattedColumns } = this.state;
     return formattedColumns.map((item, columnIndex) => (
       <PickerColumn
         key={columnIndex}
         value={pickerValue[columnIndex] || (item[0] && item[0].value)}
         disabledValue={disabledValue && disabledValue[columnIndex]}
-        className={pickerColumnClassName}
+        className={columnClassName}
         itemHeight={this.itemPxHeight()}
         swipeDuration={swipeDuration}
         visibleItemCount={visibleItemCount}

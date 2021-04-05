@@ -17,13 +17,6 @@ type PickerState = {
   loading: boolean;
 };
 
-export type ColumnsType = {
-  [key: string]: string | string[] | ColumnsType[];
-  value?: string;
-  label?: string;
-  children?: ColumnsType[];
-};
-
 export class PickerRouteComponent extends React.Component<any, PickerState> {
   private ele: any;
   state: PickerState = {

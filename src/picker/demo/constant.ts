@@ -1,37 +1,8 @@
-import { ColumnsType } from './index';
+import { ColumnItem } from '..';
 
-export const columns1: ColumnsType[] = [
-  {
-    value: '杭州',
-    label: '杭州',
-  },
-  {
-    value: '宁波',
-    label: '宁波',
-  },
-  {
-    value: '温州',
-    label: '温州',
-  },
-  {
-    value: '绍兴',
-    label: '绍兴',
-  },
-  {
-    value: '湖州',
-    label: '湖州',
-  },
-  {
-    value: '嘉兴',
-    label: '嘉兴',
-  },
-  {
-    value: '金华',
-    label: '金华',
-  },
-];
+export const columns1 = ['杭州', '宁波', '温州', '绍兴', '湖州', '嘉兴', '金华'];
 
-export const columns2: ColumnsType[][] = [
+export const columns2: ColumnItem[][] = [
   [
     {
       value: '周一',
@@ -70,7 +41,7 @@ export const columns2: ColumnsType[][] = [
   ],
 ];
 
-export const columns3: ColumnsType[] = [
+export const columns3: ColumnItem[] = [
   {
     value: '浙江',
     label: '浙江',
@@ -141,7 +112,7 @@ export const columns3: ColumnsType[] = [
   },
 ];
 
-export const columns4: ColumnsType[] = [
+export const columns4: ColumnItem[] = [
   {
     value: '浙江',
     label: '浙江',

@@ -5,7 +5,7 @@ import { preventDefaultAndStopPropagation } from '../utils/event';
 import { TouchHandler } from '../utils/touch-handler';
 import { range } from '../utils/number';
 import { MOMENTUM_LIMIT_TIME, DEFAULT_DURATION, MOMENTUM_LIMIT_DISTANCE } from './constant';
-import { ColumnsItemType } from './index';
+import { StandardColumnItem } from '.';
 import './index.scss';
 
 function getElementTranslateY(element: HTMLUListElement): number {
@@ -16,9 +16,9 @@ function getElementTranslateY(element: HTMLUListElement): number {
   return Number(translateY);
 }
 
-const getIndex = (options: ColumnsItemType[], value: string): number => {
+const getIndex = (options: StandardColumnItem[], value: string): number => {
   let index = 0;
-  options.forEach((item: ColumnsItemType, itemIndex: number) => {
+  options.forEach((item: StandardColumnItem, itemIndex: number) => {
     if (item.value === value) {
       index = itemIndex;
     }
@@ -28,7 +28,7 @@ const getIndex = (options: ColumnsItemType[], value: string): number => {
 
 export type PickerProps = {
   visibleItemCount: number;
-  options: ColumnsItemType[];
+  options: StandardColumnItem[];
   className?: string;
   itemHeight?: number;
   value?: string;
@@ -44,7 +44,7 @@ type PickerState = {
   baseOffset: number;
   duration: number;
   moving: boolean;
-  prevOptions: ColumnsItemType[];
+  prevOptions: StandardColumnItem[];
   prevValue: string;
 };
 
@@ -251,7 +251,7 @@ export class PickerColumn extends React.Component<PickerProps, PickerState> {
       height: `${itemHeight}px`,
     };
 
-    return options.map((option: ColumnsItemType, index: number) => {
+    return options.map((option: StandardColumnItem, index: number) => {
       const data = {
         style: optionStyle,
         className: clsx(
