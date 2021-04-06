@@ -1,0 +1,17 @@
+@import '../../styles/var.scss';
+
+.demo-datetime-picker {
+  padding: $padding-md;
+  padding-top: 0;
+  background-color: #f7f8fa;
+  h2 {
+    margin: 0;
+    padding-top: 20px;
+    padding-bottom: 16px;
+    overflow: hidden;
+  }
+  &__card {
+    overflow: hidden;
+    border-radius: 8px;
+  }
+}

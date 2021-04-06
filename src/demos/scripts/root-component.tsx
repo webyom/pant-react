@@ -10,6 +10,7 @@ import { ButtonRouteComponent } from '../../button/demo';
 import { CardRouteComponent } from '../../card/demo';
 import { CellRouteComponent } from '../../cell/demo';
 import { CheckboxRouteComponent } from '../../checkbox/demo';
+import { DatetimePickerRouteComponent } from '../../datetime-picker/demo';
 import { DialogRouteComponent } from '../../dialog/demo';
 import { FieldRouteComponent } from '../../field/demo';
 import { FormRouteComponent } from '../../form/demo';
@@ -80,6 +81,9 @@ export class RootComponent extends React.Component {
           </Route>
           <Route path="/checkbox/">
             <CheckboxRouteComponent />
+          </Route>
+          <Route path="/datetime-picker/">
+            <DatetimePickerRouteComponent />
           </Route>
           <Route path="/dialog/">
             <DialogRouteComponent />

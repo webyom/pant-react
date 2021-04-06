@@ -69,6 +69,9 @@ export class HomeRouteComponent extends React.Component {
           <Link to="/checkbox/">
             Checkbox <Arrow />
           </Link>
+          <Link to="/datetime-picker/">
+            DatetimePicker <Arrow />
+          </Link>
           <Link to="/field/">
             Field <Arrow />
           </Link>

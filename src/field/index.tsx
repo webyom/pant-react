@@ -437,10 +437,8 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
     const { showPopup, popupValue, isInputType, value } = this.state;
 
     if (this.isCustomChild()) {
-      let pantName: string;
       const childrenWithProps = [].concat(children).map((child, index) => {
         const isPopup = (this.isPopup = child.type.__FIELD_BEHAVIOR__ === 'Popup');
-        pantName = child.type.__PANT_NAME__;
         return React.cloneElement(child, {
           key: index,
           ref: this.inputRef,
@@ -449,15 +447,20 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
           closePopup: isPopup ? this.closePopup : undefined,
         });
       });
-      if (this.isPopup && pantName === 'Popup') {
+      if (this.isPopup) {
+        const displayValue = this.formatDisplayValue(popupValue);
         return (
           <React.Fragment>
-            <input
-              className={bem('control', [inputAlign, 'custom'])}
-              value={this.formatDisplayValue(popupValue)}
-              placeholder={props.placeholder}
-              readOnly
-            />
+            {displayValue ? (
+              <div className={bem('control', [inputAlign, 'custom'])}>{displayValue}</div>
+            ) : (
+              <input
+                className={bem('control', [inputAlign, 'custom'])}
+                value=""
+                placeholder={props.placeholder}
+                readOnly
+              />
+            )}
             {childrenWithProps}
           </React.Fragment>
         );

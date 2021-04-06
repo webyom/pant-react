@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Icon } from '../icon';
 import { Overlay } from '../overlay';
@@ -53,7 +54,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     active: !!this.props.show,
   };
 
-  static readonly __PANT_NAME__ = 'Popup';
   static readonly __FIELD_BEHAVIOR__ = 'Popup';
 
   static defaultProps = {
@@ -127,7 +127,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       zIndex: incZIndex,
     };
 
-    return (
+    return ReactDOM.createPortal(
       <React.Fragment>
         {props.overlay ? (
           <Overlay
@@ -166,7 +166,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             )}
           </div>
         </Transition>
-      </React.Fragment>
+      </React.Fragment>,
+      document.body,
     );
   }
 }

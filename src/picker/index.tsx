@@ -160,7 +160,6 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     toolbarPosition: 'top',
     itemHeight: 44,
     visibleItemCount: 6,
-    defaultIndex: 0,
     valueKey: 'value',
     labelKey: 'label',
     swipeDuration: 1000,
@@ -173,11 +172,19 @@ export class Picker extends React.Component<PickerProps, PickerState> {
 
   static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
     const { valueKey, columns, labelKey, cols, cascade } = nextProps;
-    const { prevColumns, pickerValue } = state;
+    const { prevColumns } = state;
     if (columns !== prevColumns) {
-      const formattedColumns = getFormatted(columns, valueKey, labelKey, pickerValue, cols, cascade);
+      const defaultValue =
+        typeof nextProps.defaultValue === 'string'
+          ? nextProps.defaultValue
+            ? [nextProps.defaultValue]
+            : undefined
+          : nextProps.defaultValue;
+      const newPickerValue = defaultValue || [];
+      const formattedColumns = getFormatted(columns, valueKey, labelKey, newPickerValue, cols, cascade);
       return {
         ...state,
+        pickerValue: newPickerValue,
         formattedColumns: formattedColumns,
         prevColumns: columns,
       };
