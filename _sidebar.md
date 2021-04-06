@@ -9,6 +9,7 @@
   - [Built-in Styles](components/styles.md)
 - Form Components
   - [Checkbox](components/checkbox.md)
+  - [DatetimePicker](components/datetime-picker.md)
   - [Field](components/field.md)
   - [Form](components/form.md)
   - [NumberKeyboard](components/number-keyboard.md)
