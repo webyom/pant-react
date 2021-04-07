@@ -113,7 +113,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return [].concat(children).map((child, index) => {
         this.childRef = child.ref || this.childRef;
         return React.cloneElement(child, {
-          key: index,
+          key: child.key || index,
           ref: this.childRef,
           closePopup: closePopup,
         });

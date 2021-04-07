@@ -9,7 +9,7 @@ import { RadioGroup } from '../../radio-group';
 import { Popup } from '../../popup';
 import { Picker } from '../../picker';
 import { columns1, columns3 } from '../../picker/demo/constant';
-import { DatetimePicker } from '../../datetime-picker';
+import { DatetimePicker, DatetimeRange } from '../../datetime-picker';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
 import './index.scss';
@@ -264,6 +264,20 @@ export class FormRouteComponent extends React.Component {
                 <Popup round position="bottom" closeOnClickOverlay>
                   <DatetimePicker type="datetime" title="Select Datetime" seconds />
                 </Popup>
+              </Field>
+              <Field<[Date, Date]>
+                name="datetimeRange"
+                title="Datetime Range"
+                placeholder="Select Datetime Range"
+                validateTrigger={['change']}
+                rules={async (value): Promise<string> => {
+                  return value ? '' : 'Required field';
+                }}
+                displayValueFormatter={(value): string => {
+                  return value && `${value[0].toLocaleString()} ~ ${value[1].toLocaleString()}`;
+                }}
+              >
+                <DatetimeRange type="datetime" seconds />
               </Field>
               <div className={bem('submit')}>
                 <Button nativeType="submit" type="info" block round>
