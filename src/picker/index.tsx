@@ -247,15 +247,16 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     const { formattedColumns, pickerValue } = this.state;
     const { valueKey, columns, cols, labelKey, cascade, onChange } = this.props;
 
-    let newPickerValue: string[] | string = [];
+    const newPickerValue: string[] = [];
 
-    for (let i = 0; i < cols; i++) {
-      if (columnIndex > i) {
+    for (let i = 0; i < columnIndex; i++) {
+      if (typeof pickerValue[i] === 'undefined') {
+        newPickerValue[i] = formattedColumns[i][0].value;
+      } else {
         newPickerValue[i] = pickerValue[i];
-      } else if (columnIndex === i) {
-        newPickerValue[i] = formattedColumns[columnIndex][selectedIndex].value;
       }
     }
+    newPickerValue[columnIndex] = formattedColumns[columnIndex][selectedIndex].value;
     const newFormattedColumns = getFormatted(columns, valueKey, labelKey, newPickerValue, cols, cascade);
 
     for (let i = columnIndex + 1; i < cols; i++) {
@@ -267,48 +268,40 @@ export class Picker extends React.Component<PickerProps, PickerState> {
       pickerValue: newPickerValue,
     });
 
-    // 单列时，value返回string
-    if (cols === 1) {
-      newPickerValue = newPickerValue[0];
-    }
-
-    onChange && onChange(newPickerValue);
+    onChange && onChange(cols === 1 ? newPickerValue[0] : newPickerValue);
   }
 
   onChange(selectedIndex: number, columnIndex: number): void {
-    const { cascade, columns, valueKey, labelKey, cols, onChange } = this.props;
+    const { cascade, cols, onChange } = this.props;
     const { formattedColumns, pickerValue } = this.state;
 
     if (cascade) {
       this.onCascadeChange(selectedIndex, columnIndex);
     } else {
-      let newPickerValue: string[] | string = [...pickerValue];
-      newPickerValue[columnIndex] = formattedColumns[columnIndex][selectedIndex].value;
-      const newFormattedColumns = getFormatted(columns, valueKey, labelKey, newPickerValue, cols, cascade);
+      const newPickerValue = formattedColumns.map((column, i) => {
+        if (i === columnIndex) {
+          return column[selectedIndex].value;
+        }
+
+        if (typeof pickerValue[i] === 'undefined') {
+          return column[0].value;
+        }
+        return pickerValue[i];
+      });
       this.setState({
-        formattedColumns: newFormattedColumns,
         pickerValue: newPickerValue,
       });
-
-      // 单列时，value返回string
-      if (cols === 1) {
-        newPickerValue = newPickerValue[0];
-      }
-
-      onChange && onChange(newPickerValue);
+      onChange && onChange(cols === 1 ? newPickerValue[0] : newPickerValue);
     }
   }
 
   getValue(): string[] | string {
     const { cols } = this.props;
-    let newPickerValue: string[] | string = [...this.state.pickerValue];
-
-    // 单列时，value返回string
+    const { pickerValue } = this.state;
     if (cols === 1) {
-      newPickerValue = newPickerValue[0];
+      return pickerValue[0];
     }
-
-    return newPickerValue;
+    return [...pickerValue];
   }
 
   confirm(): void {

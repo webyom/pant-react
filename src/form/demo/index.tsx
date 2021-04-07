@@ -262,7 +262,7 @@ export class FormRouteComponent extends React.Component {
                 }}
               >
                 <Popup round position="bottom" closeOnClickOverlay>
-                  <DatetimePicker type="date" title="Select Datetime" seconds />
+                  <DatetimePicker type="datetime" title="Select Datetime" seconds />
                 </Popup>
               </Field>
               <div className={bem('submit')}>
