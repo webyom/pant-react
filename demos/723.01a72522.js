@@ -1,2 +1,2 @@
 (self.webpackChunkpant_react=self.webpackChunkpant_react||[]).push([[723],{3723:(a,e,t)=>{"use strict";t.r(e),t.d(e,{default:()=>n});var c=t(7294);function n(){return c.createElement("img",{className:"lazyload",src:"https://img.yzcdn.cn/vant/apple-1.jpg"})}}}]);
-//# sourceMappingURL=723.1c0a03ab.js.map
+//# sourceMappingURL=723.01a72522.js.map
