@@ -10,6 +10,8 @@ export type DatetimePickerProps = {
   max?: Date;
   defaultValue?: Date;
   title?: string;
+  prefixZero?: boolean;
+  formatter?: (text: string, type: 'y' | 'm' | 'd' | 'h' | 'mm' | 's') => string;
   closePopup?: (confirm?: boolean) => void;
   onChange?: (value: Date) => void;
 };
@@ -32,6 +34,8 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
 
   static defaultProps = {
     seconds: false,
+    prefixZero: true,
+    formatter: (text: string): string => text,
     min: getDefaultMinMax(),
     max: getDefaultMinMax(true),
   };
@@ -74,7 +78,7 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
   }
 
   prefixZero(n: string | number): string {
-    if (n < 10) {
+    if (this.props.prefixZero && n < 10) {
       return '0' + n;
     }
     return '' + n;
@@ -109,7 +113,7 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
   }
 
   genColumns(pickerValue: string[]): StandardColumnItem[][] {
-    const { type, min, max, seconds } = this.props;
+    const { type, min, max, seconds, formatter } = this.props;
     const [pickY, pickM, pickD, pickH, pickMM] = pickerValue.map((s) => parseInt(s));
     const minY = min.getFullYear();
     const minM = min.getMonth();
@@ -124,7 +128,7 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
     const maxMM = max.getMinutes();
     const maxS = max.getSeconds();
     const res = [];
-    res.push(this.range(minY, maxY).map((item) => ({ value: item + '', label: item + '' })));
+    res.push(this.range(minY, maxY).map((item) => ({ value: item + '', label: formatter(item + '', 'y') })));
 
     let minV: number, maxV: number;
     if (pickY === minY) {
@@ -141,7 +145,9 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
       minV = 0;
       maxV = 11;
     }
-    res.push(this.range(minV, maxV).map((item) => ({ value: item + '', label: this.prefixZero(item + 1) })));
+    res.push(
+      this.range(minV, maxV).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item + 1), 'm') })),
+    );
 
     if (pickY === minY && pickM === minM) {
       minV = minD;
@@ -157,7 +163,9 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
       minV = 1;
       maxV = this.getMonthDays(pickY, pickM);
     }
-    res.push(this.range(minV, maxV).map((item) => ({ value: item + '', label: this.prefixZero(item) })));
+    res.push(
+      this.range(minV, maxV).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item), 'd') })),
+    );
 
     if (type === 'datetime') {
       if (pickY === minY && pickM === minM && pickD === minD) {
@@ -174,7 +182,9 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
         minV = 0;
         maxV = 23;
       }
-      res.push(this.range(minV, maxV).map((item) => ({ value: item + '', label: this.prefixZero(item) })));
+      res.push(
+        this.range(minV, maxV).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item), 'h') })),
+      );
 
       if (pickY === minY && pickM === minM && pickD === minD && pickH === minH) {
         minV = minMM;
@@ -190,7 +200,9 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
         minV = 0;
         maxV = 59;
       }
-      res.push(this.range(minV, maxV).map((item) => ({ value: item + '', label: this.prefixZero(item) })));
+      res.push(
+        this.range(minV, maxV).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item), 'mm') })),
+      );
 
       if (seconds) {
         if (pickY === minY && pickM === minM && pickD === minD && pickH === minH && pickMM === minMM) {
@@ -207,7 +219,9 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
           minV = 0;
           maxV = 59;
         }
-        res.push(this.range(minV, maxV).map((item) => ({ value: item + '', label: this.prefixZero(item) })));
+        res.push(
+          this.range(minV, maxV).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item), 's') })),
+        );
       }
     }
 

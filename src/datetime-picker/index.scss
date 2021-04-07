@@ -1,5 +1,7 @@
 @import '../styles/var.scss';
 
 .pant-datetime-picker {
-  display: block;
+  .pant-picker-column:first-child {
+    flex: 1.3;
+  }
 }
