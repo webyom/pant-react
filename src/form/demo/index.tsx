@@ -418,7 +418,7 @@ export class FormRouteComponent extends React.Component {
                       )}
                     </FinalField>
                     <FinalField<string[]>
-                      name="Location"
+                      name="location"
                       validate={(value: string[]) => {
                         return !value || !value.length ? 'Location is required' : undefined;
                       }}

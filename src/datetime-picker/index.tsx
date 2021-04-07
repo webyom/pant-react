@@ -1,9 +1,9 @@
 import React from 'react';
-import { Picker, StandardColumnItem } from '../picker';
+import { Picker, StandardColumnItem, PickerProps } from '../picker';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
-export type DatetimePickerProps = {
+export type DatetimePickerProps = Pick<PickerProps, 'showToolbar' | 'toolbarPosition'> & {
   type: 'date' | 'datetime';
   seconds?: boolean;
   min?: Date;
@@ -31,9 +31,9 @@ function getDefaultMinMax(max?: boolean): Date {
 }
 
 export class DatetimePicker extends React.Component<DatetimePickerProps, DatetimePickerState> {
-  static readonly __FIELD_BEHAVIOR__ = 'Popup';
-
   static defaultProps = {
+    showToolbar: true,
+    toolbarPosition: 'top',
     seconds: false,
     prefixZero: true,
     seperator: true,
@@ -303,11 +303,13 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
   }
 
   render(): JSX.Element {
-    const { type, title, seconds, seperator } = this.props;
+    const { type, title, seconds, seperator, showToolbar, toolbarPosition } = this.props;
     const { columns, pickerValue } = this.state;
     return (
       <div className={bem([type, { seconds, seperator }])}>
         <Picker
+          showToolbar={showToolbar}
+          toolbarPosition={toolbarPosition}
           title={title}
           columns={columns}
           defaultValue={pickerValue}
