@@ -42,6 +42,7 @@ import { Button } from 'pant-react/es/button';
   - [Built-in Styles](https://webyom.github.io/pant-react/#/components/styles)
 - Form Components
   - [Checkbox](https://webyom.github.io/pant-react/#/components/checkbox)
+  - [DatetimePicker](https://webyom.github.io/pant-react/#/components/datetime-picker)
   - [Field](https://webyom.github.io/pant-react/#/components/field)
   - [Form](https://webyom.github.io/pant-react/#/components/form)
   - [NumberKeyboard](https://webyom.github.io/pant-react/#/components/number-keyboard)
