@@ -216,7 +216,7 @@ export class FormRouteComponent extends React.Component {
                   <Picker columns={columns1} />
                 </Popup>
               </Field>
-              <Field<any[]>
+              <Field<Record<string, string>>
                 name="location"
                 title="Cascade"
                 placeholder="Select Location"
@@ -258,19 +258,11 @@ export class FormRouteComponent extends React.Component {
                   return value ? '' : 'Required field';
                 }}
                 displayValueFormatter={(value): string => {
-                  return value && value.toGMTString();
+                  return value && value.toLocaleString();
                 }}
               >
                 <Popup round position="bottom" closeOnClickOverlay>
-                  <DatetimePicker
-                    type="datetime"
-                    title="Select Datetime"
-                    prefixZero={false}
-                    seconds
-                    formatter={(text, type) => {
-                      return text + { y: '年', m: '月', d: '日', h: '点', mm: '分', s: '秒' }[type];
-                    }}
-                  />
+                  <DatetimePicker type="date" title="Select Datetime" seconds />
                 </Popup>
               </Field>
               <div className={bem('submit')}>

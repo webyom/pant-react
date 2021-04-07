@@ -15,7 +15,18 @@ export class DatetimePickerRouteComponent extends React.Component {
           <section>
             <h2>Basic Usage</h2>
             <div className={bem('card')}>
-              <DatetimePicker type="datetime" seconds />
+              <DatetimePicker
+                type="datetime"
+                title="Select Datetime"
+                prefixZero={false}
+                seconds
+                formatter={(text, type) => {
+                  if ((type === 'mm' || type === 's') && parseInt(text) < 10) {
+                    text = '0' + text;
+                  }
+                  return text + { y: '年', m: '月', d: '日', h: '时', mm: '分', s: '秒' }[type];
+                }}
+              />
             </div>
           </section>
         </div>

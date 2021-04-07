@@ -67,7 +67,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   showWordLimit?: boolean;
   validateTrigger?: ValidateTrigger[];
   valueFormatter?(value: any): T;
-  displayValueFormatter?(value: any): string;
+  displayValueFormatter?(value: T): string;
   onClosePopup?(field: Field<T>, confirm?: boolean): void;
   onInputKeyDown?(evt: React.KeyboardEvent): void;
   onInputChange?(evt: React.ChangeEvent): string | void;

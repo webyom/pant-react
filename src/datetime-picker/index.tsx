@@ -11,6 +11,7 @@ export type DatetimePickerProps = {
   defaultValue?: Date;
   title?: string;
   prefixZero?: boolean;
+  seperator?: boolean;
   formatter?: (text: string, type: 'y' | 'm' | 'd' | 'h' | 'mm' | 's') => string;
   closePopup?: (confirm?: boolean) => void;
   onChange?: (value: Date) => void;
@@ -35,6 +36,7 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
   static defaultProps = {
     seconds: false,
     prefixZero: true,
+    seperator: true,
     formatter: (text: string): string => text,
     min: getDefaultMinMax(),
     max: getDefaultMinMax(true),
@@ -301,10 +303,10 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
   }
 
   render(): JSX.Element {
-    const { title } = this.props;
+    const { type, title, seconds, seperator } = this.props;
     const { columns, pickerValue } = this.state;
     return (
-      <div className={bem()}>
+      <div className={bem([type, { seconds, seperator }])}>
         <Picker
           title={title}
           columns={columns}
