@@ -36,17 +36,17 @@ export function off(target: EventTarget, event: string, handler: EventListenerOr
   }
 }
 
-export function stopPropagation(event: React.MouseEvent | React.TouchEvent | React.FormEvent): void {
+export function stopPropagation(event: Event | React.SyntheticEvent): void {
   event.stopPropagation();
 }
 
-export function preventDefault(event: React.MouseEvent | React.TouchEvent | React.FormEvent): void {
+export function preventDefault(event: Event | React.SyntheticEvent): void {
   if (typeof event.cancelable !== 'boolean' || event.cancelable) {
     event.preventDefault();
   }
 }
 
-export function preventDefaultAndStopPropagation(event: React.MouseEvent | React.TouchEvent | React.FormEvent): void {
+export function preventDefaultAndStopPropagation(event: Event | React.SyntheticEvent): void {
   preventDefault(event);
   stopPropagation(event);
 }

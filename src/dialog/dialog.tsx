@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { Button } from '../button';
 import { Overlay } from '../overlay';
@@ -75,6 +75,7 @@ function genButtons(props: DialogProps): JSX.Element {
 }
 
 export const Dialog: React.FC<DialogProps> = (props) => {
+  const containerRef = useRef<HTMLDivElement>();
   const { show, zIndex, message, messageAlign } = props;
   const incZIndex = zIndex || getIncrementalZIndex();
   const messageNode = props.messageNode;
@@ -96,6 +97,16 @@ export const Dialog: React.FC<DialogProps> = (props) => {
     </div>
   );
 
+  useEffect(() => {
+    if (props.lockScroll) {
+      const onTouchMove = (event: Event) => {
+        preventDefaultAndStopPropagation(event);
+      };
+      containerRef.current.addEventListener('touchmove', onTouchMove, false);
+      return () => containerRef.current.removeEventListener('touchmove', onTouchMove, false);
+    }
+  }, []);
+
   return (
     <React.Fragment>
       {props.overlay ? (
@@ -108,11 +119,11 @@ export const Dialog: React.FC<DialogProps> = (props) => {
         onAfterLeave={show ? null : props.onClosed}
       >
         <div
+          ref={containerRef}
           role="dialog"
           aria-labelledby={props.title || message}
           className={clsx(bem(), props.className)}
           style={{ width: addUnit(props.width), zIndex: incZIndex }}
-          onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
         >
           {Title}
           {Content}

@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { removeUnit } from '../utils';
 import { BORDER_UNSET_TOP_BOTTOM } from '../utils/constant';
 import { createBEM } from '../utils/bem';
-import { preventDefaultAndStopPropagation } from '../utils/event';
 import { i18n } from '../locale';
 import { DEFAULT_ITEM_HEIGHT } from './constant';
 import { PickerColumn } from './picker-column';
@@ -361,7 +360,7 @@ export class Picker extends React.Component<PickerProps, PickerState> {
     };
 
     return (
-      <div className={bem('columns')} style={columnsStyle} onTouchMove={preventDefaultAndStopPropagation}>
+      <div className={bem('columns')} style={columnsStyle}>
         {this.genColumnItems()}
         <div className={bem('mask')} style={maskStyle} />
         <div className={clsx(bem('frame'), BORDER_UNSET_TOP_BOTTOM)} style={frameStyle} />

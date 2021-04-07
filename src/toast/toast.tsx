@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
@@ -59,8 +59,19 @@ function genMessage(props: ToastProps): JSX.Element {
 }
 
 export const Toast: React.FC<ToastProps> = (props) => {
+  const containerRef = useRef<HTMLDivElement>();
   const { show, zIndex, overlay } = props;
   const incZIndex = zIndex || getIncrementalZIndex(Z_INDEX_TOAST_BASE);
+
+  useEffect(() => {
+    if (overlay) {
+      const onTouchMove = (event: Event) => {
+        preventDefaultAndStopPropagation(event);
+      };
+      containerRef.current.addEventListener('touchmove', onTouchMove, false);
+      return () => containerRef.current.removeEventListener('touchmove', onTouchMove, false);
+    }
+  }, []);
 
   return (
     <React.Fragment>
@@ -72,6 +83,7 @@ export const Toast: React.FC<ToastProps> = (props) => {
         onAfterLeave={show ? null : props.onClosed}
       >
         <div
+          ref={containerRef}
           className={clsx(
             bem([
               props.position,
@@ -81,7 +93,6 @@ export const Toast: React.FC<ToastProps> = (props) => {
             props.className,
           )}
           style={{ zIndex: incZIndex }}
-          onTouchMove={overlay ? preventDefaultAndStopPropagation : null}
           onClick={props.onClick}
         >
           {genIcon(props)}

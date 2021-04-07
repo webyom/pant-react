@@ -46,7 +46,9 @@ type PopupState = {
 const bem = createBEM('pant-popup');
 
 export class Popup extends React.Component<PopupProps, PopupState> {
+  private containerRef = React.createRef<HTMLDivElement>();
   private childRef = React.createRef();
+  private bindedonTouchMove = this.onTouchMove.bind(this);
   private bindedOnClick = this.onClick.bind(this);
   private bindedOnClickClose = this.onClickClose.bind(this);
   private bindedOnClosed = this.onClosed.bind(this);
@@ -70,6 +72,22 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return { active: true };
     }
     return null;
+  }
+
+  componentDidMount(): void {
+    if (this.props.lockScroll) {
+      this.containerRef.current.addEventListener('touchmove', this.bindedonTouchMove, false);
+    }
+  }
+
+  componentWillUnmount(): void {
+    if (this.props.lockScroll) {
+      this.containerRef.current.removeEventListener('touchmove', this.bindedonTouchMove, false);
+    }
+  }
+
+  private onTouchMove(event: Event): void {
+    preventDefaultAndStopPropagation(event);
   }
 
   private onClick(event: React.MouseEvent): void {
@@ -133,6 +151,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           <Overlay
             show={show}
             zIndex={incZIndex}
+            lockScroll={props.lockScroll}
             onClick={props.closeOnClickOverlay ? this.bindedOnClickClose : null}
           />
         ) : null}
@@ -144,6 +163,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           onAfterLeave={this.bindedOnClosed}
         >
           <div
+            ref={this.containerRef}
             style={style}
             className={clsx(
               bem({
@@ -154,7 +174,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               props.className,
             )}
             onClick={this.bindedOnClick}
-            onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
           >
             {this.genChildren()}
             {props.closeable && (

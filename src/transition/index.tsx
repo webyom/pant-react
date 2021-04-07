@@ -119,6 +119,10 @@ export class Transition extends React.Component<TransitionProps, TransitionState
           style,
           ref: (el: TransitionableComponent) => {
             this.childrenRef = el;
+            const ref = (children as any).ref;
+            if (ref) {
+              ref.current = el;
+            }
           },
         })}
       </React.Fragment>

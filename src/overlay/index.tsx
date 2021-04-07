@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { Transition, TransitionEvents } from '../transition';
 import { createBEM } from '../utils/bem';
@@ -19,6 +19,7 @@ export type OverlayProps = {
 const bem = createBEM('pant-overlay');
 
 export const Overlay: React.FC<OverlayProps> = (props) => {
+  const containerRef = useRef<HTMLDivElement>();
   const style: Record<string, any> = {
     backgroundColor: pantConfig('defaultOverlayBgColor'),
     ...props.style,
@@ -29,6 +30,16 @@ export const Overlay: React.FC<OverlayProps> = (props) => {
     style.animationDuration = `${props.duration}s`;
   }
 
+  useEffect(() => {
+    if (props.lockScroll) {
+      const onTouchMove = (event: Event) => {
+        preventDefaultAndStopPropagation(event);
+      };
+      containerRef.current.addEventListener('touchmove', onTouchMove, false);
+      return () => containerRef.current.removeEventListener('touchmove', onTouchMove, false);
+    }
+  }, []);
+
   return (
     <Transition
       name="fade"
@@ -36,12 +47,7 @@ export const Overlay: React.FC<OverlayProps> = (props) => {
       onAfterEnter={props.onAfterEnter}
       onAfterLeave={props.onAfterLeave}
     >
-      <div
-        style={style}
-        className={clsx(bem(), props.className)}
-        onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
-        onClick={props.onClick}
-      >
+      <div ref={containerRef} style={style} className={clsx(bem(), props.className)} onClick={props.onClick}>
         {props.children}
       </div>
     </Transition>
