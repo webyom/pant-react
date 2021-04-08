@@ -56,6 +56,7 @@
     "@types/react": "^16.14.5",
     "@types/react-dom": "^16.9.12",
     "@types/react-router-dom": "^5.1.7",
+    "@types/react-virtualized": "^9.21.11",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
     "@vant/touch-emulator": "^1.2.0",
@@ -108,6 +109,8 @@
   "dependencies": {
     "closest": "0.0.1",
     "clsx": "^1.1.0",
-    "lodash-es": "^4.17.21"
+    "eventemitter3": "^4.0.7",
+    "lodash-es": "^4.17.21",
+    "react-virtualized": "^9.22.3"
   }
 }

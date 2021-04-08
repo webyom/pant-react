@@ -1,16 +1,16 @@
 @import '../styles/var.scss';
+@import '../styles/mixins/ellipsis.scss';
 
 .pant-search-picker {
   position: relative;
   background-color: $picker-background-color;
   user-select: none;
+  display: flex;
+  flex-direction: column;
 
   &--fullscreen {
-    display: flex;
-    flex-direction: column;
     height: 100%;
     .pant-search-picker__content {
-      flex: 1;
       max-height: unset;
     }
   }
@@ -59,17 +59,48 @@
   }
 
   &__content {
+    flex: 1;
     max-height: 260px;
-    overflow-y: auto;
+    padding: 0 12px;
+  }
+
+  &__item {
+    border-bottom: 1px solid $border-color;
+    line-height: 35px;
+    padding: 0 $padding-xs;
+    display: flex;
+    align-items: center;cursor: pointer;
+    user-select: none;
+    &:active {
+      background-color: $active-color;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+    > span:first-child {
+      @include ellipsis();
+      flex: 1;
+      margin-right: $padding-base;
+    }
+    .pant-icon {
+      color: $gray-5;
+    }
+    &--selected {
+      .pant-icon {
+        color: $blue;
+      }
+    }
   }
 }
 
 .pant-popup {
   .pant-search-picker__content {
+    flex: unset;
     height: 260px;
   }
   .pant-search-picker--fullscreen {
     .pant-search-picker__content {
+      flex: 1;
       height: unset;
     }
   }

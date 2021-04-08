@@ -5,6 +5,7 @@ import { Icon } from '../icon';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
 import { getIncrementalZIndex } from '../utils';
+import { eventBus } from '../utils/event-bus';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
 import './index.scss';
@@ -45,13 +46,17 @@ type PopupState = {
 
 const bem = createBEM('pant-popup');
 
+let idStart: number = Math.floor(Math.random() * 10000);
+
 export class Popup extends React.PureComponent<PopupProps, PopupState> {
+  private id = ++idStart;
   private containerRef = React.createRef<HTMLDivElement>();
   private childRef = React.createRef();
   private bindedonTouchMove = this.onTouchMove.bind(this);
   private bindedOnClick = this.onClick.bind(this);
   private bindedOnClickClose = this.onClickClose.bind(this);
   private bindedOnClosed = this.onClosed.bind(this);
+  private bindedOnOpened = this.onOpened.bind(this);
   state = {
     active: !!this.props.show,
   };
@@ -107,20 +112,22 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
     this.props.onClosed && this.props.onClosed();
   }
 
+  private onOpened(): void {
+    eventBus.emit('popup.opened', this.id);
+    this.props.onOpened && this.props.onOpened();
+  }
+
   private genChildren(): React.ReactNode {
     const { closePopup, children } = this.props;
-    if (closePopup) {
-      return [].concat(children).map((child, index) => {
-        this.childRef = child.ref || this.childRef;
-        return React.cloneElement(child, {
-          key: child.key || index,
-          ref: this.childRef,
-          closePopup: closePopup,
-        });
+    return [].concat(children).map((child, index) => {
+      this.childRef = child.ref || this.childRef;
+      return React.cloneElement(child, {
+        _popupId: this.id,
+        key: child.key || index,
+        ref: this.childRef,
+        closePopup: closePopup,
       });
-    } else {
-      return children;
-    }
+    });
   }
 
   getValue(): any {
@@ -159,7 +166,7 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
           customName={transitionName}
           stage={show ? 'enter' : 'leave'}
           duration={duration}
-          onAfterEnter={props.onOpened}
+          onAfterEnter={this.bindedOnOpened}
           onAfterLeave={this.bindedOnClosed}
         >
           <div
