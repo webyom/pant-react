@@ -12,7 +12,7 @@ type OverlayState = {
   show2: boolean;
 };
 
-export class OverlayRouteComponent extends React.Component<any, OverlayState> {
+export class OverlayRouteComponent extends React.PureComponent<any, OverlayState> {
   state = {
     show1: false,
     show2: false,

@@ -9,7 +9,7 @@ import './index.scss';
 
 const bem = createBEM('demo-tab');
 
-class LazyContent extends React.Component<any, { inited: boolean }> {
+class LazyContent extends React.PureComponent<any, { inited: boolean }> {
   state = {
     inited: false,
   };
@@ -25,7 +25,7 @@ class LazyContent extends React.Component<any, { inited: boolean }> {
   }
 }
 
-export class TabRouteComponent extends React.Component {
+export class TabRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

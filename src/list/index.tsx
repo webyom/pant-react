@@ -35,7 +35,7 @@ type ListState = {
 
 const bem = createBEM('pant-list');
 
-export class List extends React.Component<ListProps, ListState> {
+export class List extends React.PureComponent<ListProps, ListState> {
   static defaultProps = {
     direction: 'down',
     offset: 300,

@@ -57,7 +57,7 @@ const getPoints = (
   return newPoints;
 };
 
-export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   static defaultProps = {
     gutter: 0,
     value: '',

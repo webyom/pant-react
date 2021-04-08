@@ -24,7 +24,7 @@ type SearchPickerState = {
 
 const bem = createBEM('pant-search-picker');
 
-export class SearchPicker extends React.Component<SearchPickerProps, SearchPickerState> {
+export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchPickerState> {
   static defaultProps = {
     showToolbar: true,
     toolbarPosition: 'top',

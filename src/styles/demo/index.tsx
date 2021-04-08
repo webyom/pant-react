@@ -13,7 +13,7 @@ type StylesRouteComponentState = {
   stage: TransitionStage;
 };
 
-export class StylesRouteComponent extends React.Component<any, StylesRouteComponentState> {
+export class StylesRouteComponent extends React.PureComponent<any, StylesRouteComponentState> {
   state: StylesRouteComponentState = {
     name: 'fade',
     stage: 'leave',

@@ -4,7 +4,7 @@ import './index.scss';
 
 const bem = createBEM('demo-404');
 
-export class NotFoundRouteComponent extends React.Component {
+export class NotFoundRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <div className={bem()}>

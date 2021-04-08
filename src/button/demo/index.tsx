@@ -7,7 +7,7 @@ import './index.scss';
 
 const bem = createBEM('demo-button');
 
-export class ButtonRouteComponent extends React.Component {
+export class ButtonRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

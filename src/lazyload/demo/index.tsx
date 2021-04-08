@@ -10,7 +10,7 @@ const LazyComponent = lazy(() => import('./lazy-component'));
 
 const bem = createBEM('demo-lazyload');
 
-export class LazyloadRouteComponent extends React.Component {
+export class LazyloadRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

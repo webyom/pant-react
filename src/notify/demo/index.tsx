@@ -7,7 +7,7 @@ import './index.scss';
 
 const bem = createBEM('demo-notify');
 
-export class NotifyRouteComponent extends React.Component {
+export class NotifyRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

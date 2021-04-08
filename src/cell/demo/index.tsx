@@ -9,7 +9,7 @@ import './index.scss';
 
 const bem = createBEM('demo-cell');
 
-export class CellRouteComponent extends React.Component {
+export class CellRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

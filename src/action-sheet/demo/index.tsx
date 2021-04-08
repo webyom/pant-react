@@ -9,7 +9,7 @@ import './index.scss';
 
 const bem = createBEM('demo-action-sheet');
 
-export class ActionSheetRouteComponent extends React.Component {
+export class ActionSheetRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

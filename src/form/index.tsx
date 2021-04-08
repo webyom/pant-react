@@ -16,7 +16,7 @@ export type FormProps<T> = {
 
 const bem = createBEM('pant-form');
 
-export class Form<T = never> extends React.Component<FormProps<T>> {
+export class Form<T = never> extends React.PureComponent<FormProps<T>> {
   private bindedOnSubmit = this.onSubmit.bind(this);
   private readonly childRefs: Record<string, React.RefObject<Field<any>>> = {};
 

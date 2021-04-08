@@ -110,7 +110,7 @@ function normalizeDefaultValue(dv: any, isInputType: boolean): any {
 
 const NO_MATCHED_RULE_FLAG = '__NO_MATCHED_RULE_FLAG__';
 
-export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<T>> {
+export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldState<T>> {
   static defaultProps = {
     clearTrigger: 'focus',
   };

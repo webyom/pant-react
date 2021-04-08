@@ -45,7 +45,7 @@ type PopupState = {
 
 const bem = createBEM('pant-popup');
 
-export class Popup extends React.Component<PopupProps, PopupState> {
+export class Popup extends React.PureComponent<PopupProps, PopupState> {
   private containerRef = React.createRef<HTMLDivElement>();
   private childRef = React.createRef();
   private bindedonTouchMove = this.onTouchMove.bind(this);

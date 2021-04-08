@@ -17,7 +17,7 @@ type PickerState = {
   loading: boolean;
 };
 
-export class PickerRouteComponent extends React.Component<any, PickerState> {
+export class PickerRouteComponent extends React.PureComponent<any, PickerState> {
   private ele: any;
   state: PickerState = {
     dynamicColumns: columns4,

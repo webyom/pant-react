@@ -9,7 +9,7 @@ import './index.scss';
 
 const bem = createBEM('demo-card');
 
-export class CardRouteComponent extends React.Component {
+export class CardRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

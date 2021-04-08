@@ -21,7 +21,7 @@ type LazyloadState = {
 
 const bem = createBEM('pant-lazyload');
 
-export class Lazyload extends React.Component<LazyloadProps, LazyloadState> {
+export class Lazyload extends React.PureComponent<LazyloadProps, LazyloadState> {
   static defaultProps = {
     preloadOffset: 0,
     scroller: window,

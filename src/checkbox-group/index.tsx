@@ -36,7 +36,7 @@ type CheckboxGroupState = {
 
 const bem = createBEM('pant-checkbox-group');
 
-export class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxGroupState> {
+export class CheckboxGroup extends React.PureComponent<CheckboxGroupProps, CheckboxGroupState> {
   static defaultProps = {
     disabled: false,
     labelPosition: 'right',

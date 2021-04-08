@@ -7,7 +7,7 @@ import './index.scss';
 
 const bem = createBEM('demo-sticky');
 
-export class StickyRouteComponent extends React.Component {
+export class StickyRouteComponent extends React.PureComponent {
   private containerRef = React.createRef<HTMLDivElement>();
 
   render(): JSX.Element {

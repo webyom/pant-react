@@ -52,7 +52,7 @@ export type TabInfo = {
 
 const bem = createBEM('pant-tabs');
 
-export class Tabs extends React.Component<TabsProps, TabsState> {
+export class Tabs extends React.PureComponent<TabsProps, TabsState> {
   static defaultProps = {
     type: 'line',
     bordered: true,

@@ -46,7 +46,7 @@ const animationEndEventName =
     ? 'webkitAnimationEnd'
     : 'animationend';
 
-export class Transition extends React.Component<TransitionProps, TransitionState> {
+export class Transition extends React.PureComponent<TransitionProps, TransitionState> {
   static defaultProps = {
     name: 'fade',
     duration: '0.3',

@@ -14,7 +14,7 @@ type SearchPickerState = {
   pickerValue: string;
 };
 
-export class SearchPickerRouteComponent extends React.Component<any, SearchPickerState> {
+export class SearchPickerRouteComponent extends React.PureComponent<any, SearchPickerState> {
   state: SearchPickerState = {
     cityValue: '',
     showPicker: false,

@@ -7,7 +7,7 @@ import './index.scss';
 
 const bem = createBEM('demo-radio');
 
-export class RadioRouteComponent extends React.Component {
+export class RadioRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

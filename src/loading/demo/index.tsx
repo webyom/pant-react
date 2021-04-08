@@ -6,7 +6,7 @@ import './index.scss';
 
 const bem = createBEM('demo-loading');
 
-export class LoadingRouteComponent extends React.Component {
+export class LoadingRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

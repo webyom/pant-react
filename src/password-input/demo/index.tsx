@@ -15,7 +15,7 @@ type PasswordInputState = {
   keyboard: string;
 };
 
-export class PasswordInputRouteComponent extends React.Component<any, PasswordInputState> {
+export class PasswordInputRouteComponent extends React.PureComponent<any, PasswordInputState> {
   constructor(props: React.PropsWithChildren<any>) {
     super(props);
     this.state = {

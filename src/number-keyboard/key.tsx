@@ -20,7 +20,7 @@ type KeyState = {
   active: boolean;
 };
 
-export class Key extends React.Component<KeyProps, KeyState> {
+export class Key extends React.PureComponent<KeyProps, KeyState> {
   private elRef = React.createRef<HTMLDivElement>();
   private touchHandler: TouchHandler;
 

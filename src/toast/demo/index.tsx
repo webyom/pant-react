@@ -7,7 +7,7 @@ import './index.scss';
 
 const bem = createBEM('demo-toast');
 
-export class ToastRouteComponent extends React.Component {
+export class ToastRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

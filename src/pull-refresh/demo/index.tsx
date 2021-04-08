@@ -16,7 +16,7 @@ const PullingDoge: React.FC<{ distance?: number }> = (props) => (
   />
 );
 
-export class PullRefreshRouteComponent extends React.Component<any, { count: number }> {
+export class PullRefreshRouteComponent extends React.PureComponent<any, { count: number }> {
   state = {
     count: 0,
   };

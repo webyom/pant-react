@@ -39,7 +39,7 @@ import { TagRouteComponent } from '../../tag/demo';
 import { ToastRouteComponent } from '../../toast/demo';
 import { NotFoundRouteComponent } from './routes/404';
 
-export class RootComponent extends React.Component {
+export class RootComponent extends React.PureComponent {
   private bindedOnHashChange = this.onHashChange.bind(this);
 
   componentDidMount(): void {

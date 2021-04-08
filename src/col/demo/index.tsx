@@ -7,7 +7,7 @@ import './index.scss';
 
 const bem = createBEM('demo-layout');
 
-export class LayoutRouteComponent extends React.Component {
+export class LayoutRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

@@ -23,7 +23,7 @@ type StickyState = {
 
 const bem = createBEM('pant-sticky');
 
-export class Sticky extends React.Component<StickyProps, StickyState> {
+export class Sticky extends React.PureComponent<StickyProps, StickyState> {
   static defaultProps = {
     keepWidth: true,
     offsetTop: 0,

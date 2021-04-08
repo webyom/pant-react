@@ -11,7 +11,7 @@ type SkeletonRouteComponentState = {
 
 const bem = createBEM('demo-skeleton');
 
-export class SkeletonRouteComponent extends React.Component<any, SkeletonRouteComponentState> {
+export class SkeletonRouteComponent extends React.PureComponent<any, SkeletonRouteComponentState> {
   state = {
     show: false,
   };

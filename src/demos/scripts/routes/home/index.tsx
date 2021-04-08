@@ -22,7 +22,7 @@ function Arrow(): JSX.Element {
   );
 }
 
-export class HomeRouteComponent extends React.Component {
+export class HomeRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <div className={bem()}>

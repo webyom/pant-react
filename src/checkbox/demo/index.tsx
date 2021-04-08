@@ -21,7 +21,7 @@ type CheckboxRouteComponentState = {
   checked7: boolean;
 };
 
-export class CheckboxRouteComponent extends React.Component<any, CheckboxRouteComponentState> {
+export class CheckboxRouteComponent extends React.PureComponent<any, CheckboxRouteComponentState> {
   state = {
     checked1: true,
     checked2: false,

@@ -10,7 +10,7 @@ import './index.scss';
 
 const bem = createBEM('demo-img');
 
-export class ImgRouteComponent extends React.Component {
+export class ImgRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

@@ -32,7 +32,7 @@ function getDefaultMinMax(max?: boolean): Date {
   return max ? new Date(nowYear + 5, 11, 31, 23, 59, 59) : new Date(nowYear - 5, 0, 1, 0, 0, 0);
 }
 
-export class DatetimePicker extends React.Component<DatetimePickerProps, DatetimePickerState> {
+export class DatetimePicker extends React.PureComponent<DatetimePickerProps, DatetimePickerState> {
   static defaultProps = {
     showToolbar: true,
     toolbarPosition: 'top',

@@ -11,7 +11,7 @@ type TagRouteComponentState = {
 
 const bem = createBEM('demo-tag');
 
-export class TagRouteComponent extends React.Component<any, TagRouteComponentState> {
+export class TagRouteComponent extends React.PureComponent<any, TagRouteComponentState> {
   state = {
     showPrimary: true,
     showSuccess: true,

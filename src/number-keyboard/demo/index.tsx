@@ -13,7 +13,7 @@ type NumberKeyboardState = {
   keyboard: string;
 };
 
-export class NumberKeyboardRouteComponent extends React.Component<any, NumberKeyboardState> {
+export class NumberKeyboardRouteComponent extends React.PureComponent<any, NumberKeyboardState> {
   constructor(props: React.PropsWithChildren<any>) {
     super(props);
     this.state = {

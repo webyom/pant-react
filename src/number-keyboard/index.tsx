@@ -33,7 +33,7 @@ type NumberKeyboardState = {
   transition: boolean;
 };
 
-export class NumberKeyboard extends React.Component<NumberKeyboardProps, NumberKeyboardState> {
+export class NumberKeyboard extends React.PureComponent<NumberKeyboardProps, NumberKeyboardState> {
   static defaultProps = {
     title: '键盘标题',
     theme: 'default',

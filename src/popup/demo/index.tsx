@@ -21,7 +21,7 @@ type PopupRouteComponentState = {
   show10: boolean;
 };
 
-export class PopupRouteComponent extends React.Component<any, PopupRouteComponentState> {
+export class PopupRouteComponent extends React.PureComponent<any, PopupRouteComponentState> {
   state: PopupRouteComponentState = {
     show1: false,
     show2: false,

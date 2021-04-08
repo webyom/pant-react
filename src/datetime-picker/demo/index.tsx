@@ -6,7 +6,7 @@ import './index.scss';
 
 const bem = createBEM('demo-datetime-picker');
 
-export class DatetimePickerRouteComponent extends React.Component {
+export class DatetimePickerRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

@@ -17,7 +17,7 @@ type SwitchRouteComponentState = {
   on5: boolean;
 };
 
-export class SwitchRouteComponent extends React.Component<any, SwitchRouteComponentState> {
+export class SwitchRouteComponent extends React.PureComponent<any, SwitchRouteComponentState> {
   state = {
     on1: false,
     on2: false,

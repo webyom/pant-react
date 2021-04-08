@@ -31,7 +31,7 @@ type ImgState = {
 
 const bem = createBEM('pant-img');
 
-export class Img extends React.Component<ImgProps, ImgState> {
+export class Img extends React.PureComponent<ImgProps, ImgState> {
   static defaultProps = {
     round: false,
     showError: true,

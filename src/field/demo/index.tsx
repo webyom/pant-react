@@ -7,7 +7,7 @@ import './index.scss';
 
 const bem = createBEM('demo-field');
 
-export class FieldRouteComponent extends React.Component {
+export class FieldRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

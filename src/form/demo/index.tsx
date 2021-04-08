@@ -16,7 +16,7 @@ import './index.scss';
 
 const bem = createBEM('demo-form');
 
-export class FormRouteComponent extends React.Component {
+export class FormRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

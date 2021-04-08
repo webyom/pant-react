@@ -6,7 +6,7 @@ export type RadioGroupProps = CheckboxGroupBaseProps & {
   defaultValue?: string;
 };
 
-export class RadioGroup extends React.Component<RadioGroupProps> {
+export class RadioGroup extends React.PureComponent<RadioGroupProps> {
   private readonly ref = React.createRef<CheckboxGroup>();
 
   getValue(): string {

@@ -9,7 +9,7 @@ import './index.scss';
 
 const bem = createBEM('demo-search');
 
-export class SearchRouteComponent extends React.Component {
+export class SearchRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

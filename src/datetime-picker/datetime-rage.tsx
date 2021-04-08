@@ -30,7 +30,7 @@ type DatetimeRangeState = {
 
 const bem = createBEM('pant-datetime-range');
 
-export class DatetimeRange extends React.Component<DatetimeRangeProps, DatetimeRangeState> {
+export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, DatetimeRangeState> {
   static readonly __FIELD_BEHAVIOR__ = 'Popup';
   static defaultProps = {
     titleStart: i18n().selectStartDate,

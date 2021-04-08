@@ -35,7 +35,7 @@ type PullRefreshState = {
 
 const bem = createBEM('pant-pull-refresh');
 
-export class PullRefresh extends React.Component<PullRefreshProps, PullRefreshState> {
+export class PullRefresh extends React.PureComponent<PullRefreshProps, PullRefreshState> {
   static defaultProps = {
     successDuration: 500,
     animationDuration: 300,

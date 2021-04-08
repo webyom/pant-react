@@ -153,7 +153,7 @@ const getFormatted = (
   return formatted;
 };
 
-export class Picker extends React.Component<PickerProps, PickerState> {
+export class Picker extends React.PureComponent<PickerProps, PickerState> {
   static defaultProps = {
     showToolbar: true,
     toolbarPosition: 'top',

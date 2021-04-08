@@ -16,7 +16,7 @@ export type TabProps = {
   isActive?: boolean;
 };
 
-export class Tab extends React.Component<TabProps> {
+export class Tab extends React.PureComponent<TabProps> {
   private inited = false;
 
   render(): JSX.Element {

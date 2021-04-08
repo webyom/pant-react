@@ -7,7 +7,7 @@ import './index.scss';
 
 const bem = createBEM('demo-dialog');
 
-export class DialogRouteComponent extends React.Component {
+export class DialogRouteComponent extends React.PureComponent {
   render(): JSX.Element {
     return (
       <React.Fragment>

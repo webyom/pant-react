@@ -50,7 +50,7 @@ type PickerState = {
 
 const bem = createBEM('pant-picker-column');
 
-export class PickerColumn extends React.Component<PickerProps, PickerState> {
+export class PickerColumn extends React.PureComponent<PickerProps, PickerState> {
   private listRef = React.createRef<HTMLUListElement>();
   private transitionEndTrigger: any;
   private touchHandler: TouchHandler;

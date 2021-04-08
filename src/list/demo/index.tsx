@@ -9,7 +9,10 @@ import './index.scss';
 
 const bem = createBEM('demo-list');
 
-export class ListRouteComponent extends React.Component<any, { list1: number[]; list2: number[]; list3: number[] }> {
+export class ListRouteComponent extends React.PureComponent<
+  any,
+  { list1: number[]; list2: number[]; list3: number[] }
+> {
   private list3Ref = React.createRef<List>();
 
   constructor(props: React.PropsWithChildren<any>) {
