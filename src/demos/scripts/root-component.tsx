@@ -28,6 +28,7 @@ import { PopupRouteComponent } from '../../popup/demo';
 import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
 import { SearchRouteComponent } from '../../search/demo';
+import { SearchPickerRouteComponent } from '../../search-picker/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { StickyRouteComponent } from '../../sticky/demo';
 import { StylesRouteComponent } from '../../styles/demo';
@@ -137,20 +138,14 @@ export class RootComponent extends React.Component {
           <Route path="/search/">
             <SearchRouteComponent />
           </Route>
+          <Route path="/search-picker/">
+            <SearchPickerRouteComponent />
+          </Route>
           <Route path="/sticky/">
             <StickyRouteComponent />
           </Route>
           <Route path="/switch/">
             <SwitchRouteComponent />
-          </Route>
-          <Route path="/tab/">
-            <TabRouteComponent />
-          </Route>
-          <Route path="/tag/">
-            <TagRouteComponent />
-          </Route>
-          <Route path="/toast/">
-            <ToastRouteComponent />
           </Route>
           <Route path="/skeleton/">
             <SkeletonRouteComponent />
@@ -160,6 +155,15 @@ export class RootComponent extends React.Component {
           </Route>
           <Route path="/submit-bar/">
             <SubmitBarRouteComponent />
+          </Route>
+          <Route path="/tab/">
+            <TabRouteComponent />
+          </Route>
+          <Route path="/tag/">
+            <TagRouteComponent />
+          </Route>
+          <Route path="/toast/">
+            <ToastRouteComponent />
           </Route>
           <Route path="/" exact>
             <HomeRouteComponent />

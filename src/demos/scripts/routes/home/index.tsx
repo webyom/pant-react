@@ -93,6 +93,9 @@ export class HomeRouteComponent extends React.Component {
           <Link to="/search/">
             Search <Arrow />
           </Link>
+          <Link to="/search-picker/">
+            SearchPicker <Arrow />
+          </Link>
           <Link to="/switch/">
             Switch <Arrow />
           </Link>

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { Field } from '../field';
+import { i18n } from '../locale';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
@@ -7,6 +8,7 @@ export type SearchProps = {
   shape?: 'sqaure' | 'round';
   defaultValue?: string;
   label?: string;
+  placeholder?: string;
   icon?: React.ReactNode;
   inputAlign?: 'center' | 'right';
   disabled?: boolean;
@@ -53,7 +55,7 @@ export const Search: React.FC<SearchProps> = (props) => {
 
     return (
       <div className={bem('action', { disabled: props.disabled })} role="button" tabIndex={0} onClick={onSearch}>
-        {props.actionText || 'Search'}
+        {props.actionText || i18n().search}
       </div>
     );
   }
@@ -67,6 +69,7 @@ export const Search: React.FC<SearchProps> = (props) => {
           name="search"
           type="search"
           border={false}
+          placeholder={props.placeholder}
           inputAlign={props.inputAlign}
           disabled={props.disabled}
           defaultValue={props.defaultValue}

@@ -24,6 +24,7 @@ export class SearchRouteComponent extends React.Component {
             <h2>Listen to Events</h2>
             <Search
               showAction
+              placeholder="Input something"
               onChange={debounce((val) => val && toast(val), 500)}
               onSearch={(val) => val && toast(val)}
             />

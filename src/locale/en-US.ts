@@ -6,6 +6,7 @@ export const locale = {
     loosing: 'Loose to refresh...',
     pulling: 'Pull to refresh...',
   },
+  search: 'Search',
   selectStartDate: 'Select Start Date',
   selectEndDate: 'Select End Date',
   submit: 'Submit',

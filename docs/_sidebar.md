@@ -17,6 +17,7 @@
   - [Picker](components/picker.md)
   - [Radio](components/radio.md)
   - [Search](components/search.md)
+  - [SearchPicker](components/search-picker.md)
   - [Switch](components/switch.md)
 - Action Components
   - [ActionSheet](components/action-sheet.md)
