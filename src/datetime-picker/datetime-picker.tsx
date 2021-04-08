@@ -4,7 +4,7 @@ import { createBEM } from '../utils/bem';
 import './index.scss';
 
 export type DatetimePickerProps = Pick<PickerProps, 'showToolbar' | 'toolbarPosition'> & {
-  type: 'date' | 'datetime';
+  type: 'date' | 'datetime' | 'time';
   seconds?: boolean;
   min?: Date;
   max?: Date;
@@ -62,11 +62,18 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
     if (!pickerValue.length) {
       return null;
     }
-    const [y, m, d, h, mm, s] = pickerValue.map((v) => parseInt(v));
-    if (type === 'datetime') {
-      return new Date(y, m, d, h, mm, seconds ? s : 0);
+
+    if (type === 'time') {
+      const [h, mm, s] = pickerValue.map((v) => parseInt(v));
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, mm, seconds ? s : 0);
     } else {
-      return new Date(y, m, d);
+      const [y, m, d, h, mm, s] = pickerValue.map((v) => parseInt(v));
+      if (type === 'datetime') {
+        return new Date(y, m, d, h, mm, seconds ? s : 0);
+      } else {
+        return new Date(y, m, d);
+      }
     }
   }
 
@@ -116,8 +123,72 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
     }
   }
 
+  genTimePickerColumns(pickerValue: string[]): StandardColumnItem[][] {
+    const { min, max, seconds, formatter } = this.props;
+    const minH = min.getHours();
+    const minMM = min.getMinutes();
+    const minS = min.getSeconds();
+    const maxH = max.getHours();
+    const maxMM = max.getMinutes();
+    const maxS = max.getSeconds();
+    let pickH, pickMM;
+    if (pickerValue.length) {
+      [pickH, pickMM] = pickerValue.map((s) => parseInt(s));
+    } else {
+      [pickH, pickMM] = [minH, minMM];
+    }
+    const res = [];
+    res.push(
+      this.range(minH, maxH).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item), 'h') })),
+    );
+
+    let minV: number, maxV: number;
+    if (pickH === minH) {
+      minV = minMM;
+      if (pickH === maxH) {
+        maxV = maxMM;
+      } else {
+        maxV = 59;
+      }
+    } else if (pickH === maxH) {
+      minV = 0;
+      maxV = maxMM;
+    } else {
+      minV = 0;
+      maxV = 59;
+    }
+    res.push(
+      this.range(minV, maxV).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item), 'mm') })),
+    );
+
+    if (seconds) {
+      if (pickH === minH && pickMM === minMM) {
+        minV = minS;
+        if (pickH === maxH && pickMM === maxMM) {
+          maxV = maxS;
+        } else {
+          maxV = 59;
+        }
+      } else if (pickH === maxH && pickMM === maxMM) {
+        minV = 0;
+        maxV = maxS;
+      } else {
+        minV = 0;
+        maxV = 59;
+      }
+      res.push(
+        this.range(minV, maxV).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item), 's') })),
+      );
+    }
+
+    return res;
+  }
+
   genColumns(pickerValue: string[]): StandardColumnItem[][] {
     const { type, min, max, seconds, formatter } = this.props;
+    if (type === 'time') {
+      return this.genTimePickerColumns(pickerValue);
+    }
     const minY = min.getFullYear();
     const minM = min.getMonth();
     const minD = min.getDate();
@@ -243,16 +314,31 @@ export class DatetimePicker extends React.Component<DatetimePickerProps, Datetim
       throw new Error('min must not be greater than max');
     }
     let date: Date;
-    if (defaultValue && defaultValue >= min && defaultValue <= max) {
-      date = defaultValue;
+    let defaultDate = defaultValue;
+    if (type === 'time' && defaultValue) {
+      defaultDate = new Date(
+        min.getFullYear(),
+        min.getMonth(),
+        min.getDate(),
+        defaultValue.getHours(),
+        defaultValue.getMinutes(),
+        defaultValue.getSeconds(),
+      );
+    }
+
+    if (defaultDate && defaultDate >= min && defaultDate <= max) {
+      date = defaultDate;
     } else {
       return [];
     }
     const res = [];
-    res.push(date.getFullYear() + '');
-    res.push(date.getMonth() + '');
-    res.push(date.getDate() + '');
-    if (type === 'datetime') {
+    if (type === 'date' || type === 'datetime') {
+      res.push(date.getFullYear() + '');
+      res.push(date.getMonth() + '');
+      res.push(date.getDate() + '');
+    }
+
+    if (type === 'datetime' || type === 'time') {
       res.push(date.getHours() + '');
       res.push(date.getMinutes() + '');
       if (seconds) {

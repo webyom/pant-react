@@ -8,7 +8,7 @@ import './index.scss';
 
 export type DatetimeRangeProps = Pick<PickerProps, 'showToolbar' | 'toolbarPosition'> & {
   show?: boolean;
-  type: 'date' | 'datetime';
+  type: 'date' | 'datetime' | 'time';
   seconds?: boolean;
   min?: Date;
   max?: Date;
