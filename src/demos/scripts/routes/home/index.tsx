@@ -90,6 +90,9 @@ export class HomeRouteComponent extends React.Component {
           <Link to="/radio/">
             Radio <Arrow />
           </Link>
+          <Link to="/search/">
+            Search <Arrow />
+          </Link>
           <Link to="/switch/">
             Switch <Arrow />
           </Link>

@@ -72,6 +72,7 @@
   }
 
   &__custom-action {
-    margin: 0 10px;
+    margin: 0 $padding-xs;
+    margin-right: $padding-sm;
   }
 }
