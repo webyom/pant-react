@@ -56,6 +56,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   icon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   clearable?: boolean;
+  clearTrigger?: 'always' | 'focus';
   maxlength?: number | string;
   labelWidth?: number | string;
   labelClass?: null;
@@ -110,6 +111,10 @@ function normalizeDefaultValue(dv: any, isInputType: boolean): any {
 const NO_MATCHED_RULE_FLAG = '__NO_MATCHED_RULE_FLAG__';
 
 export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<T>> {
+  static defaultProps = {
+    clearTrigger: 'focus',
+  };
+
   private isPopup = false;
   private readonly inputRef = React.createRef<any>();
   private readonly bodyRef = React.createRef<HTMLDivElement>();
@@ -165,9 +170,16 @@ export class Field<T = never> extends React.Component<FieldProps<T>, FieldState<
   }
 
   private get showClear(): boolean {
-    const { clearable, readOnly } = this.props;
+    const { clearable, clearTrigger, readOnly } = this.props;
     const { isInputType, focused, value } = this.state;
-    return isInputType && clearable && !readOnly && focused && ((value as unknown) as string) !== '' && isDef(value);
+    return (
+      isInputType &&
+      clearable &&
+      !readOnly &&
+      (clearTrigger === 'always' || focused) &&
+      ((value as unknown) as string) !== '' &&
+      isDef(value)
+    );
   }
 
   private get showError(): boolean {

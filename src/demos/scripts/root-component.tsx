@@ -27,6 +27,7 @@ import { PickerRouteComponent } from '../../picker/demo';
 import { PopupRouteComponent } from '../../popup/demo';
 import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
+import { SearchRouteComponent } from '../../search/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { StickyRouteComponent } from '../../sticky/demo';
 import { StylesRouteComponent } from '../../styles/demo';
@@ -132,6 +133,9 @@ export class RootComponent extends React.Component {
           </Route>
           <Route path="/radio/">
             <RadioRouteComponent />
+          </Route>
+          <Route path="/search/">
+            <SearchRouteComponent />
           </Route>
           <Route path="/sticky/">
             <StickyRouteComponent />
