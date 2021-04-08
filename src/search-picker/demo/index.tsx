@@ -94,6 +94,15 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
     });
   }
 
+  onSearch(text: string, cb: (data: string[] | Record<string, any>[]) => void): void {
+    text = text.trim();
+    if (!text) {
+      cb([]);
+      return;
+    }
+    cb(data.filter((item) => item.indexOf(text) >= 0));
+  }
+
   render(): JSX.Element {
     return (
       <React.Fragment>
@@ -103,6 +112,13 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
             <h2>Basic Usage</h2>
             <div className={bem('card')}>
               <SearchPicker title="Title" data={data} onChange={this.onChange} />
+            </div>
+          </section>
+
+          <section>
+            <h2>On Search</h2>
+            <div className={bem('card')}>
+              <SearchPicker title="Title" onChange={this.onChange} onSearch={this.onSearch.bind(this)} />
             </div>
           </section>
 

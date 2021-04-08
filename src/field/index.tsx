@@ -319,7 +319,10 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
 
   private clearInput(): void {
     const value: any = '';
-    this.setState({ value });
+    this.setState({ value }, () => {
+      const { onChange } = this.props;
+      onChange && onChange(this.getValue());
+    });
   }
 
   private adjustSize(): void {

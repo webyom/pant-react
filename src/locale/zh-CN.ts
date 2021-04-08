@@ -2,6 +2,7 @@ export const locale = {
   cancel: '取消',
   confirm: '确认',
   loading: '加载中...',
+  noData: '没有数据',
   pullRefresh: {
     loosing: '释放即可刷新...',
     pulling: '下拉即可刷新...',

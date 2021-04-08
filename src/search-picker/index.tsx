@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { debounce } from 'lodash-es';
 import { List, ListRowProps } from 'react-virtualized'; /* eslint-disable-line */
 import { toast } from '../toast';
 import { Icon } from '../icon';
@@ -28,6 +29,7 @@ export type SearchPickerProps = {
   onConfirm?: (value: string[] | string) => void;
   closePopup?: (confirm?: boolean) => void;
   onChange?: (value: string[] | string) => void;
+  onSearch?: (text: string, cb: (data: string[] | Record<string, any>[]) => void) => void;
   rowRenderer?: (rowProps: ListRowProps & { selected: boolean; item: Record<string, any> }) => JSX.Element;
   _popupId?: number;
 };
@@ -69,6 +71,8 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
       contentHeight: 0,
       data: props.data || [],
     };
+    this.setData = this.setData.bind(this);
+    this.onSearchChange = debounce(this.onSearchChange.bind(this), 500);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onPopupOpened = this.onPopupOpened.bind(this);
     this.rowRenderer = this.rowRenderer.bind(this);
@@ -76,11 +80,13 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
 
   componentDidMount(): void {
     eventBus.on('popup.opened', this.onPopupOpened);
-    if (!this.props._popupId) {
+    const { _popupId, onSearch } = this.props;
+    if (!_popupId) {
       this.setState({ contentWidth: this.contentRef.current.clientWidth - 24 });
       this.setState({ contentHeight: this.contentRef.current.clientHeight });
     }
     this.contentRef.current.addEventListener('touchmove', this.onTouchMove, false);
+    onSearch && onSearch('', this.setData);
   }
 
   componentWillUnmount(): void {
@@ -95,6 +101,17 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
       return pickerValue[0];
     }
     return [...pickerValue];
+  }
+
+  setData(data: string[] | Record<string, any>[]): void {
+    this.setState({ data: data || [] });
+  }
+
+  onSearchChange(text: string): void {
+    const { onSearch } = this.props;
+    if (onSearch) {
+      onSearch(text, this.setData);
+    }
   }
 
   onTouchMove(event: Event): void {
@@ -251,16 +268,20 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
         style={{ height: fullscreen || _popupId ? 'auto' : height + 'px' }}
       >
         {this.genToolbar(true)}
-        <Search />
+        <Search onChange={this.onSearchChange} />
         <div ref={this.contentRef} className={bem('content')}>
-          <List
-            ref={this.listRef}
-            width={contentWidth}
-            height={contentHeight}
-            rowCount={data.length}
-            rowHeight={rowHeight}
-            rowRenderer={this.rowRenderer}
-          />
+          {data.length ? (
+            <List
+              ref={this.listRef}
+              width={contentWidth}
+              height={contentHeight}
+              rowCount={data.length}
+              rowHeight={rowHeight}
+              rowRenderer={this.rowRenderer}
+            />
+          ) : (
+            <div className={bem('msg')}>{i18n().noData}</div>
+          )}
         </div>
         {this.genToolbar()}
       </div>
