@@ -12,8 +12,11 @@ import { stopPropagation } from '../utils/event';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
+type DataItem = string | Record<string, any>;
+type DataSet = DataItem[];
+
 export type OnSearchOptions = {
-  setData(data: string[] | Record<string, any>[]): void;
+  setData(data: DataSet): void;
   setLoading(loading: boolean): void;
 };
 
@@ -29,7 +32,7 @@ export type SearchPickerProps = {
   confirmButtonText?: string;
   valueKey?: string;
   labelKey?: string;
-  data?: string[] | Record<string, any>[];
+  data?: DataSet;
   defaultValue?: string | string[];
   onCancel?: () => void;
   onConfirm?: (value: string[] | string) => void;
@@ -37,7 +40,9 @@ export type SearchPickerProps = {
   onChange?: (value: string[] | string) => void;
   onSearch?: (text: string, opt: OnSearchOptions) => void;
   onSelectionExceeds?: () => void;
-  rowRenderer?: (rowProps: ListRowProps & { selected: boolean; item: Record<string, any> }) => JSX.Element;
+  rowRenderer?: (
+    rowProps: ListRowProps & { selected: boolean; item: Record<string, any>; select(index: number): void },
+  ) => JSX.Element;
   _popupId?: number;
 };
 
@@ -46,7 +51,7 @@ type SearchPickerState = {
   contentWidth: number;
   contentHeight: number;
   loading: boolean;
-  data?: string[] | Record<string, any>[];
+  data?: DataSet;
 };
 
 const bem = createBEM('pant-search-picker');
@@ -60,6 +65,7 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     toolbarPosition: 'bottom',
     valueKey: 'value',
     labelKey: 'label',
+    data: [] as DataSet,
   };
 
   private contentRef = React.createRef<HTMLDivElement>();
@@ -80,6 +86,7 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
       loading: false,
       data: props.data || [],
     };
+    this.select = this.select.bind(this);
     this.setData = this.setData.bind(this);
     this.setLoading = this.setLoading.bind(this);
     this.onSearchChange = debounce(this.onSearchChange.bind(this), 500);
@@ -115,7 +122,7 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     return [...pickerValue];
   }
 
-  setData(data: string[] | Record<string, any>[]): void {
+  setData(data: DataSet): void {
     this.setState({ data: data || [] });
   }
 
@@ -127,6 +134,25 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     const { onSearch } = this.props;
     if (onSearch) {
       onSearch(text, { setData: this.setData, setLoading: this.setLoading });
+    } else {
+      let data: DataSet;
+      if (!text) {
+        data = this.props.data;
+      } else {
+        data = this.props.data.filter((item) => {
+          item = this.normalizeItem(item);
+          if (item.label.indexOf(text) >= 0) {
+            return true;
+          } else {
+            if (item.label === item.value) {
+              return false;
+            } else if (item.value.indexOf(text) >= 0) {
+              return true;
+            }
+          }
+        });
+      }
+      this.setState({ data });
     }
   }
 
@@ -269,7 +295,7 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     const item = this.normalizeItem(this.state.data[index]);
     const selected = this.state.pickerValue.indexOf(item.value) >= 0;
     if (this.props.rowRenderer) {
-      return this.props.rowRenderer({ ...rowProps, selected, item });
+      return this.props.rowRenderer({ ...rowProps, selected, item, select: this.select });
     }
     return (
       <div key={key} style={style} className={bem('item', { selected })} onClick={() => this.select(index)}>
