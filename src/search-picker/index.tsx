@@ -7,6 +7,7 @@ import { Icon } from '../icon';
 import { Loading } from '../loading';
 import { Search } from '../search';
 import { i18n } from '../locale';
+import { interpolate } from '../utils';
 import { eventBus } from '../utils/event-bus';
 import { stopPropagation } from '../utils/event';
 import { createBEM } from '../utils/bem';
@@ -62,7 +63,7 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     rowHeight: 36,
     maxSelection: 1,
     showToolbar: true,
-    toolbarPosition: 'bottom',
+    toolbarPosition: 'top',
     valueKey: 'value',
     labelKey: 'label',
     data: [] as DataSet,
@@ -275,7 +276,7 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
         if (onSelectionExceeds) {
           onSelectionExceeds();
         } else {
-          toast(`Max select ${maxSelection}`);
+          toast(interpolate(i18n().maxSelection, [maxSelection]));
         }
         return;
       }
@@ -311,7 +312,7 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     return (
       <div
         className={bem({ fullscreen: fullscreen })}
-        style={{ height: fullscreen || _popupId ? 'auto' : height + 'px' }}
+        style={{ height: fullscreen ? '100%' : _popupId ? 'auto' : height + 'px' }}
       >
         {this.genToolbar(true)}
         <Search onChange={this.onSearchChange} icon={loading ? <Loading size={16} /> : undefined} />

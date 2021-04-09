@@ -2,6 +2,7 @@ export const locale = {
   cancel: 'Cancel',
   confirm: 'Confirm',
   loading: 'Loading...',
+  maxSelection: 'Max select {0} items',
   noData: 'No data',
   pullRefresh: {
     loosing: 'Loose to refresh...',

@@ -60,38 +60,22 @@ const bem = createBEM('demo-search-picker');
 
 type SearchPickerState = {
   cityValue: string[];
-  showPicker: boolean;
+  showPicker1: boolean;
+  showPicker2: boolean;
 };
 
 export class SearchPickerRouteComponent extends React.PureComponent<any, SearchPickerState> {
   state: SearchPickerState = {
     cityValue: ['河北省保定市'],
-    showPicker: false,
+    showPicker1: false,
+    showPicker2: false,
   };
 
-  onClick(): void {
-    this.setState({
-      showPicker: true,
-    });
-  }
-
   onChange<T extends string | string[]>(value: T): void {
-    toast({
-      message: `Value: ${value}`,
-    });
-  }
-
-  onConfirm(value: string[]): void {
-    this.setState({
-      cityValue: value,
-      showPicker: false,
-    });
-  }
-
-  onCancel(): void {
-    this.setState({
-      showPicker: false,
-    });
+    value &&
+      toast({
+        message: `${value}`,
+      });
   }
 
   onSearch(text: string, opt: OnSearchOptions): void {
@@ -115,36 +99,106 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
           <section>
             <h2>Basic Usage</h2>
             <div className={bem('card')}>
-              <SearchPicker title="Title" data={data} onChange={this.onChange} />
+              <SearchPicker title="Basic Usage" data={data} onChange={this.onChange} />
             </div>
           </section>
 
           <section>
             <h2>On Search</h2>
             <div className={bem('card')}>
-              <SearchPicker title="Title" onChange={this.onChange} onSearch={this.onSearch.bind(this)} />
+              <SearchPicker title="On Search" onChange={this.onChange} onSearch={this.onSearch.bind(this)} />
             </div>
           </section>
 
           <section>
             <h2>With Popup</h2>
-            <div className={bem('cityinput')} onClick={this.onClick.bind(this)}>
-              <span>城市</span>
+            <div
+              className={bem('cityinput')}
+              onClick={() => {
+                this.setState({
+                  showPicker1: true,
+                });
+              }}
+            >
+              <span>City</span>
               <span>{this.state.cityValue.join(', ')}</span>
             </div>
+            <Popup
+              show={this.state.showPicker1}
+              position="bottom"
+              onClickClose={(): void => {
+                this.setState({
+                  showPicker1: false,
+                });
+              }}
+              round
+            >
+              <SearchPicker
+                title="With Popup"
+                data={data}
+                defaultValue={this.state.cityValue}
+                maxSelection={2}
+                onSearch={this.onSearch.bind(this)}
+                onCancel={(): void => {
+                  this.setState({
+                    showPicker1: false,
+                  });
+                }}
+                onConfirm={(value: string[]): void => {
+                  this.setState({
+                    cityValue: value,
+                    showPicker1: false,
+                  });
+                }}
+              />
+            </Popup>
           </section>
 
-          <Popup show={this.state.showPicker} position="bottom" onClickClose={this.onCancel.bind(this)} round>
-            <SearchPicker
-              title="Title"
-              data={data}
-              defaultValue={this.state.cityValue}
-              maxSelection={2}
-              onSearch={this.onSearch.bind(this)}
-              onCancel={this.onCancel.bind(this)}
-              onConfirm={this.onConfirm.bind(this)}
-            />
-          </Popup>
+          <section>
+            <h2>Full Screen</h2>
+            <div
+              className={bem('cityinput')}
+              onClick={() => {
+                this.setState({
+                  showPicker2: true,
+                });
+              }}
+            >
+              <span>City</span>
+              <span>{this.state.cityValue.join(', ')}</span>
+            </div>
+            <Popup
+              show={this.state.showPicker2}
+              position="bottom"
+              onClickClose={(): void => {
+                this.setState({
+                  showPicker2: false,
+                });
+              }}
+              style={{ height: '100%' }}
+            >
+              <SearchPicker
+                title="Full Screen"
+                data={data}
+                defaultValue={this.state.cityValue}
+                maxSelection={2}
+                toolbarPosition="bottom"
+                fullscreen
+                onSearch={this.onSearch.bind(this)}
+                onCancel={(): void => {
+                  this.setState({
+                    showPicker2: false,
+                  });
+                }}
+                onConfirm={(value: string[]): void => {
+                  this.setState({
+                    cityValue: value,
+                    showPicker2: false,
+                  });
+                }}
+              />
+            </Popup>
+          </section>
         </div>
       </React.Fragment>
     );

@@ -3,6 +3,7 @@ export const locale = {
   confirm: '确认',
   loading: '加载中...',
   noData: '没有数据',
+  maxSelection: '最多选择{0}项',
   pullRefresh: {
     loosing: '释放即可刷新...',
     pulling: '下拉即可刷新...',
