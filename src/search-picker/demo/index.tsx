@@ -2,7 +2,7 @@ import React from 'react';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
 import { Popup } from '../../popup';
-import { SearchPicker } from '../../search-picker';
+import { SearchPicker, OnSearchOptions } from '../../search-picker';
 import { toast } from '../../toast';
 import './index.scss';
 
@@ -94,13 +94,17 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
     });
   }
 
-  onSearch(text: string, cb: (data: string[] | Record<string, any>[]) => void): void {
+  onSearch(text: string, opt: OnSearchOptions): void {
     text = text.trim();
     if (!text) {
-      cb([]);
+      opt.setData(data);
       return;
     }
-    cb(data.filter((item) => item.indexOf(text) >= 0));
+    opt.setLoading(true);
+    setTimeout(() => {
+      opt.setData(data.filter((item) => item.indexOf(text) >= 0));
+      opt.setLoading(false);
+    }, 1000);
   }
 
   render(): JSX.Element {
@@ -136,6 +140,7 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
               data={data}
               defaultValue={this.state.cityValue}
               maxSelection={2}
+              onSearch={this.onSearch.bind(this)}
               onCancel={this.onCancel.bind(this)}
               onConfirm={this.onConfirm.bind(this)}
             />

@@ -66,7 +66,7 @@
 
   &__msg {
     text-align: center;
-    color: $text-color;
+    color: $gray-6;
   }
 
   &__item {
@@ -95,6 +95,10 @@
         color: $blue;
       }
     }
+  }
+
+  .pant-search .pant-loading {
+    margin-right: $padding-base;
   }
 }
 
