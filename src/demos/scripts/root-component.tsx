@@ -10,6 +10,7 @@ import { ButtonRouteComponent } from '../../button/demo';
 import { CardRouteComponent } from '../../card/demo';
 import { CellRouteComponent } from '../../cell/demo';
 import { CheckboxRouteComponent } from '../../checkbox/demo';
+import { DataListRouteComponent } from '../../data-list/demo';
 import { DatetimePickerRouteComponent } from '../../datetime-picker/demo';
 import { DialogRouteComponent } from '../../dialog/demo';
 import { FieldRouteComponent } from '../../field/demo';
@@ -83,6 +84,9 @@ export class RootComponent extends React.PureComponent {
           </Route>
           <Route path="/checkbox/">
             <CheckboxRouteComponent />
+          </Route>
+          <Route path="/data-list/">
+            <DataListRouteComponent />
           </Route>
           <Route path="/datetime-picker/">
             <DatetimePickerRouteComponent />

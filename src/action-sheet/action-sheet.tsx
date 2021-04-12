@@ -121,11 +121,13 @@ export const ActionSheet: React.FC<ActionSheetProps> = (props) => {
       onOpened={show ? props.onOpened : null}
       onClosed={show ? null : props.onClosed}
     >
-      {Header()}
-      {Description}
-      {props.actions && props.actions.map(Option)}
-      {Content()}
-      {CancelText()}
+      <>
+        {Header()}
+        {Description}
+        {props.actions && props.actions.map(Option)}
+        {Content()}
+        {CancelText()}
+      </>
     </Popup>
   );
 };

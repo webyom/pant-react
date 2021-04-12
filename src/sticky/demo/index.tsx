@@ -7,23 +7,10 @@ import './index.scss';
 
 const bem = createBEM('demo-sticky');
 
-type StickyRouteState = {
-  container?: React.RefObject<HTMLElement>;
-};
-
-export class StickyRouteComponent extends React.PureComponent<any, StickyRouteState> {
+export class StickyRouteComponent extends React.PureComponent {
   private containerRef = React.createRef<HTMLDivElement>();
-  state: StickyRouteState = {
-    container: null,
-  };
-
-  componentDidMount(): void {
-    this.setState({ container: this.containerRef });
-  }
 
   render(): JSX.Element {
-    const container = this.state.container;
-
     return (
       <React.Fragment>
         <NavBar title="Sticky" type="sticky" />
@@ -48,21 +35,17 @@ export class StickyRouteComponent extends React.PureComponent<any, StickyRouteSt
           <section>
             <h2>Set Container</h2>
             <div ref={this.containerRef} className="sticky-container">
-              {container ? (
-                <>
-                  <Sticky offsetTop="50" offsetBottom="50" container={container}>
-                    <Button type="warning" style={{ marginLeft: '205px' }}>
-                      Stick Top
-                    </Button>
-                  </Sticky>
-                  <div className="sticky-container__content"></div>
-                  <Sticky offsetTop="50" offsetBottom="50" container={container} stickBottom>
-                    <Button type="warning" style={{ marginLeft: '205px' }}>
-                      Stick Bottom
-                    </Button>
-                  </Sticky>
-                </>
-              ) : null}
+              <Sticky offsetTop="50" offsetBottom="50" container={this.containerRef}>
+                <Button type="warning" style={{ marginLeft: '205px' }}>
+                  Stick Top
+                </Button>
+              </Sticky>
+              <div className="sticky-container__content"></div>
+              <Sticky offsetTop="50" offsetBottom="50" container={this.containerRef} stickBottom>
+                <Button type="warning" style={{ marginLeft: '205px' }}>
+                  Stick Bottom
+                </Button>
+              </Sticky>
             </div>
           </section>
 

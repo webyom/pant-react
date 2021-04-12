@@ -28,6 +28,7 @@
   - [PullRefresh](components/pull-refresh.md)
   - [Toast](components/toast.md)
 - Diaplay Components
+  - [DataList](components/data-list.md)
   - [Lazyload](components/lazyload.md)
   - [List](components/list.md)
   - [Skeleton](components/skeleton.md)

@@ -128,6 +128,9 @@ export class HomeRouteComponent extends React.PureComponent {
 
         <section>
           <h3>Display Components</h3>
+          <Link to="/data-list/">
+            DataList <Arrow />
+          </Link>
           <Link to="/lazyload/">
             Lazyload <Arrow />
           </Link>

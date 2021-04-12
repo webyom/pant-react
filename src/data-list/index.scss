@@ -1,0 +1,81 @@
+@import '../styles/var.scss';
+@import '../styles/mixins/hairline.scss';
+
+.pant-data-list {
+  background-color: $white;
+
+  &__toolbox {
+    background-color: $white;
+    font-size: $font-size-md;
+    position: relative;
+    padding: $padding-xs;
+    display: flex;
+
+    &::after {
+      @include hairline-bottom($cell-border-color, 0, 0);
+    }
+
+    > div {
+      flex: 1;
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  &__batch-actions {
+    > button:first-child {
+      margin-right: $padding-xs;
+    }
+  }
+
+  &__pagination {
+    background-color: $white;
+    font-size: $font-size-md;
+    position: relative;
+    padding: $padding-xs;
+    text-align: center;
+
+    &::after {
+      @include hairline-bottom($cell-border-color, 0, 0);
+      top: 0;
+      height: 0;
+      line-height: 0;
+    }
+
+    > button {
+      margin: 0 $padding-xs;
+    }
+  }
+
+  &__records {
+    padding: 0 $padding-xs;
+  }
+
+  &__record {
+    position: relative;
+    display: flex;
+    padding: $padding-base 0;
+
+    &:not(:last-child)::after {
+      @include hairline-bottom($cell-border-color, 0, 0);
+    }
+
+    &__fields {
+      flex: 1;
+      padding: 0 $padding-base;
+    }
+    &__field {
+      display: flex;
+      padding: $padding-base;
+      font-size: $font-size-md;
+    }
+    &__title {
+      flex: 1;
+      color: $gray-7;
+    }
+    &__value {
+      flex: 1;
+    }
+  }
+}

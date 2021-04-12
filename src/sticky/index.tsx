@@ -99,10 +99,6 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
 
   stick(): void {
     const el = this.domRef.current;
-    if (isHidden(el)) {
-      return;
-    }
-
     const { left, right, width } = el.getBoundingClientRect();
     const height = el.offsetHeight;
     let fixed = false;
@@ -114,7 +110,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     const topToPageTop = getElementTop(el);
 
     // The sticky component should be kept inside the container element
-    if (container && container.current) {
+    if (container) {
       const containerEl = container.current;
       const bottomToPageTop = getElementTop(containerEl) + containerEl.offsetHeight;
       const offsetBottomNumber = removeUnit(offsetBottom);
@@ -139,10 +135,6 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
 
   stickBottom(): void {
     const el = this.domRef.current;
-    if (isHidden(el)) {
-      return;
-    }
-
     const { left, right, width } = el.getBoundingClientRect();
     const height = el.offsetHeight;
     let fixed = false;
@@ -155,7 +147,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
     // The sticky component should be kept inside the container element
-    if (container && container.current) {
+    if (container) {
       const containerEl = container.current;
       const containerTopToPageTop = getElementTop(containerEl);
       const offsetTopNumber = removeUnit(offsetTop);
@@ -179,6 +171,14 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
   }
 
   onScroll(): void {
+    const el = this.domRef.current;
+    if (isHidden(el)) {
+      return;
+    }
+    const { container } = this.props;
+    if (container && !container.current) {
+      return;
+    }
     this.props.stickBottom ? this.stickBottom() : this.stick();
   }
 
