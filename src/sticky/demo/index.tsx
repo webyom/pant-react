@@ -7,10 +7,23 @@ import './index.scss';
 
 const bem = createBEM('demo-sticky');
 
-export class StickyRouteComponent extends React.PureComponent {
+type StickyRouteState = {
+  container?: React.RefObject<HTMLElement>;
+};
+
+export class StickyRouteComponent extends React.PureComponent<any, StickyRouteState> {
   private containerRef = React.createRef<HTMLDivElement>();
+  state: StickyRouteState = {
+    container: null,
+  };
+
+  componentDidMount(): void {
+    this.setState({ container: this.containerRef });
+  }
 
   render(): JSX.Element {
+    const container = this.state.container;
+
     return (
       <React.Fragment>
         <NavBar title="Sticky" type="sticky" />
@@ -29,17 +42,35 @@ export class StickyRouteComponent extends React.PureComponent {
                 Offset Top
               </Button>
             </Sticky>
+            <div style={{ height: '300px' }}></div>
           </section>
 
           <section>
             <h2>Set Container</h2>
             <div ref={this.containerRef} className="sticky-container">
-              <Sticky offsetTop="50" container={this.containerRef}>
-                <Button type="warning" style={{ marginLeft: '210px' }}>
-                  Set Container
-                </Button>
-              </Sticky>
+              {container ? (
+                <>
+                  <Sticky offsetTop="50" offsetBottom="50" container={container}>
+                    <Button type="warning" style={{ marginLeft: '205px' }}>
+                      Stick Top
+                    </Button>
+                  </Sticky>
+                  <div className="sticky-container__content"></div>
+                  <Sticky offsetTop="50" offsetBottom="50" container={container} stickBottom>
+                    <Button type="warning" style={{ marginLeft: '205px' }}>
+                      Stick Bottom
+                    </Button>
+                  </Sticky>
+                </>
+              ) : null}
             </div>
+          </section>
+
+          <section>
+            <h2>Stick Bottom</h2>
+            <Sticky stickBottom>
+              <Button type="danger">Stick Bottom</Button>
+            </Sticky>
           </section>
         </div>
       </React.Fragment>

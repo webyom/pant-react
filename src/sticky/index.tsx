@@ -10,6 +10,8 @@ export type StickyProps = {
   keepWidth?: boolean;
   zIndex?: number | string;
   offsetTop?: number | string;
+  offsetBottom?: number | string;
+  stickBottom?: boolean;
   container?: React.RefObject<HTMLElement>;
 };
 
@@ -27,6 +29,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
   static defaultProps = {
     keepWidth: true,
     offsetTop: 0,
+    offsetBottom: 0,
   };
 
   private domRef = React.createRef<HTMLDivElement>();
@@ -57,7 +60,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
   }
 
   private getStyle(): Record<string, string | number> {
-    const { keepWidth, zIndex, offsetTop } = this.props;
+    const { keepWidth, zIndex, offsetTop, offsetBottom, stickBottom } = this.props;
     const { left, right, fixed, transform } = this.state;
 
     if (!fixed) {
@@ -70,8 +73,12 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
       style.zIndex = zIndex;
     }
 
-    if (offsetTop && fixed) {
-      style.top = addUnit(offsetTop);
+    if (fixed) {
+      if (stickBottom) {
+        style.bottom = addUnit(offsetBottom);
+      } else {
+        style.top = addUnit(offsetTop);
+      }
     }
 
     if (keepWidth) {
@@ -90,7 +97,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     return this.state.fixed;
   }
 
-  onScroll(): void {
+  stick(): void {
     const el = this.domRef.current;
     if (isHidden(el)) {
       return;
@@ -101,7 +108,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     let fixed = false;
     let transform = 0;
 
-    const { container, offsetTop } = this.props;
+    const { container, offsetTop, offsetBottom } = this.props;
     const offsetTopNumber = removeUnit(offsetTop);
     const scrollTop = getRootScrollTop();
     const topToPageTop = getElementTop(el);
@@ -109,14 +116,15 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     // The sticky component should be kept inside the container element
     if (container && container.current) {
       const containerEl = container.current;
-      const bottomToPageTop = topToPageTop + containerEl.offsetHeight;
+      const bottomToPageTop = getElementTop(containerEl) + containerEl.offsetHeight;
+      const offsetBottomNumber = removeUnit(offsetBottom);
 
-      if (scrollTop + offsetTopNumber + height > bottomToPageTop) {
+      if (scrollTop + offsetTopNumber + height + offsetBottomNumber > bottomToPageTop) {
         const distanceToBottom = height + scrollTop - bottomToPageTop;
 
         if (distanceToBottom < height) {
           fixed = true;
-          transform = -(distanceToBottom + offsetTopNumber);
+          transform = -(distanceToBottom + offsetTopNumber + offsetBottomNumber);
         }
         this.setState({ height, left, right: right - width, fixed, transform });
         return;
@@ -127,6 +135,51 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
       fixed = true;
     }
     this.setState({ height, left, right: right - width, fixed, transform });
+  }
+
+  stickBottom(): void {
+    const el = this.domRef.current;
+    if (isHidden(el)) {
+      return;
+    }
+
+    const { left, right, width } = el.getBoundingClientRect();
+    const height = el.offsetHeight;
+    let fixed = false;
+    let transform = 0;
+
+    const { container, offsetTop, offsetBottom } = this.props;
+    const offsetBottomNumber = removeUnit(offsetBottom);
+    const scrollTop = getRootScrollTop();
+    const topToPageTop = getElementTop(el);
+    const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+    // The sticky component should be kept inside the container element
+    if (container && container.current) {
+      const containerEl = container.current;
+      const containerTopToPageTop = getElementTop(containerEl);
+      const offsetTopNumber = removeUnit(offsetTop);
+
+      if (containerTopToPageTop + offsetTopNumber + height + offsetBottomNumber > scrollTop + viewportHeight) {
+        const distanceToBottom = height + containerTopToPageTop - scrollTop - viewportHeight;
+
+        if (distanceToBottom < height) {
+          fixed = true;
+          transform = distanceToBottom + offsetTopNumber + offsetBottomNumber;
+        }
+        this.setState({ height, left, right: right - width, fixed, transform });
+        return;
+      }
+    }
+
+    if (scrollTop + viewportHeight < topToPageTop + height + offsetBottomNumber) {
+      fixed = true;
+    }
+    this.setState({ height, left, right: right - width, fixed, transform });
+  }
+
+  onScroll(): void {
+    this.props.stickBottom ? this.stickBottom() : this.stick();
   }
 
   render(): JSX.Element {

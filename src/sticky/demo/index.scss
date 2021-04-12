@@ -3,16 +3,18 @@
 .demo-sticky {
   padding: $padding-md;
   background-color: $gray-1;
-  height: 1600px;
+  height: 2000px;
   > section {
     margin-bottom: $padding-lg * 2;
   }
   .sticky-container {
-    height: 200px;
     background-color: #fff;
     &--scroll {
       position: relative;
       overflow-y: scroll;
+    }
+    &__content {
+      height: 400px;
     }
   }
 }
