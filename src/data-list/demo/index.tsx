@@ -1,8 +1,10 @@
 import React from 'react';
 import { toast } from '../../toast';
 import { DataList, DataListColumn } from '../../data-list';
-import { toolbox } from '../../data-list/addons/toolbox';
+import { toolbar } from '../addons/toolbar';
 import { sortable } from '../../data-list/addons/sortable';
+import { filterable } from '../../data-list/addons/filterable';
+import { selectable } from '../../data-list/addons/selectable';
 import { recordActions } from '../../data-list/addons/record-actions';
 import { batchActions } from '../../data-list/addons/batch-actions';
 import { pageable } from '../../data-list/addons/pageable';
@@ -15,68 +17,94 @@ const bem = createBEM('demo-data-list');
 const records = [
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
   {
     name: 'Gary',
-    mobile: '18675510948',
-    wechat: 'garywang',
+    mobile: '1867551****',
+    wechat: 'gary',
+    qq: '25183****',
+    weibo: 'gary',
   },
 ];
 
@@ -95,9 +123,14 @@ const columns: DataListColumn[] = [
   {
     key: 'wechat',
     header: 'Wechat',
-    render(options) {
-      return options.record.wechat;
-    },
+  },
+  {
+    key: 'qq',
+    header: 'QQ',
+  },
+  {
+    key: 'weibo',
+    header: 'Weibo',
   },
 ];
 
@@ -112,11 +145,12 @@ export class DataListRouteComponent extends React.PureComponent {
           <section>
             <h2>Basic Usage</h2>
             <DataList
-              columns={columns}
+              columns={columns.slice(0, 4)}
               records={records}
               addons={[
-                toolbox(),
+                toolbar(),
                 sortable(),
+                filterable(),
                 recordActions({
                   actions: [
                     {
@@ -145,7 +179,7 @@ export class DataListRouteComponent extends React.PureComponent {
                 columns={columns}
                 records={records}
                 addons={[
-                  toolbox({ sticky: true, stickyContainer: this.containerRef }),
+                  toolbar({ sticky: true, stickyContainer: this.containerRef }),
                   batchActions({
                     getActions() {
                       return [
@@ -171,6 +205,8 @@ export class DataListRouteComponent extends React.PureComponent {
                     },
                   }),
                   sortable(),
+                  filterable(),
+                  selectable(),
                   recordActions({
                     actions: [
                       {

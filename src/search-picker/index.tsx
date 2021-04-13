@@ -5,6 +5,7 @@ import { List, ListRowProps } from 'react-virtualized'; /* eslint-disable-line *
 import { toast } from '../toast';
 import { Icon } from '../icon';
 import { Loading } from '../loading';
+import { PopupToolbar } from '../popup/toolbar';
 import { Search } from '../search';
 import { i18n } from '../locale';
 import { interpolate } from '../utils';
@@ -189,44 +190,28 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     if (props.toolbarPosition === 'top') {
       if (top) {
         return (
-          <div className={bem('toolbar')}>
-            {[
-              <button key="cancel" type="button" className={bem('cancel')} onClick={this.cancel.bind(this)}>
-                {props.cancelButtonText || i18n().cancel}
-              </button>,
-              <div key="title" className={clsx(bem('title'), 'pant-ellipsis')}>
-                {props.title}
-              </div>,
-              <button key="confirm" type="button" className={bem('confirm')} onClick={this.confirm.bind(this)}>
-                {props.confirmButtonText || i18n().confirm}
-              </button>,
-            ]}
-          </div>
+          <PopupToolbar
+            title={props.title}
+            cancelButtonText={props.cancelButtonText || i18n().cancel}
+            confirmButtonText={props.confirmButtonText || i18n().confirm}
+            onCancel={this.cancel.bind(this)}
+            onConfirm={this.confirm.bind(this)}
+          />
         );
       }
     } else {
       if (top) {
         if (props.title) {
-          return (
-            <div className={bem('toolbar', { title: true })}>
-              <div key="title" className={clsx(bem('title'), 'pant-ellipsis')}>
-                {props.title}
-              </div>
-            </div>
-          );
+          return <PopupToolbar title={props.title} />;
         }
       } else {
         return (
-          <div className={bem('toolbar')}>
-            {[
-              <button key="cancel" type="button" className={bem('cancel')} onClick={this.cancel.bind(this)}>
-                {props.cancelButtonText || i18n().cancel}
-              </button>,
-              <button key="confirm" type="button" className={bem('confirm')} onClick={this.confirm.bind(this)}>
-                {props.confirmButtonText || i18n().confirm}
-              </button>,
-            ]}
-          </div>
+          <PopupToolbar
+            cancelButtonText={props.cancelButtonText || i18n().cancel}
+            confirmButtonText={props.confirmButtonText || i18n().confirm}
+            onCancel={this.cancel.bind(this)}
+            onConfirm={this.confirm.bind(this)}
+          />
         );
       }
     }

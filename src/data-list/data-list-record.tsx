@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Icon } from '../icon';
 import { createBEM } from '../utils/bem';
+import { i18n } from '../locale';
 import { useMiddleware } from './use-middleware';
 import { DataListColumn, DataListAddon } from '.';
 
@@ -18,43 +20,49 @@ export type DataListRecordProps<T = Record<string, any>> = {
   addons?: DataListAddon[];
 };
 
-type DataListRecordState = Record<string, any>;
-
 const bem = createBEM('pant-data-list__record');
 
-export class DataListRecord extends React.PureComponent<DataListRecordProps, DataListRecordState> {
-  static defaultProps = {};
+export const DataListRecord: React.FC<DataListRecordProps> = (props) => {
+  const { addons } = props;
+  const [collapsed, setCollapsed] = useState(true);
 
-  constructor(props: DataListRecordProps) {
-    super(props);
-    this.state = {};
-  }
+  const toggle = () => {
+    setCollapsed(!collapsed);
+  };
 
-  columnRender({ record, column }: RowRenderOptions): JSX.Element {
+  const defaultColumnRender = ({ record, column }: RowRenderOptions): JSX.Element => {
     return record[column.key];
-  }
+  };
 
-  render(): JSX.Element {
-    const { addons } = this.props;
-    const renderRecord = useMiddleware(
-      addons,
-      'onInjectRecord',
-    )(({ columns, record, recordIndex }) => (
-      <div className={bem('fields')}>
-        {columns.map((column, columnIndex) => {
-          const columnRender = column.render || this.columnRender;
-          return (
-            <div key={column.key} className={bem('field')}>
-              <div className={bem('title')}>
-                {typeof column.header === 'function' ? column.header(column) : column.header}
+  const renderRecord = useMiddleware(
+    addons,
+    'onInjectRecord',
+  )(({ columns, record, recordIndex }) => {
+    const expandable = columns.length > 4;
+    return (
+      <div className={bem('fields-wrapper')}>
+        <div className={bem('fields', { collapsed: expandable && collapsed })}>
+          {columns.map((column, columnIndex) => {
+            const columnRender = column.render || defaultColumnRender;
+            return (
+              <div key={column.key} className={bem('field')}>
+                <div className={bem('title')}>
+                  {typeof column.header === 'function' ? column.header(column) : column.header}
+                </div>
+                <div className={bem('value')}>{columnRender({ record, recordIndex, column, columnIndex })}</div>
               </div>
-              <div className={bem('value')}>{columnRender({ record, recordIndex, column, columnIndex })}</div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+        {expandable ? (
+          <div className={bem('expand')} onClick={toggle}>
+            <span>{collapsed ? i18n().expand : i18n().collapse}</span>
+            <Icon name={collapsed ? 'arrow-down' : 'arrow-up'} />
+          </div>
+        ) : null}
       </div>
-    ));
+    );
+  });
 
-    return <div className={bem()}>{renderRecord(this.props)}</div>;
-  }
-}
+  return <div className={bem()}>{renderRecord(props)}</div>;
+};

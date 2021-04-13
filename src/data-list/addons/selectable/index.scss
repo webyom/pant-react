@@ -1,0 +1,15 @@
+@import '../../../styles/var.scss';
+
+.pant-data-list {
+  &__select {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    .pant-icon-circle {
+      color: $gray-6;
+    }
+    .pant-icon-passed {
+      color: $blue;
+    }
+  }
+}

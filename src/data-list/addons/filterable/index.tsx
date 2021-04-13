@@ -7,20 +7,20 @@ import { i18n } from '../../../locale';
 import { DataListAddon, DataListProps } from '../..';
 import './index.scss';
 
-export type SortableOptions = Record<string, any>;
+export type FilterableOptions = Record<string, any>;
 
-export function sortable(options: SortableOptions = {}): DataListAddon {
+export function filterable(options: FilterableOptions = {}): DataListAddon {
   return {
     onInjectToolbar: (render) => (props) => {
-      return <DataListSortable dataListProps={props} dataListRender={render} {...options} />;
+      return <DataListFilterable dataListProps={props} dataListRender={render} {...options} />;
     },
   };
 }
 
-function DataListSortable({
+function DataListFilterable({
   dataListRender,
   dataListProps,
-}: SortableOptions & {
+}: FilterableOptions & {
   dataListProps: DataListProps;
   dataListRender: (props: DataListProps) => JSX.Element;
 }) {
@@ -29,27 +29,28 @@ function DataListSortable({
       {dataListRender({
         ...dataListProps,
       })}
-      <Sortable />
+      <Filterable />
     </>
   );
 }
 
-const bem = createBEM('pant-data-list__sort');
+const bem = createBEM('pant-data-list__filter');
 
-function Sortable(props: SortableOptions) {
+function Filterable(props: FilterableOptions) {
   const [show, setShow] = useState(false);
   const toggle = () => setShow(!show);
 
   return (
     <>
       <div className={bem()} onClick={toggle}>
-        <span>{i18n().sorting}</span>
-        <Icon name="sort" />
+        <span>{i18n().filter}</span>
+        <Icon name="filter-o" />
       </div>
       <Popup show={show} position="bottom" onClickClose={toggle} round>
         <>
-          <PopupToolbar title={i18n().sorting} onCancel={() => 1} onConfirm={() => 1} />
+          <PopupToolbar title={i18n().filter} />
           <div className={bem('list')}></div>
+          <PopupToolbar onCancel={() => 1} onConfirm={() => 1} />
         </>
       </Popup>
     </>

@@ -1,0 +1,17 @@
+@import '../../../styles/var.scss';
+@import '../../../styles/mixins/hairline.scss';
+
+.pant-data-list {
+  &__pagination {
+    background-color: $white;
+    font-size: $font-size-md;
+    position: relative;
+    padding: $padding-xs;
+    text-align: center;
+
+    > button {
+      margin: 0 $padding-xs;
+      min-width: 100px;
+    }
+  }
+}

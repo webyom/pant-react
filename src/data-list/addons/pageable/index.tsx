@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '../../../button';
 import { Sticky } from '../../../sticky';
 import { DataListAddon, DataListProps } from '../..';
+import './index.scss';
 
 export type PagingQuery = {
   pageIndex?: number;
@@ -78,7 +79,7 @@ function DataListPagination({
           records.length < recordCount ? records : records.slice((pageIndex - 1) * pageSize, pageIndex * pageSize),
       })}
       {sticky ? (
-        <Sticky container={stickyContainer} offsetTop={50} stickBottom>
+        <Sticky container={stickyContainer} offsetTop={60} stickBottom>
           {pagination}
         </Sticky>
       ) : (
@@ -90,7 +91,7 @@ function DataListPagination({
 
 function Pagination(props: PageableOptions) {
   return (
-    <div className="pant-data-list__pagination">
+    <div className="pant-data-list__pagination pant-hairline--top">
       <Button size="small">上一页</Button>
       <span>1 / 5</span>
       <Button size="small">下一页</Button>

@@ -6,7 +6,7 @@ export * from './data-list';
 export interface DataListAddon<T = Record<string, any>> {
   onInjectProps?: DataListMiddleware<DataListProps<T>>;
   onInjectDataList?: DataListMiddleware<(props: DataListProps<T>) => JSX.Element>;
-  onInjectToolbox?: DataListMiddleware<(props: DataListProps<T>) => JSX.Element>;
+  onInjectToolbar?: DataListMiddleware<(props: DataListProps<T>) => JSX.Element>;
   onInjectRecord?: DataListMiddleware<(props: DataListRecordProps<T>) => JSX.Element>;
 }
 

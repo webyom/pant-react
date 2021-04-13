@@ -18,6 +18,7 @@ export type DialogProps = {
   titleNode?: React.ReactNode;
   width?: number | string;
   zIndex?: number;
+  html?: boolean;
   message?: string;
   messageNode?: React.ReactNode;
   messageAlign?: string;
@@ -76,23 +77,25 @@ function genButtons(props: DialogProps): JSX.Element {
 
 export const Dialog: React.FC<DialogProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>();
-  const { show, zIndex, message, messageAlign } = props;
+  const { show, zIndex, html, message, messageAlign } = props;
   const incZIndex = zIndex || getIncrementalZIndex();
   const messageNode = props.messageNode;
   const title = props.titleNode || props.title;
 
   const Title = title && <div className={bem('header', { isolated: !message && !messageNode })}>{title}</div>;
 
+  const messageClassName = bem('message', {
+    'has-title': title,
+    [messageAlign]: messageAlign,
+  });
   const Content = (messageNode || message) && (
     <div className={bem('content')}>
-      {messageNode || (
-        <div
-          dangerouslySetInnerHTML={{ __html: message }}
-          className={bem('message', {
-            'has-title': title,
-            [messageAlign]: messageAlign,
-          })}
-        />
+      {messageNode ? (
+        messageNode
+      ) : html ? (
+        <div dangerouslySetInnerHTML={{ __html: message }} className={messageClassName} />
+      ) : (
+        <div className={messageClassName}>{message}</div>
       )}
     </div>
   );

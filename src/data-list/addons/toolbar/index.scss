@@ -1,0 +1,13 @@
+@import '../../../styles/var.scss';
+@import '../../../styles/mixins/hairline.scss';
+
+.pant-data-list {
+  &__toolbar {
+    background-color: $white;
+    font-size: $font-size-md;
+    position: relative;
+    padding: $padding-xs;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

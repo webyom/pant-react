@@ -1,6 +1,9 @@
 export const locale = {
   cancel: '取消',
   confirm: '确认',
+  collapse: '收起',
+  expand: '展开',
+  filter: '筛选',
   loading: '加载中...',
   noData: '没有数据',
   maxSelection: '最多选择{0}项',
@@ -11,5 +14,6 @@ export const locale = {
   search: '搜索',
   selectStartDate: '选择开始日期',
   selectEndDate: '选择结束日期',
+  sorting: '排序',
   submit: '提交',
 };

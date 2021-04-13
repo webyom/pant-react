@@ -1,39 +1,40 @@
 import { Sticky } from '../../../sticky';
 import { DataListAddon, DataListProps } from '../..';
 import { useMiddleware } from '../../use-middleware';
+import './index.scss';
 
-export type ToolboxOptions = {
+export type ToolbarOptions = {
   sticky?: boolean;
   stickyContainer?: React.RefObject<HTMLElement>;
 };
 
-export function toolbox(options: ToolboxOptions = {}): DataListAddon {
+export function toolbar(options: ToolbarOptions = {}): DataListAddon {
   return {
     onInjectDataList: (render) => (props) => {
-      return <DataListToolbox dataListProps={props} dataListRender={render} {...options} />;
+      return <DataListToolbar dataListProps={props} dataListRender={render} {...options} />;
     },
   };
 }
 
-function DataListToolbox({
+function DataListToolbar({
   dataListRender,
   dataListProps,
   sticky,
   stickyContainer,
-}: ToolboxOptions & {
+}: ToolbarOptions & {
   dataListProps: DataListProps;
   dataListRender: (props: DataListProps) => JSX.Element;
 }) {
-  const toolbox = <Toolbox {...dataListProps} />;
+  const toolbar = <Toolbar {...dataListProps} />;
 
   return (
     <>
       {sticky ? (
-        <Sticky container={stickyContainer} offsetBottom={50}>
-          {toolbox}
+        <Sticky container={stickyContainer} offsetBottom={60}>
+          {toolbar}
         </Sticky>
       ) : (
-        toolbox
+        toolbar
       )}
       {dataListRender({
         ...dataListProps,
@@ -42,8 +43,8 @@ function DataListToolbox({
   );
 }
 
-function Toolbox(props: DataListProps) {
+function Toolbar(props: DataListProps) {
   const addons = props.addons;
-  const renderToolbox = useMiddleware(addons, 'onInjectToolbox')((props) => <></>);
-  return <div className="pant-data-list__toolbox">{renderToolbox(props)}</div>;
+  const renderToolbar = useMiddleware(addons, 'onInjectToolbar')(() => <></>);
+  return <div className="pant-data-list__toolbar pant-hairline--bottom">{renderToolbar(props)}</div>;
 }

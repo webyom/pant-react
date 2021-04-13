@@ -1,0 +1,12 @@
+@import '../../../styles/var.scss';
+
+.pant-data-list {
+  &__filter {
+    margin-left: $padding-xs;
+    line-height: $button-small-height;
+    cursor: pointer;
+    > * {
+      vertical-align: middle;
+    }
+  }
+}

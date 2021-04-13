@@ -1,0 +1,14 @@
+@import '../../../styles/var.scss';
+
+.pant-data-list {
+  &__batch-actions {
+    flex: 1;
+    > button {
+      max-width: 100px;
+      min-width: 70px;
+      &:first-child {
+        margin-right: $padding-xs;
+      }
+    }
+  }
+}
