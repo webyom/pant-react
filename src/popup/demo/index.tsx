@@ -58,7 +58,7 @@ export class PopupRouteComponent extends React.PureComponent<any, PopupRouteComp
                 this.setState({ show1: false });
               }}
             >
-              Content
+              <>Content</>
             </Popup>
           </section>
 

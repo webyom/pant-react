@@ -52,7 +52,7 @@ function RecordActions({ actions, record, cancelText }: RecordActionsOptions & {
   };
 
   return (
-    <div className="pant-data-list__record__action">
+    <div className="pant-data-list__record__actions">
       <Icon name="ellipsis" onClick={showActions} />
     </div>
   );

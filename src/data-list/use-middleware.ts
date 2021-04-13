@@ -1,6 +1,6 @@
 import { DataListAddon, DataListMiddleware } from '.';
 
-export function useMiddleware<K extends keyof DataListAddon>(addons: DataListAddon[], name: K) {
+export function useMiddleware<K extends keyof DataListAddon>(addons: DataListAddon[], name: K) { // eslint-disable-line
   type Value<T> = T extends DataListMiddleware<infer V> ? V : never;
   type ValueType = Value<DataListAddon[typeof name]>;
 

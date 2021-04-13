@@ -2,16 +2,17 @@ import { useContext } from 'react';
 import { Button } from '../../../button';
 import { ActionSheetItem, actionSheet } from '../../../action-sheet';
 import { i18n } from '../../../locale';
-import { DataList, DataListProps } from '../../data-list';
-import { DataListAddon, DataListContext } from '../..';
+import { DataListProps } from '../../data-list';
+import { DataListAddon } from '../..';
+import { SelectableManager, SelectableContext } from '../selectable';
 import './index.scss';
 
 type BatchActionItem<T = Record<string, any>> = ActionSheetItem & {
-  action: (records: T[], dataList: DataList) => void;
+  action: (selectable: SelectableManager<T>) => void;
 };
 
 export type BatchActionsOptions<T = Record<string, any>> = {
-  getActions?: (records: T[]) => BatchActionItem<T>[];
+  getActions?: (selectable: SelectableManager<T>) => BatchActionItem<T>[];
   cancelText?: string;
 };
 
@@ -42,18 +43,17 @@ function DataListBatchActions({
 }
 
 function BatchActions({ getActions, cancelText }: BatchActionsOptions) {
-  const { dataList } = useContext(DataListContext);
-  const records = dataList.getSelectedRecords();
-  const actions = getActions(records);
+  const selectable = useContext(SelectableContext);
+  const actions = getActions(selectable);
   const firstAction = actions[0];
   const secondAction = actions[1];
 
   const performFirstAction = (): void => {
-    firstAction.action(records, dataList);
+    firstAction.action(selectable);
   };
 
   const performSecondAction = (): void => {
-    secondAction.action(records, dataList);
+    secondAction.action(selectable);
   };
 
   const showActions = () => {
@@ -61,7 +61,7 @@ function BatchActions({ getActions, cancelText }: BatchActionsOptions) {
       actions: actions.slice(1),
       cancelText: typeof cancelText === 'undefined' ? i18n().cancel : cancelText,
       onSelect({ action }: BatchActionItem) {
-        action(records, dataList);
+        action(selectable);
       },
     });
   };

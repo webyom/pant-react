@@ -32,7 +32,7 @@ export type PopupProps = {
   style?: Record<string, string | number>;
   zIndex?: number | string;
   className?: string;
-  children?: React.ReactNode;
+  children?: React.ReactElement;
   closePopup?(confirm?: boolean): void;
   onClosed?(): void;
   onOpened?(): void;
@@ -122,14 +122,12 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
     if (!children || typeof children === 'string') {
       return children;
     }
-    return [].concat(children).map((child, index) => {
-      this.childRef = child.ref || this.childRef;
-      return React.cloneElement(child, {
-        _popupId: this.id,
-        key: child.key || index,
-        ref: this.childRef,
-        closePopup: closePopup,
-      });
+    this.childRef = (children as any).ref || this.childRef;
+    return React.cloneElement(children, {
+      _popupId: this.id,
+      key: children.key,
+      ref: this.childRef,
+      closePopup: closePopup,
     });
   }
 

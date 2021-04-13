@@ -134,8 +134,16 @@ const columns: DataListColumn[] = [
   },
 ];
 
+type DataListRouteState = {
+  selectedValue: string[];
+};
+
 export class DataListRouteComponent extends React.PureComponent {
   private containerRef = React.createRef<HTMLDivElement>();
+
+  state: DataListRouteState = {
+    selectedValue: ['0'],
+  };
 
   render(): JSX.Element {
     return (
@@ -184,21 +192,27 @@ export class DataListRouteComponent extends React.PureComponent {
                     getActions() {
                       return [
                         {
+                          name: 'Toggle',
+                          action(selectable) {
+                            selectable.toggleAll();
+                          },
+                        },
+                        {
                           name: 'New',
-                          action(records) {
-                            console.log(records); /* eslint-disable-line */
+                          action(selectable) {
+                            console.log(selectable.getValue()); /* eslint-disable-line */
                           },
                         },
                         {
                           name: 'View',
-                          action(records) {
-                            console.log(records); /* eslint-disable-line */
+                          action(selectable) {
+                            console.log(selectable.getValue()); /* eslint-disable-line */
                           },
                         },
                         {
                           name: 'Delete',
-                          action(records) {
-                            console.log(records); /* eslint-disable-line */
+                          action(selectable) {
+                            console.log(selectable.getValue()); /* eslint-disable-line */
                           },
                         },
                       ];
@@ -206,7 +220,12 @@ export class DataListRouteComponent extends React.PureComponent {
                   }),
                   sortable(),
                   filterable(),
-                  selectable(),
+                  selectable({
+                    value: this.state.selectedValue,
+                    onChange: (value) => {
+                      this.setState({ selectedValue: value });
+                    },
+                  }),
                   recordActions({
                     actions: [
                       {

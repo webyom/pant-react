@@ -3,7 +3,7 @@ import { Icon } from '../icon';
 import { createBEM } from '../utils/bem';
 import { i18n } from '../locale';
 import { useMiddleware } from './use-middleware';
-import { DataListColumn, DataListAddon } from '.';
+import { DataListColumn, DataListProps } from '.';
 
 export type RowRenderOptions<T = Record<string, any>> = {
   record: T;
@@ -12,12 +12,9 @@ export type RowRenderOptions<T = Record<string, any>> = {
   columnIndex: number;
 };
 
-export type DataListRecordProps<T = Record<string, any>> = {
-  columns: DataListColumn<T>[];
+export type DataListRecordProps<T = Record<string, any>> = DataListProps<T> & {
   record: T;
   recordIndex: number;
-  recordDisabled?: (record: T) => boolean;
-  addons?: DataListAddon[];
 };
 
 const bem = createBEM('pant-data-list__record');
@@ -41,18 +38,23 @@ export const DataListRecord: React.FC<DataListRecordProps> = (props) => {
     const expandable = columns.length > 4;
     return (
       <div className={bem('fields-wrapper')}>
-        <div className={bem('fields', { collapsed: expandable && collapsed })}>
-          {columns.map((column, columnIndex) => {
-            const columnRender = column.render || defaultColumnRender;
-            return (
-              <div key={column.key} className={bem('field')}>
-                <div className={bem('title')}>
-                  {typeof column.header === 'function' ? column.header(column) : column.header}
+        <div className={bem('fields')}>
+          {columns
+            .map((column, columnIndex) => {
+              if (expandable && collapsed && columnIndex >= 3) {
+                return;
+              }
+              const columnRender = column.render || defaultColumnRender;
+              return (
+                <div key={column.key} className={bem('field')}>
+                  <div className={bem('title')}>
+                    {typeof column.header === 'function' ? column.header(column) : column.header}
+                  </div>
+                  <div className={bem('value')}>{columnRender({ record, recordIndex, column, columnIndex })}</div>
                 </div>
-                <div className={bem('value')}>{columnRender({ record, recordIndex, column, columnIndex })}</div>
-              </div>
-            );
-          })}
+              );
+            })
+            .filter(Boolean)}
         </div>
         {expandable ? (
           <div className={bem('expand')} onClick={toggle}>
