@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from '../../../button';
 import { Sticky } from '../../../sticky';
+import { i18n } from '../../../locale';
 import { DataListAddon, DataListProps } from '../..';
 import './index.scss';
 
@@ -41,7 +42,7 @@ function DataListPagination({
   sticky,
   stickyContainer,
   pageIndex,
-  pageSize = 20,
+  pageSize,
   recordCount,
   onPagingChange,
 }: PageableOptions & {
@@ -50,7 +51,7 @@ function DataListPagination({
 }) {
   const [internalPaging, setInternalPaging] = useState<PagingQuery>({
     pageIndex: 1,
-    pageSize: pageSize,
+    pageSize: 20,
   });
 
   if (typeof pageIndex === 'undefined') {
@@ -89,12 +90,27 @@ function DataListPagination({
   );
 }
 
-function Pagination(props: PageableOptions) {
+function Pagination({ recordCount, pageSize, pageIndex, onPagingChange }: PageableOptions) {
+  const pages = Math.ceil(recordCount / pageSize);
   return (
     <div className="pant-data-list__pagination pant-hairline--top">
-      <Button size="small">上一页</Button>
-      <span>1 / 5</span>
-      <Button size="small">下一页</Button>
+      <Button
+        size="small"
+        disabled={pageIndex === 1}
+        onClick={() => onPagingChange({ pageSize, pageIndex: pageIndex - 1 })}
+      >
+        {i18n().prevPage}
+      </Button>
+      <span>
+        {pageIndex} / {pages}
+      </span>
+      <Button
+        size="small"
+        disabled={pageIndex === pages}
+        onClick={() => onPagingChange({ pageSize, pageIndex: pageIndex + 1 })}
+      >
+        {i18n().nextPage}
+      </Button>
     </div>
   );
 }

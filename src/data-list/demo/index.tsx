@@ -157,7 +157,6 @@ export class DataListRouteComponent extends React.PureComponent {
               records={records}
               addons={[
                 toolbar(),
-                sortable(),
                 filterable(),
                 recordActions({
                   actions: [
@@ -218,7 +217,9 @@ export class DataListRouteComponent extends React.PureComponent {
                       ];
                     },
                   }),
-                  sortable(),
+                  sortable({
+                    columns: [{ key: 'name' }, { key: 'mobile' }, { key: 'wechat' }],
+                  }),
                   filterable(),
                   selectable({
                     value: this.state.selectedValue,
@@ -242,7 +243,7 @@ export class DataListRouteComponent extends React.PureComponent {
                       },
                     ],
                   }),
-                  pageable({ sticky: true, stickyContainer: this.containerRef }),
+                  pageable({ pageSize: 10, sticky: true, stickyContainer: this.containerRef }),
                 ]}
               />
             </div>

@@ -4,34 +4,38 @@ import { Popup } from '../../../popup';
 import { PopupToolbar } from '../../../popup/toolbar';
 import { createBEM } from '../../../utils/bem';
 import { i18n } from '../../../locale';
-import { DataListAddon, DataListProps } from '../..';
+import { DataListAddon } from '../..';
 import './index.scss';
 
-export type SortableOptions = Record<string, any>;
+export type SortableColumn<T = Record<string, any>> = {
+  key: string;
+  prefer?: 'desc' | 'asc';
+  sorter?: (first: T, second: T) => number;
+};
 
-export function sortable(options: SortableOptions = {}): DataListAddon {
+export type SortBy<T = Record<string, any>> = {
+  by: string;
+  order: 'desc' | 'asc';
+  sorter?: (first: T, second: T) => number;
+};
+
+export type SortableOptions = {
+  columns: SortableColumn[];
+  value?: SortBy[];
+  onChange?: (value: SortBy[]) => void;
+};
+
+export function sortable(options: SortableOptions): DataListAddon {
   return {
     onInjectToolbar: (render) => (props) => {
-      return <DataListSortable dataListProps={props} dataListRender={render} {...options} />;
+      return (
+        <>
+          {render(props)}
+          <Sortable {...options} />
+        </>
+      );
     },
   };
-}
-
-function DataListSortable({
-  dataListRender,
-  dataListProps,
-}: SortableOptions & {
-  dataListProps: DataListProps;
-  dataListRender: (props: DataListProps) => JSX.Element;
-}) {
-  return (
-    <>
-      {dataListRender({
-        ...dataListProps,
-      })}
-      <Sortable />
-    </>
-  );
 }
 
 const bem = createBEM('pant-data-list__sort');

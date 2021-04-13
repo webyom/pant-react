@@ -6,11 +6,13 @@ export const locale = {
   filter: 'Filter',
   loading: 'Loading...',
   maxSelection: 'Max select {0} items',
+  nextPage: 'Next Page',
   noData: 'No data',
   pullRefresh: {
     loosing: 'Loose to refresh...',
     pulling: 'Pull to refresh...',
   },
+  prevPage: 'Previous Page',
   search: 'Search',
   selectStartDate: 'Select Start Date',
   selectEndDate: 'Select End Date',

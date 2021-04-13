@@ -7,10 +7,12 @@ export const locale = {
   loading: '加载中...',
   noData: '没有数据',
   maxSelection: '最多选择{0}项',
+  nextPage: '上一页',
   pullRefresh: {
     loosing: '释放即可刷新...',
     pulling: '下拉即可刷新...',
   },
+  prevPage: '下一页',
   search: '搜索',
   selectStartDate: '选择开始日期',
   selectEndDate: '选择结束日期',

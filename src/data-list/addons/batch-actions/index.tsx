@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Button } from '../../../button';
 import { ActionSheetItem, actionSheet } from '../../../action-sheet';
 import { i18n } from '../../../locale';
-import { DataListProps } from '../../data-list';
 import { DataListAddon } from '../..';
 import { SelectableManager, SelectableContext } from '../selectable';
 import './index.scss';
@@ -19,27 +18,14 @@ export type BatchActionsOptions<T = Record<string, any>> = {
 export function batchActions(options: BatchActionsOptions): DataListAddon {
   return {
     onInjectToolbar: (render) => (props) => {
-      return <DataListBatchActions dataListProps={props} dataListRender={render} {...options} />;
+      return (
+        <>
+          {render(props)}
+          <BatchActions {...options} />
+        </>
+      );
     },
   };
-}
-
-function DataListBatchActions({
-  dataListRender,
-  dataListProps,
-  ...props
-}: BatchActionsOptions & {
-  dataListProps: DataListProps;
-  dataListRender: (props: DataListProps) => JSX.Element;
-}) {
-  return (
-    <>
-      {dataListRender({
-        ...dataListProps,
-      })}
-      <BatchActions {...props} />
-    </>
-  );
 }
 
 function BatchActions({ getActions, cancelText }: BatchActionsOptions) {

@@ -1,7 +1,6 @@
 import { Icon } from '../../../icon';
 import { ActionSheetItem, actionSheet } from '../../../action-sheet';
 import { i18n } from '../../../locale';
-import { DataListRecordProps } from '../../data-list-record';
 import { DataListAddon } from '../..';
 
 type RecordActionItem<T = Record<string, any>> = ActionSheetItem & {
@@ -16,28 +15,14 @@ export type RecordActionsOptions = {
 export function recordActions(options: RecordActionsOptions): DataListAddon {
   return {
     onInjectRecord: (render) => (props) => {
-      return <DataListRecordActions dataListRecordProps={props} dataListRecordRender={render} {...options} />;
+      return (
+        <>
+          {render(props)}
+          <RecordActions record={props.record} {...options} />
+        </>
+      );
     },
   };
-}
-
-function DataListRecordActions({
-  dataListRecordRender,
-  dataListRecordProps,
-  actions,
-  cancelText,
-}: RecordActionsOptions & {
-  dataListRecordProps: DataListRecordProps;
-  dataListRecordRender: (props: DataListRecordProps) => JSX.Element;
-}) {
-  return (
-    <>
-      {dataListRecordRender({
-        ...dataListRecordProps,
-      })}
-      <RecordActions actions={actions} cancelText={cancelText} record={dataListRecordProps.record} />
-    </>
-  );
 }
 
 function RecordActions({ actions, record, cancelText }: RecordActionsOptions & { record: any }) {

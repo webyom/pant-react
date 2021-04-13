@@ -59,6 +59,7 @@ import { Button } from 'pant-react/es/button';
   - [PullRefresh](https://webyom.github.io/pant-react/#/components/pull-refresh)
   - [Toast](https://webyom.github.io/pant-react/#/components/toast)
 - Diaplay Components
+  - [DataList](https://webyom.github.io/pant-react/#/components/data-list)
   - [Lazyload](https://webyom.github.io/pant-react/#/components/lazyload)
   - [List](https://webyom.github.io/pant-react/#/components/list)
   - [Skeleton](https://webyom.github.io/pant-react/#/components/skeleton)
