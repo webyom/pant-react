@@ -610,7 +610,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
       >
         <div ref={this.bodyRef} className={bem('body')}>
           {input}
-          {this.showClear && <Icon name="clear" className={bem('clear')} onTouchStart={this.clearInput} />}
+          {this.showClear && <Icon name="clear" className={bem('clear')} onClick={this.clearInput} />}
           {this.genRightIcon()}
           {props.button && <div className={bem('button')}>{props.button}</div>}
         </div>

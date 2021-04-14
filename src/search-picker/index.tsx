@@ -125,7 +125,10 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
   }
 
   clearValue(cb: () => void): void {
-    this.setState({ pickerValue: [] }, cb);
+    this.setState({ pickerValue: [] }, () => {
+      this.listRef.current.forceUpdateGrid();
+      cb();
+    });
   }
 
   setData(data: DataSet): void {
