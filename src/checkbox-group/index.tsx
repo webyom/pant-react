@@ -9,6 +9,7 @@ import './index.scss';
 export type CheckboxGroupOption =
   | string
   | {
+      [key: string]: any;
       label: string;
       value: string;
       disabled?: boolean;
@@ -19,6 +20,8 @@ export type CheckboxGroupOptions = CheckboxGroupOption[];
 export type CheckboxGroupBaseProps = CheckboxBaseProps & {
   cellGroup?: boolean | CellGroupProps;
   options?: CheckboxGroupOptions;
+  valueKey?: string;
+  labelKey?: string;
   onClick?(event: Event, checkboxProps: CheckboxProps): void;
   onChange?(value: string[], props: CheckboxGroupProps): void;
 };
@@ -43,6 +46,8 @@ export class CheckboxGroup extends React.PureComponent<CheckboxGroupProps, Check
     shape: 'round',
     direction: 'vertical',
     options: [] as CheckboxGroupOptions[],
+    valueKey: 'value',
+    labelKey: 'label',
     defaultValue: [] as string[],
   };
 
@@ -88,10 +93,11 @@ export class CheckboxGroup extends React.PureComponent<CheckboxGroupProps, Check
   }
 
   private normalizeOption(option: CheckboxGroupOption): Exclude<CheckboxGroupOption, string> {
+    const { valueKey, labelKey } = this.props;
     if (typeof option === 'string') {
       return { label: option, value: option };
     }
-    return option;
+    return { ...option, label: option[labelKey], value: option[valueKey] };
   }
 
   private onClick(event: Event, checkboxProps: CheckboxProps): void {

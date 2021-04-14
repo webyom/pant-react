@@ -109,7 +109,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = (props) => {
     <Popup
       className={bem()}
       show={show}
-      position="bottom"
+      position={props.position || 'bottom'}
       zIndex={props.zIndex}
       round={props.round}
       overlay={props.overlay}

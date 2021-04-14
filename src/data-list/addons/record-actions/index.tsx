@@ -28,6 +28,7 @@ export function recordActions(options: RecordActionsOptions): DataListAddon {
 function RecordActions({ actions, record, cancelText }: RecordActionsOptions & { record: any }) {
   const showActions = () => {
     actionSheet({
+      round: false,
       actions,
       cancelText: typeof cancelText === 'undefined' ? i18n().cancel : cancelText,
       onSelect: function ({ action }: RecordActionItem) {

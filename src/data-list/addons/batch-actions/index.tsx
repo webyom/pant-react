@@ -44,6 +44,8 @@ function BatchActions({ getActions, cancelText }: BatchActionsOptions) {
 
   const showActions = () => {
     actionSheet({
+      position: 'top',
+      round: false,
       actions: actions.slice(1),
       cancelText: typeof cancelText === 'undefined' ? i18n().cancel : cancelText,
       onSelect({ action }: BatchActionItem) {

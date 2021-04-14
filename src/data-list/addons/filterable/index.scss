@@ -8,5 +8,23 @@
     > * {
       vertical-align: middle;
     }
+
+    &__popup {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    &__list {
+      flex: 1;
+      overflow-y: auto;
+
+      .pant-cell {
+        flex-direction: column;
+        &.flex-direction-row {
+          flex-direction: row;
+        }
+      }
+    }
   }
 }

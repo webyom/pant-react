@@ -12,7 +12,7 @@ export type DatetimeRangeProps = Pick<PickerProps, 'showToolbar' | 'toolbarPosit
   seconds?: boolean;
   min?: Date;
   max?: Date;
-  defaultValue?: Date;
+  defaultValue?: Date[];
   titleStart?: string;
   titleEnd?: string;
   prefixZero?: boolean;

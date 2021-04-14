@@ -132,9 +132,8 @@ export class Sortable extends React.PureComponent<SortableOptions, SortableState
           <span>{i18n().sorting}</span>
           <Icon name="sort" />
         </div>
-        <Popup show={show} position="bottom" onClickClose={this.hide} round>
+        <Popup show={show} position="top" onClickClose={this.hide}>
           <>
-            <PopupToolbar title={i18n().sorting} onCancel={this.hide} onConfirm={this.confirm} />
             <div className={bem('list')}>
               {columns.map(({ key, prefer, header }) => {
                 const sortBy = value.find((v) => v.by === key);
@@ -149,6 +148,7 @@ export class Sortable extends React.PureComponent<SortableOptions, SortableState
                 );
               })}
             </div>
+            <PopupToolbar onCancel={this.hide} onConfirm={this.confirm} />
           </>
         </Popup>
       </>

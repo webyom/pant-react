@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import { isDef } from '../utils';
 import { closest } from '../utils/dom';
 import { createBEM } from '../utils/bem';
@@ -307,11 +308,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
     if (this.isPopup && !this.props.disabled) {
       const target = evt.target as HTMLElement;
       const field = closest(target, '.pant-field', true);
-      if (
-        field &&
-        field.querySelector('.pant-field__body') === this.bodyRef.current &&
-        !closest(target, '.pant-popup, .pant-overlay', true)
-      ) {
+      if (field && field.querySelector('.pant-field__body') === this.bodyRef.current) {
         this.openPopup();
       }
     }
@@ -579,11 +576,14 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
         center={props.center}
         border={props.border}
         required={props.required}
-        className={bem({
-          error: this.showError,
-          disabled: disabled,
-          'min-height': props.type === 'textarea' && !props.autosize,
-        })}
+        className={clsx(
+          bem({
+            error: this.showError,
+            disabled: disabled,
+            'min-height': props.type === 'textarea' && !props.autosize,
+          }),
+          props.className,
+        )}
         titleClassName={bem('title')}
         valueClassName={bem('value')}
         onClick={(!disabled && onClick) || null}

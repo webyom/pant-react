@@ -52,6 +52,7 @@ export class Transition extends React.PureComponent<TransitionProps, TransitionS
     duration: '0.3',
   };
 
+  unmouted = false;
   childrenRef: TransitionableComponent;
   bindedOnAnimationEnd = this.onAnimationEnd.bind(this);
   state = {
@@ -70,7 +71,14 @@ export class Transition extends React.PureComponent<TransitionProps, TransitionS
   }
 
   private onAnimationEnd(): void {
-    (this.childrenRef as any).removeEventListener(animationEndEventName, this.bindedOnAnimationEnd);
+    if (this.unmouted) {
+      return;
+    }
+
+    if (this.childrenRef) {
+      (this.childrenRef as any).removeEventListener(animationEndEventName, this.bindedOnAnimationEnd);
+    }
+
     this.setState({ active: false }, (): void => {
       const { stage, onAfterEnter, onAfterLeave } = this.props;
       if (stage === 'enter') {
@@ -87,6 +95,10 @@ export class Transition extends React.PureComponent<TransitionProps, TransitionS
 
   componentDidUpdate(): void {
     this.childrenRef.addEventListener(animationEndEventName, this.bindedOnAnimationEnd);
+  }
+
+  componentWillUnmount(): void {
+    this.unmouted = true;
   }
 
   render(): JSX.Element {

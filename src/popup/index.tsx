@@ -80,13 +80,13 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
   }
 
   componentDidMount(): void {
-    if (this.props.lockScroll) {
+    if (this.props.lockScroll && this.containerRef.current) {
       this.containerRef.current.addEventListener('touchmove', this.bindedonTouchMove, false);
     }
   }
 
   componentWillUnmount(): void {
-    if (this.props.lockScroll) {
+    if (this.props.lockScroll && this.containerRef.current) {
       this.containerRef.current.removeEventListener('touchmove', this.bindedonTouchMove, false);
     }
   }
@@ -119,7 +119,7 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
 
   private genChildren(): React.ReactNode {
     const { closePopup, children } = this.props;
-    if (!children || typeof children === 'string') {
+    if (!children || typeof children === 'string' || typeof children.type === 'string') {
       return children;
     }
     this.childRef = (children as any).ref || this.childRef;
@@ -140,7 +140,7 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
     const props = this.props;
 
     if (props.lazyRender && !this.state.active) {
-      return;
+      return null;
     }
 
     const { show, zIndex, round, position, duration } = props;

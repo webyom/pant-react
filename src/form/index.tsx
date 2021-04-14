@@ -45,17 +45,29 @@ export class Form<T = never> extends React.PureComponent<FormProps<T>> {
     onSubmit && onSubmit(res);
   }
 
-  render(): JSX.Element {
-    const { children, validateTrigger } = this.props;
-    const childrenWithProps = [].concat(children).map((child, index) => {
+  mapChildren(children: React.ReactNode): React.ReactNode {
+    const { validateTrigger } = this.props;
+    return [].concat(children).map((child, index) => {
+      if (Array.isArray(child)) {
+        return this.mapChildren(child);
+      }
       let ref: React.RefObject<any> = null;
       const { name, validateTrigger: childValidateTrigger } = child.props;
       if (name) {
         ref = this.childRefs[name] = this.childRefs[name] || child.ref || React.createRef();
-        return React.cloneElement(child, { ref, key: index, validateTrigger: childValidateTrigger || validateTrigger });
+        return React.cloneElement(child, {
+          ref,
+          key: child.key || index,
+          validateTrigger: childValidateTrigger || validateTrigger,
+        });
       }
       return child;
     });
+  }
+
+  render(): JSX.Element {
+    const { children } = this.props;
+    const childrenWithProps = this.mapChildren(children);
     return (
       <form className={bem()} onSubmit={this.bindedOnSubmit}>
         {childrenWithProps}

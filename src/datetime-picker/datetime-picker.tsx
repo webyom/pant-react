@@ -3,8 +3,10 @@ import { Picker, StandardColumnItem, PickerProps } from '../picker';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
+export type DatetimeType = 'date' | 'datetime' | 'time';
+
 export type DatetimePickerProps = Pick<PickerProps, 'showToolbar' | 'toolbarPosition'> & {
-  type: 'date' | 'datetime' | 'time';
+  type?: DatetimeType;
   seconds?: boolean;
   min?: Date;
   max?: Date;
@@ -34,6 +36,7 @@ function getDefaultMinMax(max?: boolean): Date {
 
 export class DatetimePicker extends React.PureComponent<DatetimePickerProps, DatetimePickerState> {
   static defaultProps = {
+    type: 'date',
     showToolbar: true,
     toolbarPosition: 'top',
     seconds: false,

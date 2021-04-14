@@ -137,6 +137,7 @@ const columns: DataListColumn[] = [
 type DataListRouteState = {
   selectedValue: string[];
   sortValue: SortBy[];
+  filterValue: Record<string, any>;
 };
 
 export class DataListRouteComponent extends React.PureComponent {
@@ -145,6 +146,7 @@ export class DataListRouteComponent extends React.PureComponent {
   state: DataListRouteState = {
     selectedValue: ['0'],
     sortValue: [{ by: 'name', order: 'desc' }],
+    filterValue: { exactMatch: true, name: 'Gary', birthday: new Date() },
   };
 
   render(): JSX.Element {
@@ -159,7 +161,58 @@ export class DataListRouteComponent extends React.PureComponent {
               records={records}
               addons={[
                 toolbar(),
-                filterable(),
+                filterable({
+                  columns: [
+                    { key: 'exactMatch', header: 'Exact Match', type: 'switch' },
+                    { key: 'name', header: 'Name', placeholder: 'Input name' },
+                    { key: 'mobile', header: 'Mobile', placeholder: 'Input mobile' },
+                    { key: 'wechat', header: 'Wechat', placeholder: 'Input wechat' },
+                    {
+                      key: 'city',
+                      header: 'City',
+                      placeholder: 'Select city',
+                      type: 'single-selection',
+                      options: ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen'],
+                    },
+                    {
+                      key: 'hobby',
+                      header: 'Hobby',
+                      placeholder: 'Select hobby',
+                      type: 'multiple-selection',
+                      options: [
+                        'Football',
+                        'Basketball',
+                        'Tennis',
+                        'Ping Pong Ball',
+                        'Swiming',
+                        'Travel',
+                        'Reading',
+                        'Cooking',
+                        'Walking',
+                        'Watching TV',
+                        'Driving',
+                      ],
+                    },
+                    {
+                      key: 'birthday',
+                      header: 'Birthday',
+                      placeholder: 'Select birthday',
+                      type: 'datetime',
+                      datetimeType: 'date',
+                    },
+                    {
+                      key: 'createdAt',
+                      header: 'Created At',
+                      placeholder: 'Select datetime range',
+                      type: 'datetime-range',
+                      datetimeType: 'datetime',
+                    },
+                  ],
+                  value: this.state.filterValue,
+                  onChange: (value) => {
+                    this.setState({ filterValue: value });
+                  },
+                }),
                 recordActions({
                   actions: [
                     {
@@ -230,7 +283,11 @@ export class DataListRouteComponent extends React.PureComponent {
                       this.setState({ sortValue: value });
                     },
                   }),
-                  filterable(),
+                  filterable({
+                    onPopup: () => {
+                      return false;
+                    },
+                  }),
                   selectable({
                     value: this.state.selectedValue,
                     onChange: (value) => {
