@@ -1,5 +1,6 @@
 @import '../styles/var.scss';
 @import '../styles/mixins/ellipsis.scss';
+@import '../styles/mixins/hairline.scss';
 
 .pant-search-picker {
   position: relative;
@@ -27,17 +28,17 @@
   }
 
   &__item {
-    border-bottom: 1px solid $border-color;
     line-height: 35px;
     padding: 0 $padding-xs;
     display: flex;
-    align-items: center;cursor: pointer;
+    align-items: center;
+    cursor: pointer;
     user-select: none;
     &:active {
       background-color: $active-color;
     }
-    &:last-child {
-      border-bottom: none;
+    &:not(:last-child)::after {
+      @include hairline-bottom($cell-border-color, 0, 0);
     }
     > span:first-child {
       @include ellipsis();

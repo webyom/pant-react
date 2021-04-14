@@ -1,4 +1,5 @@
 @import '../../../styles/var.scss';
+@import '../../../styles/mixins/hairline.scss';
 
 .pant-data-list {
   &__sort {
@@ -11,6 +12,33 @@
 
     &__list {
       max-height: 300px;
+      padding: $padding-xs;
+      overflow-y: auto;
+    }
+
+    &__item {
+      display: flex;
+      padding: 0 $padding-xs;
+      line-height: 35px;
+      cursor: pointer;
+      user-select: none;
+      &:active {
+        background-color: $active-color;
+      }
+
+      &:not(:last-child)::after {
+        @include hairline-bottom($cell-border-color, 0, 0);
+      }
+    }
+
+    &__by {
+      flex: 1;
+    }
+
+    &__order {
+      &--empty {
+        color: $gray-5;
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Icon } from '../../../icon';
 import { Popup } from '../../../popup';
 import { PopupToolbar } from '../../../popup/toolbar';
@@ -7,22 +7,24 @@ import { i18n } from '../../../locale';
 import { DataListAddon } from '../..';
 import './index.scss';
 
-export type SortableColumn<T = Record<string, any>> = {
+type SortOrder = 'desc' | 'asc';
+
+export type SortableColumn = {
   key: string;
-  prefer?: 'desc' | 'asc';
-  sorter?: (first: T, second: T) => number;
+  header: React.ReactNode;
+  prefer?: SortOrder;
 };
 
-export type SortBy<T = Record<string, any>> = {
+export type SortBy = {
   by: string;
-  order: 'desc' | 'asc';
-  sorter?: (first: T, second: T) => number;
+  order: SortOrder;
 };
 
 export type SortableOptions = {
   columns: SortableColumn[];
   value?: SortBy[];
-  onChange?: (value: SortBy[]) => void;
+  multiple?: boolean;
+  onChange: (value: SortBy[]) => void;
 };
 
 export function sortable(options: SortableOptions): DataListAddon {
@@ -40,22 +42,116 @@ export function sortable(options: SortableOptions): DataListAddon {
 
 const bem = createBEM('pant-data-list__sort');
 
-function Sortable(props: SortableOptions) {
-  const [show, setShow] = useState(false);
-  const toggle = () => setShow(!show);
+type SortableState = {
+  show: boolean;
+  value?: SortBy[];
+  prevProps: SortableOptions;
+};
 
-  return (
-    <>
-      <div className={bem()} onClick={toggle}>
-        <span>{i18n().sorting}</span>
-        <Icon name="sort" />
-      </div>
-      <Popup show={show} position="bottom" onClickClose={toggle} round>
-        <>
-          <PopupToolbar title={i18n().sorting} onCancel={() => 1} onConfirm={() => 1} />
-          <div className={bem('list')}></div>
-        </>
-      </Popup>
-    </>
-  );
+export class Sortable extends React.PureComponent<SortableOptions, SortableState> {
+  static defaultProps = {
+    value: [] as SortBy[],
+  };
+
+  constructor(props: React.PropsWithChildren<SortableOptions>) {
+    super(props);
+    this.state = {
+      show: false,
+      value: props.value,
+      prevProps: props,
+    };
+    this.show = this.show.bind(this);
+    this.hide = this.hide.bind(this);
+    this.confirm = this.confirm.bind(this);
+  }
+
+  static getDerivedStateFromProps(
+    props: React.PropsWithChildren<SortableOptions>,
+    state: SortableState,
+  ): SortableState {
+    const { prevProps } = state;
+    if (prevProps.value !== props.value) {
+      return {
+        ...state,
+        value: props.value,
+        prevProps: props,
+      };
+    } else {
+      return null;
+    }
+  }
+
+  show(): void {
+    this.setState({ show: true });
+  }
+
+  hide(): void {
+    this.setState({ show: false, value: this.props.value });
+  }
+
+  confirm(): void {
+    const value = [...this.state.value];
+    this.setState({ show: false, value: this.props.value }, () => {
+      const onChange = this.props.onChange;
+      onChange && onChange(value);
+    });
+  }
+
+  sort(by: string, prefer: SortOrder = 'desc', order?: string): void {
+    let newItem: SortBy;
+    if (order === prefer) {
+      if (prefer === 'desc') {
+        newItem = { by, order: 'asc' };
+      } else {
+        newItem = { by, order: 'desc' };
+      }
+    } else if (!order) {
+      newItem = { by, order: prefer };
+    }
+
+    let value: SortBy[];
+    if (this.props.multiple === false) {
+      value = [];
+    } else {
+      value = this.state.value.filter((v) => v.by !== by);
+    }
+
+    if (newItem) {
+      value.push(newItem);
+    }
+
+    this.setState({ value });
+  }
+
+  render(): JSX.Element {
+    const { columns } = this.props;
+    const { show, value = [] } = this.state;
+    return (
+      <>
+        <div className={bem()} onClick={this.show}>
+          <span>{i18n().sorting}</span>
+          <Icon name="sort" />
+        </div>
+        <Popup show={show} position="bottom" onClickClose={this.hide} round>
+          <>
+            <PopupToolbar title={i18n().sorting} onCancel={this.hide} onConfirm={this.confirm} />
+            <div className={bem('list')}>
+              {columns.map(({ key, prefer, header }) => {
+                const sortBy = value.find((v) => v.by === key);
+                const order = sortBy?.order;
+                return (
+                  <div className={bem('item')} key={key} onClick={() => this.sort(key, prefer, order)}>
+                    <div className={bem('by')}>{header}</div>
+                    <div className={bem('order', { empty: !order })}>
+                      <Icon name={order === 'desc' ? 'descending' : order === 'asc' ? 'ascending' : 'sort'} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        </Popup>
+      </>
+    );
+  }
 }

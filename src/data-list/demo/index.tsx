@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from '../../toast';
 import { DataList, DataListColumn } from '../../data-list';
 import { toolbar } from '../addons/toolbar';
-import { sortable } from '../../data-list/addons/sortable';
+import { sortable, SortBy } from '../../data-list/addons/sortable';
 import { filterable } from '../../data-list/addons/filterable';
 import { selectable } from '../../data-list/addons/selectable';
 import { recordActions } from '../../data-list/addons/record-actions';
@@ -136,6 +136,7 @@ const columns: DataListColumn[] = [
 
 type DataListRouteState = {
   selectedValue: string[];
+  sortValue: SortBy[];
 };
 
 export class DataListRouteComponent extends React.PureComponent {
@@ -143,6 +144,7 @@ export class DataListRouteComponent extends React.PureComponent {
 
   state: DataListRouteState = {
     selectedValue: ['0'],
+    sortValue: [{ by: 'name', order: 'desc' }],
   };
 
   render(): JSX.Element {
@@ -218,7 +220,15 @@ export class DataListRouteComponent extends React.PureComponent {
                     },
                   }),
                   sortable({
-                    columns: [{ key: 'name' }, { key: 'mobile' }, { key: 'wechat' }],
+                    columns: [
+                      { key: 'name', header: 'Name', prefer: 'asc' },
+                      { key: 'mobile', header: 'Mobile' },
+                      { key: 'wechat', header: 'Wechat' },
+                    ],
+                    value: this.state.sortValue,
+                    onChange: (value) => {
+                      this.setState({ sortValue: value });
+                    },
                   }),
                   filterable(),
                   selectable({
