@@ -80,6 +80,10 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
     }
   }
 
+  clearValue(cb: () => void): void {
+    this.setState({ pickerValue: [] }, cb);
+  }
+
   range(start: number, end: number): number[] {
     if (start > end) {
       return [];

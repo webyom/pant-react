@@ -40,10 +40,11 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
 
   constructor(props: DatetimeRangeProps) {
     super(props);
+    const defaultValue = props.defaultValue || [];
     this.state = {
       step: 1,
-      startDate: props.defaultValue[0],
-      endDate: props.defaultValue[1],
+      startDate: defaultValue[0],
+      endDate: defaultValue[1],
     };
     this.closePopup = this.closePopup.bind(this);
     this.onConfirm1 = this.onConfirm1.bind(this);
@@ -56,6 +57,10 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
       return null;
     }
     return [startDate, endDate];
+  }
+
+  clearValue(cb: () => void): void {
+    this.setState({ startDate: null, endDate: null }, cb);
   }
 
   closePopup(confirm: boolean): void {

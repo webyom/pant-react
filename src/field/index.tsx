@@ -170,9 +170,19 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
     this.adjustSize();
   }
 
+  private isEmptyValue(popupValue: any): boolean {
+    if (Array.isArray(popupValue)) {
+      return popupValue.length === 0;
+    }
+    return popupValue == null || popupValue === '';
+  }
+
   private get showClear(): boolean {
     const { clearable, clearTrigger, readOnly } = this.props;
     const { isInputType, focused, value } = this.state;
+    if (this.isPopup && !this.isEmptyValue(this.getRawValue())) {
+      return clearable;
+    }
     return (
       isInputType &&
       clearable &&
@@ -198,7 +208,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
     const { isInputType, value } = this.state;
 
     if (this.isCustomChild()) {
-      return (this.inputRef.current as any).getValue();
+      return (this.inputRef.current as any)?.getValue();
     } else if (isInputType) {
       return value;
     } else if (type === 'checkbox' || type === 'switch') {
@@ -305,6 +315,10 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
   }
 
   private onPopupControlClick(evt: React.MouseEvent): void {
+    if (closest(evt.target, '.pant-field__clear', true)) {
+      return;
+    }
+
     if (this.isPopup && !this.props.disabled) {
       const target = evt.target as HTMLElement;
       const field = closest(target, '.pant-field', true);
@@ -315,11 +329,17 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
   }
 
   private clearInput(): void {
-    const value: any = '';
-    this.setState({ value }, () => {
-      const { onChange } = this.props;
-      onChange && onChange(this.getValue());
-    });
+    if (this.isPopup) {
+      (this.inputRef.current as any).clearValue(() => {
+        this.setState({ popupValue: this.formatReturnValue(this.getRawValue()) });
+      });
+    } else {
+      const value: any = '';
+      this.setState({ value }, () => {
+        const { onChange } = this.props;
+        onChange && onChange(this.getValue());
+      });
+    }
   }
 
   private adjustSize(): void {

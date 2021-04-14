@@ -304,6 +304,10 @@ export class Picker extends React.PureComponent<PickerProps, PickerState> {
     return [...pickerValue];
   }
 
+  clearValue(cb: () => void): void {
+    this.setState({ pickerValue: [] }, cb);
+  }
+
   confirm(): void {
     this.state.children.forEach((child: PickerColumn) => child.stopMomentum());
     const newPickerValue = [...this.state.pickerValue];

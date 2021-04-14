@@ -124,6 +124,10 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     return [...pickerValue];
   }
 
+  clearValue(cb: () => void): void {
+    this.setState({ pickerValue: [] }, cb);
+  }
+
   setData(data: DataSet): void {
     this.setState({ data: data || [] });
   }

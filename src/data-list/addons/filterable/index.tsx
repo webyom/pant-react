@@ -130,6 +130,7 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
                         name={key}
                         title={header}
                         placeholder={placeholder}
+                        clearable
                         displayValueFormatter={(value): string => {
                           if (typeof value === 'string') {
                             return value;
@@ -157,6 +158,7 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
                         name={key}
                         title={header}
                         placeholder={placeholder}
+                        clearable
                         displayValueFormatter={(value): string => {
                           return value && formatDatetime(value, datetimeType);
                         }}
@@ -173,6 +175,7 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
                         name={key}
                         title={header}
                         placeholder={placeholder}
+                        clearable
                         displayValueFormatter={(value): string => {
                           return (
                             value &&
@@ -204,6 +207,8 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
                       placeholder={placeholder}
                       name={key}
                       title={header}
+                      clearable
+                      clearTrigger="always"
                     ></Field>
                   );
                 },

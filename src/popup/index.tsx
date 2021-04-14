@@ -136,6 +136,11 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
     return child && child.getValue && child.getValue();
   }
 
+  clearValue(cb: () => void): void {
+    const child = this.childRef.current as any;
+    return child && child.clearValue && child.clearValue(cb);
+  }
+
   render(): JSX.Element {
     const props = this.props;
 
