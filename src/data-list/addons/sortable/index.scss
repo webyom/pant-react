@@ -17,9 +17,10 @@
     }
 
     &__item {
+      position: relative;
       display: flex;
-      padding: 0 $padding-xs;
-      line-height: 35px;
+      padding: 0 $padding-md;
+      line-height: 36px;
       cursor: pointer;
       user-select: none;
       &:active {

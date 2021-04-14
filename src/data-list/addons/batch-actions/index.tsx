@@ -55,7 +55,7 @@ function BatchActions({ getActions, cancelText }: BatchActionsOptions) {
   return (
     <div className="pant-data-list__batch-actions">
       {firstAction ? (
-        <Button size="small" type="info" onClick={performFirstAction}>
+        <Button size="small" type="info" plain onClick={performFirstAction}>
           {firstAction.name}
         </Button>
       ) : null}

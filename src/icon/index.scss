@@ -22,6 +22,12 @@
   &::before {
     display: inline-block;
   }
+
+  &__image {
+    width: 1em;
+    height: 1em;
+    object-fit: contain;
+  }
 }
 
 .pant-icon-add-o::before {
