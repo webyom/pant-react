@@ -141,14 +141,15 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
       if (!text) {
         data = this.props.data;
       } else {
+        text = text.toLocaleLowerCase();
         data = this.props.data.filter((item) => {
           item = this.normalizeItem(item);
-          if (item.label.indexOf(text) >= 0) {
+          if (item.label.toLowerCase().indexOf(text) >= 0) {
             return true;
           } else {
             if (item.label === item.value) {
               return false;
-            } else if (item.value.indexOf(text) >= 0) {
+            } else if (item.value.toLowerCase().indexOf(text) >= 0) {
               return true;
             }
           }
