@@ -4,6 +4,12 @@
 .pant-data-list {
   background-color: $white;
 
+  &__tips {
+    text-align: center;
+    padding: $padding-md;
+    color: $gray-6;
+  }
+
   &__records {
     padding: 0 $padding-xs;
   }

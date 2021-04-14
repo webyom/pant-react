@@ -79,7 +79,7 @@ function DataListPagination({
         records:
           records.length < recordCount ? records : records.slice((pageIndex - 1) * pageSize, pageIndex * pageSize),
       })}
-      {sticky ? (
+      {recordCount === 0 ? null : sticky ? (
         <Sticky container={stickyContainer} offsetTop={60} stickBottom>
           {pagination}
         </Sticky>
@@ -92,6 +92,7 @@ function DataListPagination({
 
 function Pagination({ recordCount, pageSize, pageIndex, onPagingChange }: PageableOptions) {
   const pages = Math.ceil(recordCount / pageSize);
+
   return (
     <div className="pant-data-list__pagination pant-hairline--top">
       <Button
@@ -106,7 +107,7 @@ function Pagination({ recordCount, pageSize, pageIndex, onPagingChange }: Pageab
       </span>
       <Button
         size="small"
-        disabled={pageIndex === pages}
+        disabled={pageIndex >= pages}
         onClick={() => onPagingChange({ pageSize, pageIndex: pageIndex + 1 })}
       >
         {i18n().nextPage}

@@ -35,12 +35,15 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
   static defaultProps = {
     titleStart: i18n().selectStartDate,
     titleEnd: i18n().selectEndDate,
+    defaultValue: [] as Date[],
   };
 
   constructor(props: DatetimeRangeProps) {
     super(props);
     this.state = {
       step: 1,
+      startDate: props.defaultValue[0],
+      endDate: props.defaultValue[1],
     };
     this.closePopup = this.closePopup.bind(this);
     this.onConfirm1 = this.onConfirm1.bind(this);
@@ -104,6 +107,7 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
             formatter={formatter}
             toolbarPosition={toolbarPosition}
             onConfirm={this.onConfirm1}
+            defaultValue={startDate}
           />
         </Popup>
         <Popup round position="bottom" show={show && step === 2} closePopup={this.closePopup} closeOnClickOverlay>
