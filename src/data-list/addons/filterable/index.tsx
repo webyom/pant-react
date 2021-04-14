@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from '../../../icon';
 import { Popup } from '../../../popup';
 import { PopupToolbar } from '../../../popup/toolbar';
@@ -92,6 +92,14 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
     submitBtnRef.current.click();
     hide();
   };
+
+  useEffect(() => {
+    return () => {
+      if (show) {
+        removeClass(document.body, 'pant-overflow-hidden');
+      }
+    };
+  }, [show]);
 
   return (
     <>
