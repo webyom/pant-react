@@ -177,4 +177,11 @@
       min-height: $field-text-area-min-height;
     }
   }
+
+  &--column {
+    flex-direction: column;
+    .pant-field__title {
+      width: auto;
+    }
+  }
 }

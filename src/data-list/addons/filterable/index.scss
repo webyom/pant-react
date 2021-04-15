@@ -18,13 +18,6 @@
     &__list {
       flex: 1;
       overflow-y: auto;
-
-      .pant-cell {
-        flex-direction: column;
-        &.flex-direction-row {
-          flex-direction: row;
-        }
-      }
     }
   }
 }

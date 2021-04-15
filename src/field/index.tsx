@@ -63,6 +63,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   labelClass?: null;
   labelAlign?: 'center' | 'right';
   inputAlign?: 'center' | 'right';
+  direction?: 'row' | 'column';
   placeholder?: string;
   errorMessage?: string;
   errorMessageAlign?: 'center' | 'right';
@@ -598,6 +599,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
         required={props.required}
         className={clsx(
           bem({
+            column: props.direction === 'column',
             error: this.showError,
             disabled: disabled,
             'min-height': props.type === 'textarea' && !props.autosize,
