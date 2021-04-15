@@ -66,6 +66,9 @@ export class HomeRouteComponent extends React.PureComponent {
 
         <section>
           <h3>Form Components</h3>
+          <Link to="/cascader/">
+            Cascader <Arrow />
+          </Link>
           <Link to="/checkbox/">
             Checkbox <Arrow />
           </Link>

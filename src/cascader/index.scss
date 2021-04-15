@@ -10,6 +10,74 @@
   &__content {
     position: relative;
     flex: 1;
+    overflow: hidden;
+  }
+
+  &__columns {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    transition: transform .2s;
+  }
+
+  &__column {
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    border-right: 1px solid $border-color;
+    &:first-child {
+      .pant-cascader__item {
+        padding-left: $padding-md;
+      }
+    }
+    &:last-child {
+      border-right: none;
+      .pant-cascader__item {
+        padding-right: $padding-md;
+      }
+    }
+  }
+
+  &__item {
+    @include ellipsis();
+    padding: 0 $padding-xs;
+    font-size: $font-size-md;
+    line-height: 36px;
+    cursor: pointer;
+    user-select: none;
+    &:active {
+      background-color: $active-color;
+    }
+    &--selected {
+      background-color: $active-color;
+    }
+  }
+
+  &__back, &__forward {
+    position: absolute;
+    left: $padding-xs;
+    top: 50%;
+    margin-top: -20px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid $border-color;
+    border-radius: 40px;
+    background-color: $white;
+    color: $gray-6;
+    cursor: pointer;
+  }
+  &__forward {
+    left: auto;
+    right: $padding-xs;
+  }
+
+  .pant-popup-toolbar:first-child {
+    border-bottom: 1px solid $border-color;
+  }
+  .pant-popup-toolbar:last-child {
+    border-top: 1px solid $border-color;
   }
 }
 
