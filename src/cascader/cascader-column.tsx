@@ -7,14 +7,13 @@ type CascaderColumnProps = {
   index: number;
   value?: string;
   items: ColumnItem[];
-  onClick?: (index: number, value: string) => void;
+  onClick?: (index: number, item: ColumnItem) => void;
 };
 
 const bem = createBEM('pant-cascader');
 
 export const CascaderColumn: React.FC<CascaderColumnProps> = (props) => {
-  const width = Math.max(100, Math.min(props.width, 300));
-  const style = { width: width + 'px' };
+  const style = { width: props.width + 'px' };
 
   return (
     <div className={bem('column')} style={style}>
@@ -23,7 +22,7 @@ export const CascaderColumn: React.FC<CascaderColumnProps> = (props) => {
           <div
             key={item.value}
             className={bem('item', { selected: item.value === props.value })}
-            onClick={() => props.onClick(props.index, item.value)}
+            onClick={() => props.onClick(props.index, item)}
           >
             {item.label}
           </div>

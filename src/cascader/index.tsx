@@ -60,7 +60,7 @@ const bem = createBEM('pant-cascader');
 export class Cascader extends React.PureComponent<CascaderProps, CascaderState> {
   static defaultProps = {
     height: 360,
-    columnWidth: 125,
+    columnWidth: 140,
     maxSelection: 1,
     showToolbar: true,
     toolbarPosition: 'top',
@@ -205,8 +205,12 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     return { ...item, value: item[valueKey] + '', label: item[labelKey] };
   }
 
-  onClickItem(columnIndex: number, value: string): void {
-    this.setState({ backSteps: 0, currentValue: [...this.state.currentValue.slice(0, columnIndex), value] });
+  onClickItem(columnIndex: number, item: ColumnItem): void {
+    const newValue = this.state.currentValue.slice(0, columnIndex);
+    if (item.children) {
+      newValue.push(item.value);
+    }
+    this.setState({ backSteps: 0, currentValue: newValue });
   }
 
   getColumnWidth(): number {
@@ -219,7 +223,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
       return 0;
     }
     const columnWidth = this.getColumnWidth();
-    return Math.min(0, contentWidth - columnWidth * (columns - backSteps));
+    return Math.min(0, contentWidth - columnWidth * (columns - backSteps) - 30);
   }
 
   getColumnItems(values: string[]): ColumnItem[] {
@@ -234,7 +238,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
 
   genColumns(): JSX.Element[] {
     const { data } = this.props;
-    const { currentValue } = this.state;
+    const { currentValue, contentWidth } = this.state;
     const columnWidth = this.getColumnWidth();
     const res = [];
     res.push(
@@ -242,7 +246,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
         key="root"
         index={0}
         value={currentValue[0]}
-        width={columnWidth}
+        width={currentValue.length ? columnWidth : contentWidth}
         onClick={this.onClickItem.bind(this)}
         items={data}
       />,
@@ -257,7 +261,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
           key={currentValue[i]}
           index={i + 1}
           value={currentValue[i + 1]}
-          width={columnWidth}
+          width={i === currentValue.length - 1 ? columnWidth + 30 : columnWidth}
           onClick={this.onClickItem.bind(this)}
           items={items}
         />,
