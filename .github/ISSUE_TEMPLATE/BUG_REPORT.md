@@ -10,7 +10,7 @@ labels: Bug Report
 ### Pant React Version
 
 
-### Preact Version
+### React Version
 
 
 ### Reproduction Link

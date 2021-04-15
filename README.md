@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/webyom/pant-react/branch/master/graph/badge.svg)](https://codecov.io/gh/webyom/pant-react)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-Mobile UI Components built on Preact
+Mobile UI Components built on React
 
 Ported from [Vant](https://github.com/youzan/vant)
 
