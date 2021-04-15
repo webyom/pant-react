@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import clsx from 'clsx';
 import { Transition, TransitionEvents } from '../transition';
 import { createBEM } from '../utils/bem';
-import { preventDefaultAndStopPropagation } from '../utils/event';
+import { addClass, removeClass } from '../utils/dom';
 import { pantConfig } from '../';
 import './index.scss';
 
@@ -18,8 +18,13 @@ export type OverlayProps = {
 
 const bem = createBEM('pant-overlay');
 
+let count = 1;
+
 export const Overlay: React.FC<OverlayProps> = (props) => {
-  const containerRef = useRef<HTMLDivElement>();
+  const countRef = useRef<number>();
+  if (!countRef.current) {
+    countRef.current = count++;
+  }
   const style: Record<string, any> = {
     backgroundColor: pantConfig('defaultOverlayBgColor'),
     ...props.style,
@@ -32,22 +37,28 @@ export const Overlay: React.FC<OverlayProps> = (props) => {
 
   useEffect(() => {
     if (props.lockScroll) {
-      const onTouchMove = (event: Event) => {
-        preventDefaultAndStopPropagation(event);
-      };
-      containerRef.current.addEventListener('touchmove', onTouchMove, false);
-      return () => containerRef.current.removeEventListener('touchmove', onTouchMove, false);
+      return () => removeClass(document.body, `pant-overflow-hidden-${countRef.current}`);
     }
   }, []);
+
+  const onAfterEnter = useCallback(() => {
+    props.lockScroll && addClass(document.body, `pant-overflow-hidden-${countRef.current}`);
+    props.onAfterEnter && props.onAfterEnter();
+  }, [props.onAfterEnter]);
+
+  const onAfterLeave = useCallback(() => {
+    props.lockScroll && removeClass(document.body, `pant-overflow-hidden-${countRef.current}`);
+    props.onAfterLeave && props.onAfterLeave();
+  }, [props.onAfterLeave]);
 
   return (
     <Transition
       name="fade"
       stage={props.show ? 'enter' : 'leave'}
-      onAfterEnter={props.onAfterEnter}
-      onAfterLeave={props.onAfterLeave}
+      onAfterEnter={onAfterEnter}
+      onAfterLeave={onAfterLeave}
     >
-      <div ref={containerRef} style={style} className={clsx(bem(), props.className)} onClick={props.onClick}>
+      <div style={style} className={clsx(bem(), props.className)} onClick={props.onClick}>
         {props.children}
       </div>
     </Transition>

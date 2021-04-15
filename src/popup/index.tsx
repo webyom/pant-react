@@ -7,7 +7,6 @@ import { Transition } from '../transition';
 import { getIncrementalZIndex } from '../utils';
 import { eventBus } from '../utils/event-bus';
 import { createBEM } from '../utils/bem';
-import { preventDefaultAndStopPropagation } from '../utils/event';
 import './index.scss';
 
 export type PopupPosition = 'center' | 'top' | 'bottom' | 'left' | 'right';
@@ -50,9 +49,9 @@ let idStart: number = Math.floor(Math.random() * 10000);
 
 export class Popup extends React.PureComponent<PopupProps, PopupState> {
   private id = ++idStart;
+  private zIndex = this.props.zIndex || getIncrementalZIndex();
   private containerRef = React.createRef<HTMLDivElement>();
   private childRef = React.createRef();
-  private bindedonTouchMove = this.onTouchMove.bind(this);
   private bindedOnClick = this.onClick.bind(this);
   private bindedOnClickClose = this.onClickClose.bind(this);
   private bindedOnClosed = this.onClosed.bind(this);
@@ -77,22 +76,6 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
       return { active: true };
     }
     return null;
-  }
-
-  componentDidMount(): void {
-    if (this.props.lockScroll && this.containerRef.current) {
-      this.containerRef.current.addEventListener('touchmove', this.bindedonTouchMove, false);
-    }
-  }
-
-  componentWillUnmount(): void {
-    if (this.props.lockScroll && this.containerRef.current) {
-      this.containerRef.current.removeEventListener('touchmove', this.bindedonTouchMove, false);
-    }
-  }
-
-  private onTouchMove(event: Event): void {
-    preventDefaultAndStopPropagation(event);
   }
 
   private onClick(event: React.MouseEvent): void {
@@ -148,14 +131,13 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
       return null;
     }
 
-    const { show, zIndex, round, position, duration } = props;
-    const incZIndex = zIndex || getIncrementalZIndex();
+    const { show, round, position, duration } = props;
     const isCenter = position === 'center';
     const transitionName = isCenter || (!show && props.fadeLeave) ? 'fade' : `popup-slide-${position}`;
 
     const style: Record<string, number | string> = {
       ...props.style,
-      zIndex: incZIndex,
+      zIndex: this.zIndex,
     };
 
     return ReactDOM.createPortal(
@@ -163,7 +145,7 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
         {props.overlay ? (
           <Overlay
             show={show}
-            zIndex={incZIndex}
+            zIndex={this.zIndex}
             lockScroll={props.lockScroll}
             onClick={props.closeOnClickOverlay ? this.bindedOnClickClose : null}
           />

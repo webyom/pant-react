@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import clsx from 'clsx';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
-import { preventDefaultAndStopPropagation } from '../utils/event';
 import { isDef, getIncrementalZIndex } from '../utils';
 import { createBEM } from '../utils/bem';
 import { Z_INDEX_TOAST_BASE } from '../utils/constant';
@@ -62,16 +61,6 @@ export const Toast: React.FC<ToastProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>();
   const { show, zIndex, overlay } = props;
   const incZIndex = zIndex || getIncrementalZIndex(Z_INDEX_TOAST_BASE);
-
-  useEffect(() => {
-    if (overlay) {
-      const onTouchMove = (event: Event) => {
-        preventDefaultAndStopPropagation(event);
-      };
-      containerRef.current.addEventListener('touchmove', onTouchMove, false);
-      return () => containerRef.current.removeEventListener('touchmove', onTouchMove, false);
-    }
-  }, []);
 
   return (
     <React.Fragment>

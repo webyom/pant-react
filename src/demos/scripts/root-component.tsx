@@ -8,6 +8,7 @@ import { HomeRouteComponent } from './routes/home';
 import { ActionSheetRouteComponent } from '../../action-sheet/demo';
 import { ButtonRouteComponent } from '../../button/demo';
 import { CardRouteComponent } from '../../card/demo';
+import { CascaderRouteComponent } from '../../cascader/demo';
 import { CellRouteComponent } from '../../cell/demo';
 import { CheckboxRouteComponent } from '../../checkbox/demo';
 import { DataListRouteComponent } from '../../data-list/demo';
@@ -78,6 +79,9 @@ export class RootComponent extends React.PureComponent {
           </Route>
           <Route path="/card/">
             <CardRouteComponent />
+          </Route>
+          <Route path="/cascader/">
+            <CascaderRouteComponent />
           </Route>
           <Route path="/cell/">
             <CellRouteComponent />

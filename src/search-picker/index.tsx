@@ -10,7 +10,6 @@ import { Search } from '../search';
 import { i18n } from '../locale';
 import { interpolate } from '../utils';
 import { eventBus } from '../utils/event-bus';
-import { stopPropagation } from '../utils/event';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
@@ -92,7 +91,6 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     this.setData = this.setData.bind(this);
     this.setLoading = this.setLoading.bind(this);
     this.onSearchChange = debounce(this.onSearchChange.bind(this), 500);
-    this.onTouchMove = this.onTouchMove.bind(this);
     this.onPopupOpened = this.onPopupOpened.bind(this);
     this.rowRenderer = this.rowRenderer.bind(this);
   }
@@ -106,13 +104,11 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
         contentHeight: this.contentRef.current.clientHeight,
       });
     }
-    this.contentRef.current.addEventListener('touchmove', this.onTouchMove, false);
     onSearch && onSearch('', { setData: this.setData, setLoading: this.setLoading });
   }
 
   componentWillUnmount(): void {
     eventBus.off('popup.opened', this.onPopupOpened);
-    this.contentRef.current.removeEventListener('touchmove', this.onTouchMove, false);
   }
 
   getValue(): string[] | string {
@@ -164,10 +160,6 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
       }
       this.setState({ data });
     }
-  }
-
-  onTouchMove(event: Event): void {
-    stopPropagation(event);
   }
 
   onPopupOpened(id: number): void {

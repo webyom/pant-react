@@ -8,6 +8,7 @@
   - [Popup](components/popup.md)
   - [Built-in Styles](components/styles.md)
 - Form Components
+  - [Cascader](components/cascader.md)
   - [Checkbox](components/checkbox.md)
   - [DatetimePicker](components/datetime-picker.md)
   - [Field](components/field.md)

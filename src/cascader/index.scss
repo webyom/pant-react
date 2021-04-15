@@ -1,0 +1,21 @@
+@import '../styles/var.scss';
+@import '../styles/mixins/ellipsis.scss';
+
+.pant-cascader {
+  background-color: $picker-background-color;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    position: relative;
+    flex: 1;
+  }
+}
+
+.pant-popup {
+  .pant-cascader__content {
+    height: 260px;
+    flex: unset;
+  }
+}

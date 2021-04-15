@@ -155,7 +155,7 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
                             defaultValue={value[key]}
                             valueKey={valueKey}
                             labelKey={labelKey}
-                            maxSelection={type === 'single-selection' ? 1 : 999}
+                            maxSelection={type === 'single-selection' ? 1 : undefined}
                           />
                         </Popup>
                       </Field>
