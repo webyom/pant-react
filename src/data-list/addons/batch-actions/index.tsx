@@ -11,7 +11,7 @@ type BatchActionItem<T = Record<string, any>> = ActionSheetItem & {
 };
 
 export type BatchActionsOptions<T = Record<string, any>> = {
-  getActions?: (selectable: SelectableManager<T>) => BatchActionItem<T>[];
+  getActions: (selectable: SelectableManager<T>) => BatchActionItem<T>[];
   cancelText?: string;
 };
 
