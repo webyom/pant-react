@@ -16,16 +16,19 @@ export const columns: ColumnItem[] = [
               {
                 value: '梅灵北路',
                 label: '梅灵北路',
+                isLeaf: true,
               },
               {
                 value: '梅灵南路',
                 label: '梅灵南路',
+                isLeaf: true,
               },
             ],
           },
           {
             value: '余杭区',
             label: '余杭区',
+            isLeaf: true,
           },
         ],
       },
@@ -36,10 +39,12 @@ export const columns: ColumnItem[] = [
           {
             value: '鹿城区',
             label: '鹿城区',
+            isLeaf: true,
           },
           {
             value: '瓯海区',
             label: '瓯海区',
+            isLeaf: true,
           },
         ],
       },
@@ -56,10 +61,12 @@ export const columns: ColumnItem[] = [
           {
             value: '鼓楼区',
             label: '鼓楼区',
+            isLeaf: true,
           },
           {
             value: '台江区',
             label: '台江区',
+            isLeaf: true,
           },
         ],
       },
@@ -70,10 +77,12 @@ export const columns: ColumnItem[] = [
           {
             value: '思明区',
             label: '思明区',
+            isLeaf: true,
           },
           {
             value: '海沧区',
             label: '海沧区',
+            isLeaf: true,
           },
         ],
       },

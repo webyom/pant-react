@@ -13,13 +13,9 @@ import { eventBus } from '../utils/event-bus';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
-type DataItem = string | Record<string, any>;
-type DataSet = DataItem[];
+export type DataItem = string | Record<string, any>;
 
-export type OnSearchOptions = {
-  setData(data: DataSet): void;
-  setLoading(loading: boolean): void;
-};
+export type DataSet = DataItem[];
 
 export type SearchPickerProps = {
   title?: string;
@@ -39,7 +35,7 @@ export type SearchPickerProps = {
   onConfirm?: (value: string[] | string) => void;
   closePopup?: (confirm?: boolean) => void;
   onChange?: (value: string[] | string) => void;
-  onSearch?: (text: string, opt: OnSearchOptions) => void;
+  onSearch?: (text: string) => Promise<DataSet>;
   onSelectionExceeds?: () => void;
   rowRenderer?: (
     rowProps: ListRowProps & { selected: boolean; item: Record<string, any>; select(index: number): void },
@@ -89,7 +85,8 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     };
     this.select = this.select.bind(this);
     this.setData = this.setData.bind(this);
-    this.setLoading = this.setLoading.bind(this);
+    this.showLoading = this.showLoading.bind(this);
+    this.hideLoading = this.hideLoading.bind(this);
     this.onSearchChange = debounce(this.onSearchChange.bind(this), 500);
     this.onPopupOpened = this.onPopupOpened.bind(this);
     this.rowRenderer = this.rowRenderer.bind(this);
@@ -104,7 +101,11 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
         contentHeight: this.contentRef.current.clientHeight,
       });
     }
-    onSearch && onSearch('', { setData: this.setData, setLoading: this.setLoading });
+
+    if (onSearch) {
+      this.showLoading();
+      onSearch('').then(this.setData).finally(this.hideLoading);
+    }
   }
 
   componentWillUnmount(): void {
@@ -131,14 +132,19 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
     this.setState({ data: data || [] });
   }
 
-  setLoading(loading: boolean): void {
-    this.setState({ loading });
+  showLoading(): void {
+    this.setState({ loading: true });
+  }
+
+  hideLoading(): void {
+    this.setState({ loading: false });
   }
 
   onSearchChange(text: string): void {
     const { onSearch } = this.props;
     if (onSearch) {
-      onSearch(text, { setData: this.setData, setLoading: this.setLoading });
+      this.showLoading();
+      onSearch(text).then(this.setData).finally(this.hideLoading);
     } else {
       let data: DataSet;
       if (!text) {

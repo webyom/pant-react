@@ -11,6 +11,13 @@
     position: relative;
     flex: 1;
     overflow: hidden;
+    .pant-loading {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -15px;
+      margin-top: -15px;
+    }
   }
 
   &__columns {

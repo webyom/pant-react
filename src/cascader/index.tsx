@@ -14,7 +14,6 @@ import './index.scss';
 export type StandardColumnItem = {
   value: string;
   label: string;
-  isLeaf?: string;
   children?: ColumnItem[];
 };
 
@@ -22,7 +21,6 @@ export type ColumnItem = {
   [key: string]: any;
   value?: string;
   label?: string;
-  isLeaf?: string;
   children?: ColumnItem[];
 };
 
@@ -39,6 +37,7 @@ export type CascaderProps = {
   labelKey?: string;
   data?: ColumnItem[];
   defaultValue?: string[] | string[][];
+  onLoad?: (value: string[]) => Promise<ColumnItem[]>;
   onCancel?: () => void;
   onConfirm?: (value: string[] | string[][]) => void;
   closePopup?: (confirm?: boolean) => void;
@@ -64,7 +63,7 @@ const LAST_COLUMN_EXTRA_WIDTH = 30;
 
 export class Cascader extends React.PureComponent<CascaderProps, CascaderState> {
   static defaultProps = {
-    height: 360,
+    height: 300,
     columnWidth: 140,
     maxSelection: 1,
     showToolbar: true,
@@ -96,24 +95,34 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     this.isItemSelected = this.isItemSelected.bind(this);
     this.hasChildrenSelected = this.hasChildrenSelected.bind(this);
     this.onClickItem = this.onClickItem.bind(this);
-    this.setData = this.setData.bind(this);
-    this.setLoading = this.setLoading.bind(this);
+    this.showLoading = this.showLoading.bind(this);
+    this.hideLoading = this.hideLoading.bind(this);
     this.backOneStep = this.backOneStep.bind(this);
     this.forwardOneStep = this.forwardOneStep.bind(this);
     this.normalizeItem = this.normalizeItem.bind(this);
   }
 
   componentDidMount(): void {
+    const { _popupId, data, onLoad } = this.props;
     eventBus.on('popup.opened', this.onPopupOpened);
-    if (!this.props._popupId) {
+    if (!_popupId) {
       this.setState({
         contentWidth: this.contentRef.current.clientWidth,
       });
     }
+
+    if (onLoad && !data.length) {
+      this.showLoading();
+      onLoad([])
+        .then((data) => {
+          this.setState({ data: data || [] });
+        })
+        .finally(this.hideLoading);
+    }
   }
 
   componentWillUnmount(): void {
-    //
+    eventBus.off('popup.opened', this.onPopupOpened);
   }
 
   onPopupOpened(id: number): void {
@@ -135,12 +144,12 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     this.setState({ pickerValue: [] }, cb);
   }
 
-  setData(data: ColumnItem[]): void {
-    this.setState({ data: data || [] });
+  showLoading(): void {
+    this.setState({ loading: true });
   }
 
-  setLoading(loading: boolean): void {
-    this.setState({ loading });
+  hideLoading(): void {
+    this.setState({ loading: false });
   }
 
   genToolbar(top?: boolean): JSX.Element {
@@ -235,11 +244,29 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   onClickItem(columnIndex: number, item: StandardColumnItem): void {
-    const { maxSelection, onChange } = this.props;
-    const { currentValue, pickerValue } = this.state;
+    const { maxSelection, onChange, onLoad } = this.props;
+    const { currentValue, pickerValue, data } = this.state;
     const newValue = [...currentValue.slice(0, columnIndex), item.value];
     if (item.children) {
-      this.setState({ backSteps: 0, currentValue: newValue });
+      if (!item.children.length && onLoad) {
+        this.showLoading();
+        onLoad([...newValue])
+          .then((items) => {
+            let res = data;
+            let item: ColumnItem;
+            const value = [...newValue];
+            while (res && value.length) {
+              const v = value.shift();
+              item = res.find((item) => this.normalizeItem(item).value === v);
+              res = item && item.children;
+            }
+            item.children = items;
+            this.setState({ data, backSteps: 0, currentValue: newValue });
+          })
+          .finally(this.hideLoading);
+      } else {
+        this.setState({ backSteps: 0, currentValue: newValue });
+      }
     } else {
       let newPickerValue: string[][];
       if (maxSelection === 1) {
@@ -292,8 +319,8 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   genColumns(): JSX.Element[] {
-    const { data, maxSelection } = this.props;
-    const { currentValue, contentWidth } = this.state;
+    const { maxSelection } = this.props;
+    const { data, currentValue, contentWidth } = this.state;
     const len = currentValue.length;
     const columnWidth = this.getColumnWidth();
     const res = [];
@@ -370,7 +397,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
 
   render(): JSX.Element {
     const { _popupId, height } = this.props;
-    const { contentWidth, loading, data, backSteps } = this.state;
+    const { loading, backSteps } = this.state;
     const columns = this.genColumns();
     const offset = this.getOffset(columns.length);
 
@@ -381,6 +408,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
           <div className={bem('columns')} style={{ transform: `translateX(${offset}px)` }}>
             {columns}
           </div>
+          {loading ? <Loading size="30" /> : null}
           {offset !== 0 && this.genBackBtn()}
           {backSteps !== 0 && this.genForwardBtn()}
         </div>

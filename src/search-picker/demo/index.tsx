@@ -2,7 +2,7 @@ import React from 'react';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
 import { Popup } from '../../popup';
-import { SearchPicker, OnSearchOptions } from '../../search-picker';
+import { SearchPicker, DataSet } from '../../search-picker';
 import { toast } from '../../toast';
 import './index.scss';
 
@@ -78,17 +78,16 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
       });
   }
 
-  onSearch(text: string, opt: OnSearchOptions): void {
+  onSearch(text: string): Promise<DataSet> {
     text = text.trim();
     if (!text) {
-      opt.setData(data);
-      return;
+      return Promise.resolve(data);
     }
-    opt.setLoading(true);
-    setTimeout(() => {
-      opt.setData(data.filter((item) => item.indexOf(text) >= 0));
-      opt.setLoading(false);
-    }, 1000);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(data.filter((item) => item.indexOf(text) >= 0));
+      }, 1000);
+    });
   }
 
   render(): JSX.Element {

@@ -2,7 +2,7 @@ import React from 'react';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
 import { Popup } from '../../popup';
-import { Cascader } from '../../cascader';
+import { Cascader, ColumnItem } from '../../cascader';
 import { toast } from '../../toast';
 import { columns } from './constant';
 import './index.scss';
@@ -28,6 +28,20 @@ export class CascaderRouteComponent extends React.PureComponent<any, CascaderSta
       });
   }
 
+  onLoad(value: string[]): Promise<ColumnItem[]> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        let res = columns;
+        while (res && value.length) {
+          const v = value.shift();
+          const item = res.find((item) => item.value === v);
+          res = item && item.children;
+        }
+        resolve(res && res.map((item) => ({ ...item, children: item.isLeaf ? null : [] })));
+      }, 1000);
+    });
+  }
+
   render(): JSX.Element {
     return (
       <React.Fragment>
@@ -37,6 +51,13 @@ export class CascaderRouteComponent extends React.PureComponent<any, CascaderSta
             <h2>Basic Usage</h2>
             <div className={bem('card')}>
               <Cascader title="Basic Usage" data={columns} onChange={this.onChange} />
+            </div>
+          </section>
+
+          <section>
+            <h2>Onload</h2>
+            <div className={bem('card')}>
+              <Cascader title="Onload" onChange={this.onChange} onLoad={this.onLoad} />
             </div>
           </section>
 

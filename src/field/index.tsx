@@ -585,7 +585,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
 
   render(): JSX.Element {
     const { props } = this;
-    const { disabled } = props;
+    const { disabled, clearTrigger } = props;
     const input = this.genInput();
     const onClick =
       typeof props.onClick === 'function' ? props.onClick : this.isPopup ? this.onPopupControlClick : null;
@@ -612,7 +612,14 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
       >
         <div ref={this.bodyRef} className={bem('body')}>
           {input}
-          {this.showClear && <Icon name="clear" className={bem('clear')} onClick={this.clearInput} />}
+          {this.showClear && (
+            <Icon
+              name="clear"
+              className={bem('clear')}
+              onClick={clearTrigger === 'always' ? this.clearInput : undefined}
+              onTouchStart={clearTrigger === 'focus' ? this.clearInput : undefined}
+            />
+          )}
           {this.genRightIcon()}
           {props.button && <div className={bem('button')}>{props.button}</div>}
         </div>
