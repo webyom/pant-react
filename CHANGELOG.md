@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/webyom/pant-react/compare/v0.1.1...v0.1.2) (2021-04-16)
+
+
+### Features
+
+* **cascader:** normalize item ([760003c](https://github.com/webyom/pant-react/commit/760003c421cc7316419fbd11aaed1018a3ce918f))
+* **cascader:** onload ([6233c27](https://github.com/webyom/pant-react/commit/6233c273e70661932892271aa19fc9518f14dcf2))
+* **cascader:** select item ([2e78272](https://github.com/webyom/pant-react/commit/2e78272de69c53a7e9d4528c74e64489b6b9ca16))
+* **cascader:** selection ([6c320ac](https://github.com/webyom/pant-react/commit/6c320ac5bc9ab9a9820683beebd90fea2fcef87c))
+* **data-list:** cascader filter ([5cf5b5d](https://github.com/webyom/pant-react/commit/5cf5b5d3ef52ce2b9ee2fce2a7bbe3d9de12a842))
+* cascader ([dcbc9c8](https://github.com/webyom/pant-react/commit/dcbc9c86e24ec0626be190549743bcd3bbaef235))
+* cascader ([f414431](https://github.com/webyom/pant-react/commit/f414431ef5ba7a0ec0d0baa93fc0278094d15e74))
+* **datalist:** clear fitler ([6125e8a](https://github.com/webyom/pant-react/commit/6125e8a87503a052cd3a6c3db7ae8739f10fbea4))
+* **datalist:** filterable ([490bd9e](https://github.com/webyom/pant-react/commit/490bd9e30e3f4af2f1f1841c99ee0559f45edeb8))
+* **datalist:** sortable ([b394fed](https://github.com/webyom/pant-react/commit/b394fedc32eff32976d42750eb082fef075988d5))
+* **field:** direction ([40c0243](https://github.com/webyom/pant-react/commit/40c0243d2eb547a9534cb7114550001956ea8d18))
+* datalist ([0ed8db8](https://github.com/webyom/pant-react/commit/0ed8db8836cc1f497ca6a1c75320079fd37b51d4))
+* datalist ([f3e0f90](https://github.com/webyom/pant-react/commit/f3e0f90b8a450daa5394cd3226db0552423de5ed))
+* dataList ([b7d9aea](https://github.com/webyom/pant-react/commit/b7d9aeafe7f6e4bc183d9e7ba5e0acf99251c4cf))
+* dataList ([918f88e](https://github.com/webyom/pant-react/commit/918f88e2d7701cad6239525e82eb16ea52bf41c1))
+* dataList ([bace6b6](https://github.com/webyom/pant-react/commit/bace6b67f5067ab623c12ad9893ce596011d5c0d))
+* dataList ([7746b18](https://github.com/webyom/pant-react/commit/7746b18aa544d681c4b95b2e53717c32d14e8632))
+* search ([fc99096](https://github.com/webyom/pant-react/commit/fc9909684afe30e4402f3259a1c8c65ccc97c128))
+* searchPicker ([569fcdf](https://github.com/webyom/pant-react/commit/569fcdf4b1c89b61832c26e170b2834008ae8f36))
+* searchPicker ([28926fc](https://github.com/webyom/pant-react/commit/28926fc40eca76b822d622fb747e57caf5e9b222))
+* searchPicker ([1e22ebe](https://github.com/webyom/pant-react/commit/1e22ebe5ecaf3403b0113e47e88a0e4ae7295de4))
+* searchPicker fullscreen demo ([d6d1ed6](https://github.com/webyom/pant-react/commit/d6d1ed6507bb5bc6cee677039621536026a0a63d))
+* searchPicker loading ([5d765f3](https://github.com/webyom/pant-react/commit/5d765f3ca31994cc94d32ec146feae3a37a5c3dd))
+* searchPicker search ([1f23b71](https://github.com/webyom/pant-react/commit/1f23b71d22d49ea6ce3c85525dedea218c90e67d))
+* sticky stick bottom ([4aaed6d](https://github.com/webyom/pant-react/commit/4aaed6d8aa068d53bba449b81859d233016ade12))
+* time picker ([5947c8a](https://github.com/webyom/pant-react/commit/5947c8a2b523f9446547f5bbf8aced092d4e6a6d))
+
+
+### Bug Fixes
+
+* lock scroll ([fb516c3](https://github.com/webyom/pant-react/commit/fb516c3a8123f4aea613328cae92c8349dcf0057))
+* typo ([df1631e](https://github.com/webyom/pant-react/commit/df1631e728d0a207b101e58c9e144444cf8970d1))
+* **data-list:** filterable ([0e309b4](https://github.com/webyom/pant-react/commit/0e309b45368ab3b09c7e453f0e9e13117a95c93b))
+* **search-picker:** clearValue ([61a331e](https://github.com/webyom/pant-react/commit/61a331e94a72f6eb072bff19a840fddd34e50846))
+* **search-picker:** filter ([382be54](https://github.com/webyom/pant-react/commit/382be54eb0af328547c9baa1996049d448357fa2))
+* popup ([d7127cb](https://github.com/webyom/pant-react/commit/d7127cb96ff4d9939f4ba69ed9ce4c2d18dd2a33))
+
 ### 0.1.1 (2021-04-07)
 
 
