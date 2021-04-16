@@ -616,8 +616,8 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
             <Icon
               name="clear"
               className={bem('clear')}
-              onClick={clearTrigger === 'always' ? this.clearInput : undefined}
-              onTouchStart={clearTrigger === 'focus' ? this.clearInput : undefined}
+              onClick={this.isPopup || clearTrigger === 'always' ? this.clearInput : undefined}
+              onTouchStart={!this.isPopup && clearTrigger === 'focus' ? this.clearInput : undefined}
             />
           )}
           {this.genRightIcon()}

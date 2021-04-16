@@ -4,8 +4,15 @@ import { Popup } from '../../../popup';
 import { PopupToolbar } from '../../../popup/toolbar';
 import { Form } from '../../../form';
 import { Field } from '../../../field';
-import { DatetimePicker, DatetimeRange, DatetimeType } from '../../../datetime-picker';
-import { SearchPicker } from '../../../search-picker';
+import {
+  DatetimePicker,
+  DatetimePickerProps,
+  DatetimeRange,
+  DatetimeRangeProps,
+  DatetimeType,
+} from '../../../datetime-picker';
+import { Cascader, CascaderProps } from '../../../cascader';
+import { SearchPicker, SearchPickerProps } from '../../../search-picker';
 import { createBEM } from '../../../utils/bem';
 import { addClass, removeClass } from '../../../utils/dom';
 import { i18n } from '../../../locale';
@@ -24,13 +31,8 @@ export type FilterableColumn = {
   key: string;
   header: React.ReactNode;
   placeholder?: string;
-  type?: 'input' | 'switch' | 'single-selection' | 'multiple-selection' | 'datetime' | 'datetime-range';
-  datetimeType?: DatetimeType;
-  labelKey?: string;
-  valueKey?: string;
-  options?: SelectionOption[];
-  minDate?: Date;
-  maxDate?: Date;
+  type?: 'input' | 'switch' | 'cascader' | 'search-picker' | 'datetime' | 'datetime-range';
+  componentProps?: CascaderProps | SearchPickerProps | DatetimePickerProps | DatetimeRangeProps;
 };
 
 export type FilterableOptions = {
@@ -118,113 +120,125 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
                 });
               }}
             >
-              {columns.map(
-                ({
-                  key,
-                  header,
-                  type = 'input',
-                  labelKey,
-                  valueKey,
-                  options = [],
-                  datetimeType = 'date',
-                  minDate,
-                  maxDate,
-                  placeholder,
-                }) => {
-                  if (type === 'single-selection' || type === 'multiple-selection') {
-                    return (
-                      <Field<string | string[]>
-                        key={key}
-                        name={key}
-                        title={header}
-                        placeholder={placeholder}
-                        direction="column"
-                        clearable
-                        displayValueFormatter={(value): string => {
-                          if (typeof value === 'string') {
-                            return value;
-                          } else if (Array.isArray(value)) {
-                            return value && value.join(', ');
-                          }
-                          return '';
-                        }}
-                      >
-                        <Popup round position="bottom" closeOnClickOverlay>
-                          <SearchPicker
-                            data={options}
-                            defaultValue={value[key]}
-                            valueKey={valueKey}
-                            labelKey={labelKey}
-                            maxSelection={type === 'single-selection' ? 1 : undefined}
-                          />
-                        </Popup>
-                      </Field>
-                    );
-                  } else if (type === 'datetime') {
-                    return (
-                      <Field<Date>
-                        key={key}
-                        name={key}
-                        title={header}
-                        placeholder={placeholder}
-                        direction="column"
-                        clearable
-                        displayValueFormatter={(value): string => {
-                          return value && formatDatetime(value, datetimeType);
-                        }}
-                      >
-                        <Popup round position="bottom" closeOnClickOverlay>
-                          <DatetimePicker type={datetimeType} min={minDate} max={maxDate} defaultValue={value[key]} />
-                        </Popup>
-                      </Field>
-                    );
-                  } else if (type === 'datetime-range') {
-                    return (
-                      <Field<Date[]>
-                        key={key}
-                        name={key}
-                        title={header}
-                        placeholder={placeholder}
-                        direction="column"
-                        clearable
-                        displayValueFormatter={(value): string => {
-                          return (
-                            value &&
-                            value.length &&
-                            `${formatDatetime(value[0], datetimeType)} ~ ${formatDatetime(value[1], datetimeType)}`
-                          );
-                        }}
-                      >
-                        <DatetimeRange type={datetimeType} min={minDate} max={maxDate} defaultValue={value[key]} />
-                      </Field>
-                    );
-                  } else if (type === 'switch') {
-                    return (
-                      <Field<boolean>
-                        className="flex-direction-row"
-                        type="switch"
-                        inputAlign="right"
-                        key={key}
-                        defaultValue={value[key]}
-                        name={key}
-                        title={header}
-                      ></Field>
-                    );
-                  }
+              {columns.map(({ key, header, type = 'input', componentProps = {}, placeholder }) => {
+                if (type === 'cascader') {
                   return (
-                    <Field<string>
+                    <Field<string[][] | string[]>
                       key={key}
-                      defaultValue={value[key]}
-                      placeholder={placeholder}
                       name={key}
                       title={header}
-                      clearable
-                      clearTrigger="always"
+                      placeholder={placeholder}
                       direction="column"
+                      clearable
+                      displayValueFormatter={(value): string => {
+                        if (!value || !value.length) {
+                          return '';
+                        }
+
+                        if (typeof value[0] === 'string') {
+                          return value.join('/');
+                        } else if (Array.isArray(value[0])) {
+                          return (value as string[][]).map((item) => item.join('/')).join(', ');
+                        }
+                        return '';
+                      }}
+                    >
+                      <Popup round position="bottom" closeOnClickOverlay>
+                        <Cascader {...(componentProps as CascaderProps)} defaultValue={value[key]} />
+                      </Popup>
+                    </Field>
+                  );
+                } else if (type === 'search-picker') {
+                  return (
+                    <Field<string | string[]>
+                      key={key}
+                      name={key}
+                      title={header}
+                      placeholder={placeholder}
+                      direction="column"
+                      clearable
+                      displayValueFormatter={(value): string => {
+                        if (typeof value === 'string') {
+                          return value;
+                        } else if (Array.isArray(value)) {
+                          return value && value.join(', ');
+                        }
+                        return '';
+                      }}
+                    >
+                      <Popup round position="bottom" closeOnClickOverlay>
+                        <SearchPicker {...(componentProps as SearchPickerProps)} defaultValue={value[key]} />
+                      </Popup>
+                    </Field>
+                  );
+                } else if (type === 'datetime') {
+                  const props = componentProps as DatetimePickerProps;
+                  const datetimeType = props.type || 'date';
+                  return (
+                    <Field<Date>
+                      key={key}
+                      name={key}
+                      title={header}
+                      placeholder={placeholder}
+                      direction="column"
+                      clearable
+                      displayValueFormatter={(value): string => {
+                        return value && formatDatetime(value, datetimeType);
+                      }}
+                    >
+                      <Popup round position="bottom" closeOnClickOverlay>
+                        <DatetimePicker {...props} defaultValue={value[key]} />
+                      </Popup>
+                    </Field>
+                  );
+                } else if (type === 'datetime-range') {
+                  const props = componentProps as DatetimeRangeProps;
+                  const datetimeType = props.type || 'date';
+                  return (
+                    <Field<Date[]>
+                      key={key}
+                      name={key}
+                      title={header}
+                      placeholder={placeholder}
+                      direction="column"
+                      clearable
+                      displayValueFormatter={(value): string => {
+                        return (
+                          value &&
+                          value.length &&
+                          `${formatDatetime(value[0], datetimeType)} ~ ${formatDatetime(value[1], datetimeType)}`
+                        );
+                      }}
+                    >
+                      <DatetimeRange {...props} defaultValue={value[key]} />
+                    </Field>
+                  );
+                } else if (type === 'switch') {
+                  return (
+                    <Field<boolean>
+                      className="flex-direction-row"
+                      type="switch"
+                      inputAlign="right"
+                      key={key}
+                      defaultValue={value[key]}
+                      name={key}
+                      title={header}
                     ></Field>
                   );
-                },
-              )}
+                }
+                return (
+                  <Field<string>
+                    key={key}
+                    defaultValue={value[key]}
+                    placeholder={placeholder}
+                    name={key}
+                    title={header}
+                    clearable
+                    clearTrigger="always"
+                    direction="column"
+                  ></Field>
+                );
+              })}
               <button ref={submitBtnRef} type="submit" style={{ display: 'none' }}></button>
             </Form>
           </div>

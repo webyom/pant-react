@@ -1,5 +1,6 @@
 import React from 'react';
 import { toast } from '../../toast';
+import { columns as cascaderColumns } from '../../cascader/demo/constant';
 import { DataList, DataListColumn } from '../../data-list';
 import { toolbar } from '../addons/toolbar';
 import { sortable, SortBy } from '../../data-list/addons/sortable';
@@ -160,41 +161,51 @@ export class DataListRouteComponent extends React.PureComponent {
           key: 'city',
           header: 'City',
           placeholder: 'Select city',
-          type: 'single-selection',
-          options: ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen'],
+          type: 'search-picker',
+          componentProps: { data: ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen'] },
+        },
+        {
+          key: 'location',
+          header: 'Location',
+          placeholder: 'Select location',
+          type: 'cascader',
+          componentProps: { data: cascaderColumns, maxSelection: 10 },
         },
         {
           key: 'hobby',
           header: 'Hobby',
           placeholder: 'Select hobby',
-          type: 'multiple-selection',
-          options: [
-            'Football',
-            'Basketball',
-            'Tennis',
-            'Ping Pong Ball',
-            'Swiming',
-            'Travel',
-            'Reading',
-            'Cooking',
-            'Walking',
-            'Watching TV',
-            'Driving',
-          ],
+          type: 'search-picker',
+          componentProps: {
+            maxSelection: 3,
+            data: [
+              'Football',
+              'Basketball',
+              'Tennis',
+              'Ping Pong Ball',
+              'Swiming',
+              'Travel',
+              'Reading',
+              'Cooking',
+              'Walking',
+              'Watching TV',
+              'Driving',
+            ],
+          },
         },
         {
           key: 'birthday',
           header: 'Birthday',
           placeholder: 'Select birthday',
           type: 'datetime',
-          datetimeType: 'date',
+          componentProps: { type: 'date' },
         },
         {
           key: 'createdAt',
           header: 'Created At',
           placeholder: 'Select datetime range',
           type: 'datetime-range',
-          datetimeType: 'datetime',
+          componentProps: { type: 'datetime' },
         },
       ],
       value: this.state.filterValue,
