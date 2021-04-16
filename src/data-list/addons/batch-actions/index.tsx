@@ -65,11 +65,11 @@ function BatchActions({ getActions, cancelText }: BatchActionsOptions) {
         <Button size="small" onClick={showActions}>
           More ...
         </Button>
-      ) : (
+      ) : secondAction ? (
         <Button size="small" onClick={performSecondAction}>
           {secondAction.name}
         </Button>
-      )}
+      ) : null}
     </div>
   );
 }
