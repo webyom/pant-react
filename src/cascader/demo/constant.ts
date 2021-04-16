@@ -14,12 +14,12 @@ export const columns: ColumnItem[] = [
             label: '西湖区',
             children: [
               {
-                value: '梅灵隐北路',
-                label: '梅灵隐北路',
+                value: '梅灵北路',
+                label: '梅灵北路',
               },
               {
-                value: '梅灵隐南路',
-                label: '梅灵隐南路',
+                value: '梅灵南路',
+                label: '梅灵南路',
               },
             ],
           },

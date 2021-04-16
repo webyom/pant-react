@@ -35,7 +35,7 @@ export class CascaderRouteComponent extends React.PureComponent<any, CascaderSta
           <section>
             <h2>Basic Usage</h2>
             <div className={bem('card')}>
-              <Cascader title="Basic Usage" data={columns} onChange={this.onChange} />
+              <Cascader title="Basic Usage" data={columns} onChange={this.onChange} maxSelection={2} />
             </div>
           </section>
 

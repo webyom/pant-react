@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { Icon } from '../icon';
 import { Loading } from '../loading';
+import { toast } from '../toast';
 import { PopupToolbar } from '../popup/toolbar';
 import { i18n } from '../locale';
 import { eventBus } from '../utils/event-bus';
@@ -88,6 +89,9 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
       data: props.data || [],
     };
     this.onPopupOpened = this.onPopupOpened.bind(this);
+    this.isItemSelected = this.isItemSelected.bind(this);
+    this.hasChildrenSelected = this.hasChildrenSelected.bind(this);
+    this.onClickItem = this.onClickItem.bind(this);
     this.setData = this.setData.bind(this);
     this.setLoading = this.setLoading.bind(this);
     this.backOneStep = this.backOneStep.bind(this);
@@ -205,12 +209,56 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     return { ...item, value: item[valueKey] + '', label: item[labelKey] };
   }
 
-  onClickItem(columnIndex: number, item: ColumnItem): void {
-    const newValue = this.state.currentValue.slice(0, columnIndex);
-    if (item.children) {
-      newValue.push(item.value);
+  isSameValue(a: string[], b: string[]): boolean {
+    if (!a || !b) {
+      return false;
     }
-    this.setState({ backSteps: 0, currentValue: newValue });
+    return a.length === b.length && a.every((item) => b.includes(item));
+  }
+
+  isContainValue(a: string[], b: string[]): boolean {
+    if (!a || !b) {
+      return false;
+    }
+    return a.every((item) => b.includes(item));
+  }
+
+  isItemSelected(columnIndex: number, item: ColumnItem): boolean {
+    const { currentValue, pickerValue } = this.state;
+    const targetValue = [...currentValue.slice(0, columnIndex), item.value];
+    return pickerValue.some((value) => this.isSameValue(targetValue, value));
+  }
+
+  hasChildrenSelected(columnIndex: number, item: ColumnItem): boolean {
+    const { currentValue, pickerValue } = this.state;
+    const targetValue = [...currentValue.slice(0, columnIndex), item.value];
+    return pickerValue.some((value) => this.isContainValue(targetValue, value));
+  }
+
+  onClickItem(columnIndex: number, item: ColumnItem): void {
+    const { maxSelection } = this.props;
+    const { currentValue, pickerValue } = this.state;
+    const newValue = [...currentValue.slice(0, columnIndex), item.value];
+    if (item.children) {
+      this.setState({ backSteps: 0, currentValue: newValue });
+    } else if (maxSelection === 1) {
+      if (this.isSameValue(pickerValue[0], newValue)) {
+        this.setState({ pickerValue: [] });
+      } else {
+        this.setState({ pickerValue: [newValue] });
+      }
+    } else {
+      const newPickerValue = pickerValue.filter((value) => !this.isSameValue(value, newValue));
+      if (newPickerValue.length === pickerValue.length) {
+        if (pickerValue.length >= maxSelection) {
+          toast(interpolate(i18n().maxSelection, [maxSelection]));
+        } else {
+          this.setState({ pickerValue: [...pickerValue, newValue] });
+        }
+      } else {
+        this.setState({ pickerValue: newPickerValue });
+      }
+    }
   }
 
   getColumnWidth(): number {
@@ -237,32 +285,46 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   genColumns(): JSX.Element[] {
-    const { data } = this.props;
+    const { data, maxSelection } = this.props;
     const { currentValue, contentWidth } = this.state;
+    const len = currentValue.length;
     const columnWidth = this.getColumnWidth();
     const res = [];
     res.push(
       <CascaderColumn
         key="root"
+        maxSelection={maxSelection}
         index={0}
         value={currentValue[0]}
-        width={currentValue.length ? columnWidth : contentWidth}
-        onClick={this.onClickItem.bind(this)}
+        width={len ? columnWidth : contentWidth}
+        isItemSelected={this.isItemSelected}
+        hasChildrenSelected={this.hasChildrenSelected}
+        onClick={this.onClickItem}
         items={data}
       />,
     );
-    for (let i = 0; i < currentValue.length; i++) {
+    for (let i = 0; i < len; i++) {
       const items = this.getColumnItems(currentValue.slice(0, i + 1));
       if (!items || !items.length) {
         break;
       }
+      let width;
+      if (i === len - 1) {
+        const extra = contentWidth - (len + 1) * columnWidth - 30;
+        width = columnWidth + 30 + Math.max(extra, 0);
+      } else {
+        width = columnWidth;
+      }
       res.push(
         <CascaderColumn
           key={currentValue[i]}
+          maxSelection={maxSelection}
           index={i + 1}
           value={currentValue[i + 1]}
-          width={i === currentValue.length - 1 ? columnWidth + 30 : columnWidth}
-          onClick={this.onClickItem.bind(this)}
+          width={width}
+          isItemSelected={this.isItemSelected}
+          hasChildrenSelected={this.hasChildrenSelected}
+          onClick={this.onClickItem}
           items={items}
         />,
       );
