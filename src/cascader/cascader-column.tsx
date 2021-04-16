@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '../icon';
 import { createBEM } from '../utils/bem';
-import { ColumnItem } from '.';
+import { ColumnItem, StandardColumnItem } from '.';
 
 type CascaderColumnProps = {
   maxSelection: number;
@@ -9,24 +9,25 @@ type CascaderColumnProps = {
   index: number;
   value?: string;
   items: ColumnItem[];
-  isItemSelected: (columnIndex: number, item: ColumnItem) => boolean;
-  hasChildrenSelected: (columnIndex: number, item: ColumnItem) => boolean;
-  onClick: (columnIndex: number, item: ColumnItem) => void;
+  normalizeItem: (item: ColumnItem) => StandardColumnItem;
+  isItemSelected: (columnIndex: number, item: StandardColumnItem) => boolean;
+  hasChildrenSelected: (columnIndex: number, item: StandardColumnItem) => boolean;
+  onClick: (columnIndex: number, item: StandardColumnItem) => void;
 };
 
 const bem = createBEM('pant-cascader');
 
 export const CascaderColumn: React.FC<CascaderColumnProps> = (props) => {
-  const { width, index, value, items, isItemSelected, hasChildrenSelected, onClick } = props;
+  const { width, index, value, items, isItemSelected, hasChildrenSelected, normalizeItem, onClick } = props;
   const style = { width: width + 'px' };
 
-  const genChildrenSelectedMark = (item: ColumnItem) => {
+  const genChildrenSelectedMark = (item: StandardColumnItem) => {
     if (item.children && hasChildrenSelected(index, item)) {
       return <div className={bem('children-selected')}></div>;
     }
   };
 
-  const genItemSelectedMark = (item: ColumnItem) => {
+  const genItemSelectedMark = (item: StandardColumnItem) => {
     if (item.children) {
       return;
     }
@@ -41,15 +42,16 @@ export const CascaderColumn: React.FC<CascaderColumnProps> = (props) => {
   return (
     <div className={bem('column')} style={style}>
       {items.map((item) => {
+        const stdItem = normalizeItem(item);
         return (
           <div
             key={item.value}
             className={bem('item', { selected: item.value === value })}
-            onClick={() => onClick(index, item)}
+            onClick={() => onClick(index, stdItem)}
           >
             {item.label}
-            {genChildrenSelectedMark(item)}
-            {genItemSelectedMark(item)}
+            {genChildrenSelectedMark(stdItem)}
+            {genItemSelectedMark(stdItem)}
           </div>
         );
       })}

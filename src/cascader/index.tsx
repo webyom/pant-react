@@ -100,6 +100,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     this.setLoading = this.setLoading.bind(this);
     this.backOneStep = this.backOneStep.bind(this);
     this.forwardOneStep = this.forwardOneStep.bind(this);
+    this.normalizeItem = this.normalizeItem.bind(this);
   }
 
   componentDidMount(): void {
@@ -202,13 +203,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     closePopup && closePopup();
   }
 
-  normalizeItem(item: string | Record<string, any>): Record<string, any> {
-    if (typeof item === 'string') {
-      return {
-        value: item,
-        label: item,
-      };
-    }
+  normalizeItem(item: ColumnItem): StandardColumnItem {
     const { valueKey, labelKey } = this.props;
     return { ...item, value: item[valueKey] + '', label: item[labelKey] };
   }
@@ -227,19 +222,19 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     return a.every((item) => b.includes(item));
   }
 
-  isItemSelected(columnIndex: number, item: ColumnItem): boolean {
+  isItemSelected(columnIndex: number, item: StandardColumnItem): boolean {
     const { currentValue, pickerValue } = this.state;
     const targetValue = [...currentValue.slice(0, columnIndex), item.value];
     return pickerValue.some((value) => this.isSameValue(targetValue, value));
   }
 
-  hasChildrenSelected(columnIndex: number, item: ColumnItem): boolean {
+  hasChildrenSelected(columnIndex: number, item: StandardColumnItem): boolean {
     const { currentValue, pickerValue } = this.state;
     const targetValue = [...currentValue.slice(0, columnIndex), item.value];
     return pickerValue.some((value) => this.isContainValue(targetValue, value));
   }
 
-  onClickItem(columnIndex: number, item: ColumnItem): void {
+  onClickItem(columnIndex: number, item: StandardColumnItem): void {
     const { maxSelection, onChange } = this.props;
     const { currentValue, pickerValue } = this.state;
     const newValue = [...currentValue.slice(0, columnIndex), item.value];
@@ -290,7 +285,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     let items = this.state.data;
     while (items && values.length) {
       const value = values.shift();
-      const item = items.find((x) => x.value === value);
+      const item = items.find((item) => this.normalizeItem(item).value === value);
       items = item && item.children;
     }
     return items;
@@ -311,6 +306,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
         width={len ? columnWidth : contentWidth}
         isItemSelected={this.isItemSelected}
         hasChildrenSelected={this.hasChildrenSelected}
+        normalizeItem={this.normalizeItem}
         onClick={this.onClickItem}
         items={data}
       />,
@@ -336,6 +332,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
           width={width}
           isItemSelected={this.isItemSelected}
           hasChildrenSelected={this.hasChildrenSelected}
+          normalizeItem={this.normalizeItem}
           onClick={this.onClickItem}
           items={items}
         />,

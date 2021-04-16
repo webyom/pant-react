@@ -35,6 +35,9 @@
       .pant-cascader__item {
         padding-right: $padding-md * 2;
       }
+      .pant-cascader__item-selection {
+        right: $padding-md;
+      }
     }
   }
 
@@ -56,9 +59,12 @@
 
   &__item-selection {
     position: absolute;
-    right: $padding-md;
+    right: $padding-xs;
     top: 0;
     color: $gray-6;
+    display: flex;
+    align-items: center;
+    height: 100%;
     &--selected {
       color: $blue;
     }

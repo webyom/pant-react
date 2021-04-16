@@ -10,13 +10,13 @@ import './index.scss';
 const bem = createBEM('demo-cascader');
 
 type CascaderState = {
-  cityValue: string[];
+  cityValue: string[][];
   showPicker: boolean;
 };
 
 export class CascaderRouteComponent extends React.PureComponent<any, CascaderState> {
   state: CascaderState = {
-    cityValue: ['浙江', '杭州', '余杭区'],
+    cityValue: [['浙江', '杭州', '余杭区']],
     showPicker: false,
   };
 
@@ -51,7 +51,7 @@ export class CascaderRouteComponent extends React.PureComponent<any, CascaderSta
               }}
             >
               <span>City</span>
-              <span>{this.state.cityValue.join(', ')}</span>
+              <span>{this.state.cityValue.map((item) => item.join('/')).join(', ')}</span>
             </div>
             <Popup
               show={this.state.showPicker}
@@ -73,7 +73,7 @@ export class CascaderRouteComponent extends React.PureComponent<any, CascaderSta
                     showPicker: false,
                   });
                 }}
-                onConfirm={(value: string[]): void => {
+                onConfirm={(value: string[][]): void => {
                   this.setState({
                     cityValue: value,
                     showPicker: false,
