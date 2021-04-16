@@ -103,7 +103,7 @@ import { Button } from 'pant-react/es/button';
 
 | Attribute | Description | Type | Default |
 | --- | --- | --- | --- |
-| children | Button content | _ComponentChildren_ | - |
+| children | Button content | _React.ReactNode_ | - |
 | type | Can be set to `primary` `info` `warning` `danger` | _string_ | `default` |
 | size | Can be set to `large` `small` `mini` | _string_ | `normal` |
 | text | Button text | _string_ | - |
@@ -128,4 +128,4 @@ import { Button } from 'pant-react/es/button';
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| onClick | Triggered when click button and not disabled or loading | _event: Event_ |
+| onClick | Triggered when click button and not disabled or loading | _event: React.MouseEvent_ |

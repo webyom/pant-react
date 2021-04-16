@@ -102,12 +102,12 @@ import { Cell } from 'pant-react/es/cell';
 
 | Attribute | Description | Type | Default |
 | --- | --- | --- | --- |
-| children | Right text | _ComponentChildren_ | - |
-| title | Title | _ComponentChildren_ | - |
-| label | Description below the title | _ComponentChildren_ | - |
+| children | Right text | _React.ReactNode_ | - |
+| title | Title | _React.ReactNode_ | - |
+| label | Description below the title | _React.ReactNode_ | - |
 | size | Size，can be set to `large` | _string_ | - |
-| icon | Left Icon | _string \| VNode_ | - |
-| rightIcon | Right Icon | _string \| VNode_ | - |
+| icon | Left Icon | _React.ReactNode_ | - |
+| rightIcon | Right Icon | _React.ReactNode_ | - |
 | border | Whether to show inner border | _boolean_ | `true` |
 | center | Whether to center content vertically | _boolean_ | `false` |
 | required | Whether to show required mark | _boolean_ | `false` |
@@ -119,4 +119,4 @@ import { Cell } from 'pant-react/es/cell';
 
 | Event | Description               | Arguments      |
 | ----- | ------------------------- | -------------- |
-| onClick | Triggered when click cell | _event: Event_ |
+| onClick | Triggered when click cell | _event: React.MouseEvent_ |
