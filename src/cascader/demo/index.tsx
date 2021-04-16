@@ -16,12 +16,13 @@ type CascaderState = {
 
 export class CascaderRouteComponent extends React.PureComponent<any, CascaderState> {
   state: CascaderState = {
-    cityValue: ['河北省保定市'],
+    cityValue: ['浙江', '杭州', '余杭区'],
     showPicker: false,
   };
 
-  onChange<T extends string | string[]>(value: T): void {
+  onChange<T extends string[][] | string[]>(value: T): void {
     value &&
+      value.length &&
       toast({
         message: `${value}`,
       });
@@ -35,7 +36,7 @@ export class CascaderRouteComponent extends React.PureComponent<any, CascaderSta
           <section>
             <h2>Basic Usage</h2>
             <div className={bem('card')}>
-              <Cascader title="Basic Usage" data={columns} onChange={this.onChange} maxSelection={2} />
+              <Cascader title="Basic Usage" data={columns} onChange={this.onChange} />
             </div>
           </section>
 

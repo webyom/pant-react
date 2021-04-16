@@ -42,7 +42,7 @@ export type CascaderProps = {
   onCancel?: () => void;
   onConfirm?: (value: string[] | string[][]) => void;
   closePopup?: (confirm?: boolean) => void;
-  onChange?: (value: string[] | string) => void;
+  onChange?: (value: string[] | string[][]) => void;
   onSelectionExceeds?: () => void;
   _popupId?: number;
 };
@@ -57,6 +57,10 @@ type CascaderState = {
 };
 
 const bem = createBEM('pant-cascader');
+
+const MIN_COLUMN_WIDTH = 100;
+const MAX_COLUMN_WIDTH = 300;
+const LAST_COLUMN_EXTRA_WIDTH = 30;
 
 export class Cascader extends React.PureComponent<CascaderProps, CascaderState> {
   static defaultProps = {
@@ -75,14 +79,14 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   constructor(props: CascaderProps) {
     super(props);
     const defaultValue =
-      Array.isArray(props.defaultValue) && Array.isArray(props.defaultValue[0])
+      (Array.isArray(props.defaultValue) && Array.isArray(props.defaultValue[0])
         ? props.defaultValue
         : Array.isArray(props.defaultValue) && typeof props.defaultValue[0] === 'string'
         ? [props.defaultValue]
-        : undefined;
+        : undefined) || [];
     this.state = {
-      pickerValue: (defaultValue || []) as string[][],
-      currentValue: [],
+      pickerValue: defaultValue as string[][],
+      currentValue: defaultValue.length ? (defaultValue[0].slice(0, -1) as string[]) : [],
       contentWidth: 0,
       backSteps: 0,
       loading: false,
@@ -236,33 +240,38 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   onClickItem(columnIndex: number, item: ColumnItem): void {
-    const { maxSelection } = this.props;
+    const { maxSelection, onChange } = this.props;
     const { currentValue, pickerValue } = this.state;
     const newValue = [...currentValue.slice(0, columnIndex), item.value];
     if (item.children) {
       this.setState({ backSteps: 0, currentValue: newValue });
-    } else if (maxSelection === 1) {
-      if (this.isSameValue(pickerValue[0], newValue)) {
-        this.setState({ pickerValue: [] });
-      } else {
-        this.setState({ pickerValue: [newValue] });
-      }
     } else {
-      const newPickerValue = pickerValue.filter((value) => !this.isSameValue(value, newValue));
-      if (newPickerValue.length === pickerValue.length) {
-        if (pickerValue.length >= maxSelection) {
-          toast(interpolate(i18n().maxSelection, [maxSelection]));
+      let newPickerValue: string[][];
+      if (maxSelection === 1) {
+        if (this.isSameValue(pickerValue[0], newValue)) {
+          newPickerValue = [];
         } else {
-          this.setState({ pickerValue: [...pickerValue, newValue] });
+          newPickerValue = [newValue];
         }
       } else {
-        this.setState({ pickerValue: newPickerValue });
+        newPickerValue = pickerValue.filter((value) => !this.isSameValue(value, newValue));
+        if (newPickerValue.length === pickerValue.length) {
+          if (pickerValue.length >= maxSelection) {
+            toast(interpolate(i18n().maxSelection, [maxSelection]));
+            return;
+          } else {
+            newPickerValue = [...pickerValue, newValue];
+          }
+        }
       }
+      this.setState({ pickerValue: newPickerValue }, () => {
+        onChange && onChange(this.getValue());
+      });
     }
   }
 
   getColumnWidth(): number {
-    return Math.max(100, Math.min(this.props.columnWidth, 300));
+    return Math.max(MIN_COLUMN_WIDTH, Math.min(this.props.columnWidth, MAX_COLUMN_WIDTH));
   }
 
   getOffset(columns: number): number {
@@ -271,7 +280,10 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
       return 0;
     }
     const columnWidth = this.getColumnWidth();
-    return Math.min(0, contentWidth - columnWidth * (columns - backSteps) - 30);
+    return Math.min(
+      0,
+      contentWidth - columnWidth * (columns - backSteps) - (backSteps > 0 ? 0 : LAST_COLUMN_EXTRA_WIDTH),
+    );
   }
 
   getColumnItems(values: string[]): ColumnItem[] {
@@ -310,8 +322,8 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
       }
       let width;
       if (i === len - 1) {
-        const extra = contentWidth - (len + 1) * columnWidth - 30;
-        width = columnWidth + 30 + Math.max(extra, 0);
+        const extra = contentWidth - (len + 1) * columnWidth - LAST_COLUMN_EXTRA_WIDTH;
+        width = columnWidth + LAST_COLUMN_EXTRA_WIDTH + Math.max(extra, 0);
       } else {
         width = columnWidth;
       }

@@ -33,13 +33,14 @@
     &:last-child {
       border-right: none;
       .pant-cascader__item {
-        padding-right: $padding-md;
+        padding-right: $padding-md * 2;
       }
     }
   }
 
   &__item {
     @include ellipsis();
+    position: relative;
     padding: 0 $padding-xs;
     font-size: $font-size-md;
     line-height: 36px;
@@ -51,6 +52,26 @@
     &--selected {
       background-color: $active-color;
     }
+  }
+
+  &__item-selection {
+    position: absolute;
+    right: $padding-md;
+    top: 0;
+    color: $gray-6;
+    &--selected {
+      color: $blue;
+    }
+  }
+
+  &__children-selected {
+    border-bottom: 5px solid $blue;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    position: absolute;
+    left: -5px;
+    top: 0;
+    transform: rotate(-45deg);
   }
 
   &__back, &__forward {
