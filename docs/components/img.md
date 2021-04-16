@@ -66,8 +66,8 @@ Show round image, it may not works at `fit=contain` and `fit=scale-down`
 | lazyLoad | Whether to enable lazy load，should register [Lazyload](/components/lazyload) component | _boolean_ | `false` |
 | show-error | Whether to show error placeholder | _boolean_ | `true` |
 | show-loading | Whether to show loading placeholder | _boolean_ | `true` |
-| errorNode | Error icon | _string \| VNode_ | - |
-| loadingIcon | Loading icon | _string \| VNode_ | - |
+| errorNode | Error icon | _React.ReactNode_ | - |
+| loadingIcon | Loading icon | _React.ReactNode_ | - |
 | errorIcon | Error icon | _string_ | `warning-o` |
 | loadingIcon | Loading icon | _string_ | `photo-o` |
 
@@ -85,4 +85,4 @@ Show round image, it may not works at `fit=contain` and `fit=scale-down`
 
 | Event | Description                      | Arguments      |
 | ----- | -------------------------------- | -------------- |
-| onClick | Triggered when click image       | _event: Event_ |
+| onClick | Triggered when click image       | _event: React.MouseEvent_ |

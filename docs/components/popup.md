@@ -75,7 +75,7 @@ Positioned popup use slide animation by default. You can set `fadeLeave` prop to
 
 | Attribute | Description | Type | Default |
 | --- | --- | --- | --- |
-| children | Popup content | _ComponentChildren_ | - |
+| children | Popup content | _React.ReactNode_ | - |
 | show | Whether to show popup | _boolean_ | `false` |
 | overlay | Whether to show overlay | _boolean_ | `true` |
 | position | Can be set to `top` `bottom` `right` `left` | _string_ | `center` |
@@ -96,7 +96,7 @@ Positioned popup use slide animation by default. You can set `fadeLeave` prop to
 
 | Event        | Description                  | Arguments      |
 | ------------ | ---------------------------- | -------------- |
-| onClick      | Triggered when click Popup   | _event: Event_ |
-| onClickClose | Triggered when click overlay or close button | _event: Event, props: PopupProps_ |
+| onClick      | Triggered when click Popup   | _event: React.MouseEvent_ |
+| onClickClose | Triggered when click overlay or close button | _event: React.MouseEvent, props: PopupProps_ |
 | onOpened     | Triggered when opened Popup  | -              |
 | onClosed     | Triggered when closed Popup  | -              |

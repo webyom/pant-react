@@ -98,7 +98,7 @@ Setting `type` to `flex` to enable flex layout
 
 | Attribute | Description | Type | Default |
 | --- | --- | --- | --- |
-| children | Col content | _ComponentChildren_ | - |
+| children | Col content | _React.ReactNode_ | - |
 | span | Number of column the grid spans | _number \| string_ | - |
 | offset | Number of spacing on the left side of the grid | _number \| string_ | - |
 
@@ -106,10 +106,10 @@ Setting `type` to `flex` to enable flex layout
 
 | Event | Description              | Arguments      |
 | ----- | ------------------------ | -------------- |
-| onClick | Triggered when click row | _event: Event_ |
+| onClick | Triggered when click row | _event: React.MouseEvent_ |
 
 ### Col Events
 
 | Event | Description              | Arguments      |
 | ----- | ------------------------ | -------------- |
-| onClick | Triggered when click col | _event: Event_ |
+| onClick | Triggered when click col | _event: React.MouseEvent_ |
