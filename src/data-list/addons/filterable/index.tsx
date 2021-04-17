@@ -19,14 +19,6 @@ import { i18n } from '../../../locale';
 import { DataListAddon } from '../..';
 import './index.scss';
 
-export type SelectionOption =
-  | string
-  | {
-      [key: string]: any;
-      label: string;
-      value: string;
-    };
-
 export type FilterableColumn = {
   key: string;
   header: React.ReactNode;
@@ -36,10 +28,10 @@ export type FilterableColumn = {
 };
 
 export type FilterableOptions = {
-  columns?: FilterableColumn[];
+  columns: FilterableColumn[];
   value?: Record<string, any>;
-  onChange?: (value: Record<string, any>) => void;
-  onPopup?: (event: React.SyntheticEvent) => any;
+  onChange: (value: Record<string, any>) => void;
+  onPopup?: (event: React.SyntheticEvent) => boolean;
 };
 
 export function filterable(options: FilterableOptions): DataListAddon {

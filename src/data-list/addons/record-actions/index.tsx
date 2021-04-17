@@ -7,8 +7,8 @@ type RecordActionItem<T = Record<string, any>> = ActionSheetItem & {
   action: (record: T) => void;
 };
 
-export type RecordActionsOptions = {
-  actions: RecordActionItem[];
+export type RecordActionsOptions<T = Record<string, any>> = {
+  actions: RecordActionItem<T>[];
   cancelText?: string;
 };
 
