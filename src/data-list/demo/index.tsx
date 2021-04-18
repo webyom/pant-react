@@ -161,7 +161,7 @@ export class DataListRouteComponent extends React.PureComponent {
           key: 'city',
           header: 'City',
           placeholder: 'Select city',
-          type: 'search-picker',
+          type: 'searchable-picker',
           componentProps: { data: ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen'] },
         },
         {
@@ -175,7 +175,7 @@ export class DataListRouteComponent extends React.PureComponent {
           key: 'hobby',
           header: 'Hobby',
           placeholder: 'Select hobby',
-          type: 'search-picker',
+          type: 'searchable-picker',
           componentProps: {
             maxSelection: 3,
             data: [

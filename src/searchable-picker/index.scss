@@ -2,7 +2,7 @@
 @import '../styles/mixins/ellipsis.scss';
 @import '../styles/mixins/hairline.scss';
 
-.pant-search-picker {
+.pant-searchable-picker {
   position: relative;
   background-color: $picker-background-color;
   user-select: none;
@@ -11,7 +11,7 @@
 
   &--fullscreen {
     height: 100%;
-    .pant-search-picker__content {
+    .pant-searchable-picker__content {
       max-height: unset;
     }
   }
@@ -61,12 +61,12 @@
 }
 
 .pant-popup {
-  .pant-search-picker__content {
+  .pant-searchable-picker__content {
     flex: unset;
     height: 260px;
   }
-  .pant-search-picker--fullscreen {
-    .pant-search-picker__content {
+  .pant-searchable-picker--fullscreen {
+    .pant-searchable-picker__content {
       flex: 1;
       height: unset;
     }

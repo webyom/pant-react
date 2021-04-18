@@ -2,7 +2,7 @@ import React from 'react';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
 import { Popup } from '../../popup';
-import { SearchPicker, DataSet } from '../../search-picker';
+import { SearchablePicker, DataSet } from '..';
 import { toast } from '../../toast';
 import './index.scss';
 
@@ -56,16 +56,16 @@ const data = [
   '青海省西宁市',
 ];
 
-const bem = createBEM('demo-search-picker');
+const bem = createBEM('demo-searchable-picker');
 
-type SearchPickerState = {
+type SearchablePickerState = {
   cityValue: string[];
   showPicker1: boolean;
   showPicker2: boolean;
 };
 
-export class SearchPickerRouteComponent extends React.PureComponent<any, SearchPickerState> {
-  state: SearchPickerState = {
+export class SearchablePickerRouteComponent extends React.PureComponent<any, SearchablePickerState> {
+  state: SearchablePickerState = {
     cityValue: ['河北省保定市'],
     showPicker1: false,
     showPicker2: false,
@@ -93,19 +93,19 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
   render(): JSX.Element {
     return (
       <React.Fragment>
-        <NavBar title="SearchPicker" type="search-picker" />
+        <NavBar title="SearchablePicker" type="searchable-picker" />
         <div className={bem()}>
           <section>
             <h2>Basic Usage</h2>
             <div className={bem('card')}>
-              <SearchPicker title="Basic Usage" data={data} onChange={this.onChange} />
+              <SearchablePicker title="Basic Usage" data={data} onChange={this.onChange} />
             </div>
           </section>
 
           <section>
             <h2>On Search</h2>
             <div className={bem('card')}>
-              <SearchPicker title="On Search" onChange={this.onChange} onSearch={this.onSearch.bind(this)} />
+              <SearchablePicker title="On Search" onChange={this.onChange} onSearch={this.onSearch.bind(this)} />
             </div>
           </section>
 
@@ -132,7 +132,7 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
               }}
               round
             >
-              <SearchPicker
+              <SearchablePicker
                 title="With Popup"
                 data={data}
                 defaultValue={this.state.cityValue}
@@ -176,7 +176,7 @@ export class SearchPickerRouteComponent extends React.PureComponent<any, SearchP
               }}
               style={{ height: '100%' }}
             >
-              <SearchPicker
+              <SearchablePicker
                 title="Full Screen"
                 data={data}
                 defaultValue={this.state.cityValue}

@@ -146,7 +146,7 @@ Render toolbar on top of the data list. Must use this addon before use BatchActi
 | header * | Column label | _React.ReactNode_ | - |
 | placeholder | Placeholder for empty value | _string_ | - |
 | type | Component type | _string_ | `input` |
-| componentProps | Component props | _CascaderProps \| SearchPickerProps \| DatetimePickerProps \| DatetimeRangeProps_ | - |
+| componentProps | Component props | _CascaderProps \| SearchablePickerProps \| DatetimePickerProps \| DatetimeRangeProps_ | - |
 
 ### BatchActions Addon
 

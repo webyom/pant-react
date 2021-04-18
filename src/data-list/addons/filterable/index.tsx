@@ -12,7 +12,7 @@ import {
   DatetimeType,
 } from '../../../datetime-picker';
 import { Cascader, CascaderProps } from '../../../cascader';
-import { SearchPicker, SearchPickerProps } from '../../../search-picker';
+import { SearchablePicker, SearchablePickerProps } from '../../../searchable-picker';
 import { createBEM } from '../../../utils/bem';
 import { addClass, removeClass } from '../../../utils/dom';
 import { i18n } from '../../../locale';
@@ -23,8 +23,8 @@ export type FilterableColumn = {
   key: string;
   header: React.ReactNode;
   placeholder?: string;
-  type?: 'input' | 'switch' | 'cascader' | 'search-picker' | 'datetime' | 'datetime-range';
-  componentProps?: CascaderProps | SearchPickerProps | DatetimePickerProps | DatetimeRangeProps;
+  type?: 'input' | 'switch' | 'cascader' | 'searchable-picker' | 'datetime' | 'datetime-range';
+  componentProps?: CascaderProps | SearchablePickerProps | DatetimePickerProps | DatetimeRangeProps;
 };
 
 export type FilterableOptions = {
@@ -140,7 +140,7 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
                       </Popup>
                     </Field>
                   );
-                } else if (type === 'search-picker') {
+                } else if (type === 'searchable-picker') {
                   return (
                     <Field<string | string[]>
                       key={key}
@@ -159,7 +159,7 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
                       }}
                     >
                       <Popup round position="bottom" closeOnClickOverlay>
-                        <SearchPicker {...(componentProps as SearchPickerProps)} defaultValue={value[key]} />
+                        <SearchablePicker {...(componentProps as SearchablePickerProps)} defaultValue={value[key]} />
                       </Popup>
                     </Field>
                   );

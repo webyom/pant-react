@@ -30,7 +30,7 @@ import { PopupRouteComponent } from '../../popup/demo';
 import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
 import { SearchRouteComponent } from '../../search/demo';
-import { SearchPickerRouteComponent } from '../../search-picker/demo';
+import { SearchablePickerRouteComponent } from '../../searchable-picker/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { StickyRouteComponent } from '../../sticky/demo';
 import { StylesRouteComponent } from '../../styles/demo';
@@ -146,8 +146,8 @@ export class RootComponent extends React.PureComponent {
           <Route path="/search/">
             <SearchRouteComponent />
           </Route>
-          <Route path="/search-picker/">
-            <SearchPickerRouteComponent />
+          <Route path="/searchable-picker/">
+            <SearchablePickerRouteComponent />
           </Route>
           <Route path="/sticky/">
             <StickyRouteComponent />

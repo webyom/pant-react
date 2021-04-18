@@ -17,7 +17,7 @@ export type DataItem = string | Record<string, any>;
 
 export type DataSet = DataItem[];
 
-export type SearchPickerProps = {
+export type SearchablePickerProps = {
   title?: string;
   height?: number;
   rowHeight?: number;
@@ -43,7 +43,7 @@ export type SearchPickerProps = {
   _popupId?: number;
 };
 
-type SearchPickerState = {
+type SearchablePickerState = {
   pickerValue: string[];
   contentWidth: number;
   contentHeight: number;
@@ -51,9 +51,9 @@ type SearchPickerState = {
   data?: DataSet;
 };
 
-const bem = createBEM('pant-search-picker');
+const bem = createBEM('pant-searchable-picker');
 
-export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchPickerState> {
+export class SearchablePicker extends React.PureComponent<SearchablePickerProps, SearchablePickerState> {
   static defaultProps = {
     height: 360,
     rowHeight: 36,
@@ -68,7 +68,7 @@ export class SearchPicker extends React.PureComponent<SearchPickerProps, SearchP
   private contentRef = React.createRef<HTMLDivElement>();
   private listRef = React.createRef<List>();
 
-  constructor(props: SearchPickerProps) {
+  constructor(props: SearchablePickerProps) {
     super(props);
     const defaultValue =
       typeof props.defaultValue === 'string'
