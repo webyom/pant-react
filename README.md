@@ -50,6 +50,8 @@ import { Button } from 'pant-react/es/button';
   - [PasswordInput](https://webyom.github.io/pant-react/#/components/password-input)
   - [Picker](https://webyom.github.io/pant-react/#/components/picker)
   - [Radio](https://webyom.github.io/pant-react/#/components/radio)
+  - [Search](https://webyom.github.io/pant-react/#/components/search)
+  - [SearchablePicker](https://webyom.github.io/pant-react/#/components/searchable-picker)
   - [Switch](https://webyom.github.io/pant-react/#/components/switch)
 - Action Components
   - [ActionSheet](https://webyom.github.io/pant-react/#/components/action-sheet)
