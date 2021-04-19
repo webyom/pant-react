@@ -5,7 +5,10 @@ import './index.scss';
 
 export type DatetimeType = 'date' | 'datetime' | 'time';
 
-export type DatetimePickerProps = Pick<PickerProps, 'showToolbar' | 'toolbarPosition'> & {
+export type DatetimePickerProps = Pick<
+  PickerProps,
+  'showToolbar' | 'toolbarPosition' | 'cancelButtonText' | 'confirmButtonText'
+> & {
   type?: DatetimeType;
   seconds?: boolean;
   min?: Date;
@@ -405,7 +408,16 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
   }
 
   render(): JSX.Element {
-    const { type, title, seconds, seperator, showToolbar, toolbarPosition } = this.props;
+    const {
+      type,
+      title,
+      seconds,
+      seperator,
+      showToolbar,
+      toolbarPosition,
+      confirmButtonText,
+      cancelButtonText,
+    } = this.props;
     const { columns, pickerValue } = this.state;
     return (
       <div className={bem([type, { seconds, seperator }])}>
@@ -413,6 +425,8 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
           showToolbar={showToolbar}
           toolbarPosition={toolbarPosition}
           title={title}
+          confirmButtonText={confirmButtonText}
+          cancelButtonText={cancelButtonText}
           columns={columns}
           defaultValue={pickerValue}
           cols={columns.length}

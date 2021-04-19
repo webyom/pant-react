@@ -6,7 +6,10 @@ import { DatetimePicker } from '.';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
-export type DatetimeRangeProps = Pick<PickerProps, 'showToolbar' | 'toolbarPosition'> & {
+export type DatetimeRangeProps = Pick<
+  PickerProps,
+  'showToolbar' | 'toolbarPosition' | 'cancelButtonText' | 'confirmButtonText'
+> & {
   show?: boolean;
   type: 'date' | 'datetime' | 'time';
   seconds?: boolean;
@@ -19,7 +22,8 @@ export type DatetimeRangeProps = Pick<PickerProps, 'showToolbar' | 'toolbarPosit
   seperator?: boolean;
   formatter?: (text: string, type: 'y' | 'm' | 'd' | 'h' | 'mm' | 's') => string;
   closePopup?: (confirm?: boolean) => void;
-  onChange?: (value: Date) => void;
+  onConfirm?: (value: [Date, Date]) => void;
+  onCancel?: () => void;
 };
 
 type DatetimeRangeState = {
@@ -64,10 +68,11 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
   }
 
   closePopup(confirm: boolean): void {
-    const { closePopup } = this.props;
+    const { closePopup, onCancel } = this.props;
     if (!confirm) {
       this.setState({ step: 1 }, () => {
         closePopup && closePopup();
+        onCancel && onCancel();
       });
     }
   }
@@ -77,9 +82,10 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
   }
 
   onConfirm2(date: Date): void {
-    const { closePopup } = this.props;
+    const { closePopup, onConfirm } = this.props;
     this.setState({ step: 1, endDate: date }, () => {
       closePopup && closePopup(true);
+      onConfirm && onConfirm(this.getValue());
     });
   }
 
@@ -92,6 +98,8 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
       max,
       titleStart,
       titleEnd,
+      confirmButtonText,
+      cancelButtonText,
       prefixZero,
       seperator,
       formatter,
@@ -103,6 +111,8 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
         <Popup round position="bottom" show={show && step === 1} closePopup={this.closePopup} closeOnClickOverlay>
           <DatetimePicker
             title={titleStart}
+            confirmButtonText={confirmButtonText}
+            cancelButtonText={cancelButtonText}
             type={type}
             seconds={seconds}
             min={min}
@@ -119,6 +129,8 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
           <DatetimePicker
             key={Date.now()}
             title={titleEnd}
+            confirmButtonText={confirmButtonText}
+            cancelButtonText={cancelButtonText}
             type={type}
             seconds={seconds}
             min={startDate || min}

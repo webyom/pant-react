@@ -1,6 +1,6 @@
 import React from 'react';
 import { Popup } from '../../popup';
-import { DatetimePicker } from '../../datetime-picker';
+import { DatetimePicker, DatetimeRange } from '../../datetime-picker';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
 import './index.scss';
@@ -10,12 +10,16 @@ const bem = createBEM('demo-datetime-picker');
 type DatetimePickerRouteState = {
   dateValue: Date;
   showPopup: boolean;
+  rangeValue: Date[];
+  showRange: boolean;
 };
 
 export class DatetimePickerRouteComponent extends React.PureComponent<any, DatetimePickerRouteState> {
   state: DatetimePickerRouteState = {
     dateValue: new Date(),
     showPopup: false,
+    rangeValue: [new Date(), new Date()],
+    showRange: false,
   };
 
   onClick(): void {
@@ -91,21 +95,43 @@ export class DatetimePickerRouteComponent extends React.PureComponent<any, Datet
 
           <section>
             <h2>With Popup</h2>
-            <div className={bem('popup-input')} onClick={this.onClick.bind(this)}>
+            <div className={bem('popup-input')} onClick={() => this.setState({ showPopup: true })}>
               <span>Date</span>
               <span>{this.state.dateValue && this.state.dateValue.toLocaleDateString()}</span>
             </div>
+            <Popup
+              show={this.state.showPopup}
+              round
+              position="bottom"
+              onClickClose={() => this.setState({ showPopup: false })}
+            >
+              <DatetimePicker
+                type="date"
+                title="Choose Date"
+                defaultValue={this.state.dateValue}
+                onCancel={() => this.setState({ showPopup: false })}
+                onConfirm={(value: Date) => this.setState({ dateValue: value, showPopup: false })}
+              />
+            </Popup>
           </section>
 
-          <Popup show={this.state.showPopup} round position="bottom" onClickClose={this.onCancel.bind(this)}>
-            <DatetimePicker
-              type="date"
-              title="Choose Date"
-              defaultValue={this.state.dateValue}
-              onCancel={this.onCancel.bind(this)}
-              onConfirm={this.onConfirm.bind(this)}
+          <section>
+            <h2>Datetime Range</h2>
+            <div className={bem('popup-input')} onClick={() => this.setState({ showRange: true })}>
+              <span>Range</span>
+              <span>
+                {this.state.rangeValue &&
+                  this.state.rangeValue[0].toLocaleString() + ' ~ ' + this.state.rangeValue[1].toLocaleString()}
+              </span>
+            </div>
+            <DatetimeRange
+              show={this.state.showRange}
+              type="datetime"
+              defaultValue={this.state.rangeValue}
+              onCancel={() => this.setState({ showRange: false })}
+              onConfirm={(value: [Date, Date]) => this.setState({ rangeValue: value, showRange: false })}
             />
-          </Popup>
+          </section>
         </div>
       </React.Fragment>
     );

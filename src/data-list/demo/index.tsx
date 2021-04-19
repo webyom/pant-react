@@ -2,13 +2,16 @@ import React from 'react';
 import { toast } from '../../toast';
 import { columns as cascaderColumns } from '../../cascader/demo/constant';
 import { DataList, DataListColumn } from '../../data-list';
-import { toolbar } from '../addons/toolbar';
-import { sortable, SortBy } from '../../data-list/addons/sortable';
-import { filterable } from '../../data-list/addons/filterable';
-import { selectable } from '../../data-list/addons/selectable';
-import { recordActions } from '../../data-list/addons/record-actions';
-import { batchActions } from '../../data-list/addons/batch-actions';
-import { pageable } from '../../data-list/addons/pageable';
+import {
+  toolbar,
+  sortable,
+  SortBy,
+  filterable,
+  selectable,
+  recordActions,
+  batchActions,
+  pageable,
+} from '../../data-list/addons';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
 import './index.scss';

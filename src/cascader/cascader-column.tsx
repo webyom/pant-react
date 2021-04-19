@@ -9,6 +9,8 @@ type CascaderColumnProps = {
   index: number;
   value?: string;
   items: ColumnItem[];
+  checkedNode?: React.ReactNode;
+  uncheckedNode?: React.ReactNode;
   normalizeItem: (item: ColumnItem) => StandardColumnItem;
   isItemSelected: (columnIndex: number, item: StandardColumnItem) => boolean;
   hasChildrenSelected: (columnIndex: number, item: StandardColumnItem) => boolean;
@@ -18,7 +20,18 @@ type CascaderColumnProps = {
 const bem = createBEM('pant-cascader');
 
 export const CascaderColumn: React.FC<CascaderColumnProps> = (props) => {
-  const { width, index, value, items, isItemSelected, hasChildrenSelected, normalizeItem, onClick } = props;
+  const {
+    width,
+    index,
+    value,
+    items,
+    checkedNode,
+    uncheckedNode,
+    isItemSelected,
+    hasChildrenSelected,
+    normalizeItem,
+    onClick,
+  } = props;
   const style = { width: width + 'px' };
 
   const genChildrenSelectedMark = (item: StandardColumnItem) => {
@@ -34,7 +47,17 @@ export const CascaderColumn: React.FC<CascaderColumnProps> = (props) => {
     const selected = isItemSelected(index, item);
     return (
       <div className={bem('item-selection', { selected })}>
-        <Icon name={selected ? 'passed' : 'circle'} />
+        {selected ? (
+          checkedNode !== undefined ? (
+            checkedNode
+          ) : (
+            <Icon name="passed" />
+          )
+        ) : uncheckedNode !== undefined ? (
+          uncheckedNode
+        ) : (
+          <Icon name="circle" />
+        )}
       </div>
     );
   };

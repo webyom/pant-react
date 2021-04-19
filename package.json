@@ -52,11 +52,9 @@
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.10",
-    "@types/lodash-es": "^4.17.4",
     "@types/react": "^16.14.5",
     "@types/react-dom": "^16.9.12",
     "@types/react-router-dom": "^5.1.7",
-    "@types/react-virtualized": "^9.21.11",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
     "@vant/touch-emulator": "^1.2.0",
@@ -107,6 +105,8 @@
     "react-dom": ">=16.8.0"
   },
   "dependencies": {
+    "@types/lodash-es": "^4.17.4",
+    "@types/react-virtualized": "^9.21.11",
     "closest": "0.0.1",
     "clsx": "^1.1.0",
     "eventemitter3": "^4.0.7",

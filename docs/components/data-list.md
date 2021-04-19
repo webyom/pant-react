@@ -17,13 +17,15 @@ import { DataList } from 'pant-react/es/data-list';
 ### Use Addons
 
 ```js
-import { toolbar } from 'pant-react/es/data-list/addons/toolbar';
-import { filterable } from 'pant-react/es/data-list/addons/filterable';
-import { sortable } from 'pant-react/es/data-list/addons/sortable';
-import { batchActions } from 'pant-react/es/data-list/addons/batch-actions';
-import { recordActions } from 'pant-react/es/data-list/addons/record-actions';
-import { pageable } from 'pant-react/es/data-list/addons/pageable';
-import { selectable } from 'pant-react/es/data-list/addons/selectable';
+import {
+  toolbar,
+  filterable2,
+  sortable,
+  batchActions,
+  recordActions,
+  pageable,
+  selectable
+} from 'pant-react/es/data-list/addons';
 ```
 
 ```jsx

@@ -3,6 +3,8 @@ import { DataListRecordProps } from './data-list-record';
 
 export * from './data-list';
 
+export * from './data-list-record';
+
 export interface DataListAddon<T = Record<string, any>> {
   onInjectProps?: DataListMiddleware<DataListProps<T>>;
   onInjectDataList?: DataListMiddleware<(props: DataListProps<T>) => JSX.Element>;

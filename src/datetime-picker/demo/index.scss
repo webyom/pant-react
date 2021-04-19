@@ -25,5 +25,8 @@
     line-height: 24px;
     background-color: #fff;
     border-radius: 8px;
+    > span:first-child {
+      margin-right: $padding-md;
+    }
   }
 }
