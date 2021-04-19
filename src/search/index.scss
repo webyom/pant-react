@@ -12,6 +12,7 @@
     flex: 1;
     padding-left: $padding-sm;
     background-color: $search-content-background-color;
+    border: 1px solid $search-content-border-color;
     border-radius: $border-radius-sm;
 
     &--round {

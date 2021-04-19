@@ -11,34 +11,42 @@
 
   &--fullscreen {
     height: 100%;
-    .pant-searchable-picker__content {
+    .pant-searchable-picker__content-wrapper {
       max-height: unset;
     }
   }
 
-  &__content {
+  &__content-wrapper {
     flex: 1;
     max-height: 260px;
-    padding: 0 12px;
+    padding: $searchable-picker-content-padding;
+  }
+
+  &__content {
+    height: 100%;
   }
 
   &__msg {
+    font-size: $searchable-picker-item-font-size;
+    color: $searchable-picker-msg-color;
+    padding: $searchable-picker-msg-padding;
     text-align: center;
-    color: $gray-6;
   }
 
   &__item {
-    line-height: 36px;
-    padding: 0 $padding-xs;
+    color: $searchable-picker-item-color;
+    font-size: $searchable-picker-item-font-size;
+    line-height: $searchable-picker-item-line-height;
+    padding: $searchable-picker-item-padding;
     display: flex;
     align-items: center;
     cursor: pointer;
     user-select: none;
     &:active {
-      background-color: $active-color;
+      background-color: $searchable-picker-item-active-color;
     }
     &:not(:last-child)::after {
-      @include hairline-bottom($cell-border-color, 0, 0);
+      @include hairline-bottom($searchable-picker-item-border-color, 0, 0);
     }
     > span:first-child {
       @include ellipsis();
@@ -49,6 +57,7 @@
       color: $gray-5;
     }
     &--selected {
+      color: $searchable-picker-item-selected-color;
       .pant-icon {
         color: $blue;
       }
@@ -61,12 +70,12 @@
 }
 
 .pant-popup {
-  .pant-searchable-picker__content {
+  .pant-searchable-picker__content-wrapper {
     flex: unset;
     height: 260px;
   }
   .pant-searchable-picker--fullscreen {
-    .pant-searchable-picker__content {
+    .pant-searchable-picker__content-wrapper {
       flex: 1;
       height: unset;
     }

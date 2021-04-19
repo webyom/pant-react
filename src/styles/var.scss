@@ -329,6 +329,7 @@ $pull-refresh-head-text-color: $gray-6;
 $search-padding: 10px $padding-sm;
 $search-background-color: $white;
 $search-content-background-color: $gray-1;
+$search-content-border-color: $gray-1;
 $search-input-height: 34px;
 $search-label-padding: 0 5px;
 $search-label-color: $text-color;
@@ -337,6 +338,19 @@ $search-left-icon-color: $gray-6;
 $search-action-padding: 0 $padding-xs;
 $search-action-text-color: $text-color;
 $search-action-font-size: $font-size-md;
+
+// SearchablePicker
+$searchable-picker-content-padding: 0 $padding-sm;
+$searchable-picker-item-font-size: $font-size-md;
+$searchable-picker-item-line-height: 36px;
+$searchable-picker-item-padding: 0 $padding-xs;
+$searchable-picker-item-color: $text-color;
+$searchable-picker-item-active-color: $active-color;
+$searchable-picker-item-border-color: $cell-border-color;
+$searchable-picker-item-selected-color: $text-color;
+$searchable-picker-msg-font-size: $font-size-md;
+$searchable-picker-msg-color: $text-color;
+$searchable-picker-msg-padding: 50px $padding-sm $padding-sm $padding-sm;
 
 // Skeleton
 $skeleton-row-height: 16px;
