@@ -9,6 +9,10 @@ import { RadioGroup } from '../../radio-group';
 import { Popup } from '../../popup';
 import { Picker } from '../../picker';
 import { columns1, columns3 } from '../../picker/demo/constant';
+import { Cascader } from '../../cascader';
+import { columns as cascaderColumns } from '../../cascader/demo/constant';
+import { SearchablePicker } from '../../searchable-picker';
+import { data as searchablePickerData } from '../../searchable-picker/demo/constant';
 import { DatetimePicker, DatetimeRange } from '../../datetime-picker';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
@@ -424,6 +428,7 @@ export class FormRouteComponent extends React.PureComponent {
                           title="Picker"
                           placeholder="Select city"
                           errorMessage={meta.error}
+                          clearable
                         >
                           <Popup round position="bottom" closeOnClickOverlay>
                             <Picker columns={columns1} defaultValue={input.value} />
@@ -441,9 +446,10 @@ export class FormRouteComponent extends React.PureComponent {
                         <Field<string[]>
                           name={input.name}
                           onChange={input.onChange}
-                          title="Cascade"
+                          title="Cascade Picker"
                           placeholder="Select Location"
                           errorMessage={meta.error}
+                          clearable
                           displayValueFormatter={(value): string => {
                             return value.join('/');
                           }}
@@ -451,6 +457,105 @@ export class FormRouteComponent extends React.PureComponent {
                           <Popup round position="bottom" closeOnClickOverlay>
                             <Picker columns={columns3} cols={3} cascade={true} defaultValue={input.value} />
                           </Popup>
+                        </Field>
+                      )}
+                    </FinalField>
+                    <FinalField<string[][]>
+                      name="location2"
+                      validate={(value: string[][]) => {
+                        return !value || !value.length ? 'Location is required' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<string[][]>
+                          name={input.name}
+                          onChange={input.onChange}
+                          title="Cascader"
+                          placeholder="Select Location"
+                          errorMessage={meta.error}
+                          clearable
+                          displayValueFormatter={(value: string[][]): string => {
+                            return value.map((v) => v.join('/')).join(', ');
+                          }}
+                        >
+                          <Popup position="bottom" closeOnClickOverlay>
+                            <Cascader data={cascaderColumns} defaultValue={input.value} maxSelection={3} />
+                          </Popup>
+                        </Field>
+                      )}
+                    </FinalField>
+                    <FinalField<string[]>
+                      name="location3"
+                      validate={(value: string[]) => {
+                        return !value || !value.length ? 'Location is required' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<string[]>
+                          name={input.name}
+                          onChange={input.onChange}
+                          title="Search Picker"
+                          placeholder="Select Location"
+                          errorMessage={meta.error}
+                          clearable
+                          displayValueFormatter={(value): string => {
+                            return value.join(', ');
+                          }}
+                        >
+                          <Popup round position="bottom" closeOnClickOverlay>
+                            <SearchablePicker data={searchablePickerData} maxSelection={3} defaultValue={input.value} />
+                          </Popup>
+                        </Field>
+                      )}
+                    </FinalField>
+                    <FinalField<Date>
+                      name="datetime"
+                      validate={(value: Date) => {
+                        return !value ? 'Datetime is required' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<Date>
+                          name={input.name}
+                          onChange={input.onChange}
+                          title="Datetime"
+                          placeholder="Select Datetime"
+                          errorMessage={meta.error}
+                          clearable
+                          displayValueFormatter={(value): string => {
+                            return value.toLocaleString();
+                          }}
+                        >
+                          <Popup round position="bottom" closeOnClickOverlay>
+                            <DatetimePicker
+                              type="datetime"
+                              title="Select Datetime"
+                              seconds
+                              defaultValue={input.value}
+                            />
+                          </Popup>
+                        </Field>
+                      )}
+                    </FinalField>
+                    <FinalField<[Date, Date]>
+                      name="datetime-range"
+                      validate={(value: [Date, Date]) => {
+                        return !value ? 'Datetime is required' : undefined;
+                      }}
+                    >
+                      {({ input, meta }) => (
+                        <Field<[Date, Date]>
+                          name={input.name}
+                          onChange={input.onChange}
+                          title="Datetime Range"
+                          placeholder="Select Datetime Range"
+                          errorMessage={meta.error}
+                          clearable
+                          displayValueFormatter={(value): string => {
+                            return value.toLocaleString();
+                          }}
+                        >
+                          <DatetimeRange type="datetime" seconds defaultValue={input.value} />
                         </Field>
                       )}
                     </FinalField>
