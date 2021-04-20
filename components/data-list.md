@@ -17,13 +17,15 @@ import { DataList } from 'pant-react/es/data-list';
 ### Use Addons
 
 ```js
-import { toolbar } from 'pant-react/es/data-list/addons/toolbar';
-import { filterable } from 'pant-react/es/data-list/addons/filterable';
-import { sortable } from 'pant-react/es/data-list/addons/sortable';
-import { batchActions } from 'pant-react/es/data-list/addons/batch-actions';
-import { recordActions } from 'pant-react/es/data-list/addons/record-actions';
-import { pageable } from 'pant-react/es/data-list/addons/pageable';
-import { selectable } from 'pant-react/es/data-list/addons/selectable';
+import {
+  toolbar,
+  filterable2,
+  sortable,
+  batchActions,
+  recordActions,
+  pageable,
+  selectable
+} from 'pant-react/es/data-list/addons';
 ```
 
 ```jsx
@@ -146,7 +148,7 @@ Render toolbar on top of the data list. Must use this addon before use BatchActi
 | header * | Column label | _React.ReactNode_ | - |
 | placeholder | Placeholder for empty value | _string_ | - |
 | type | Component type | _string_ | `input` |
-| componentProps | Component props | _CascaderProps \| SearchPickerProps \| DatetimePickerProps \| DatetimeRangeProps_ | - |
+| componentProps | Component props | _CascaderProps \| SearchablePickerProps \| DatetimePickerProps \| DatetimeRangeProps_ | - |
 
 ### BatchActions Addon
 

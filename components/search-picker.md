@@ -1,3 +1,0 @@
-# SearchPicker
-
-Coming soon...
