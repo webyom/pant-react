@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/webyom/pant-react/compare/v0.1.4...v0.1.5) (2021-04-20)
+
+
+### Features
+
+* **data-list:** custom filterable components ([58eb2dd](https://github.com/webyom/pant-react/commit/58eb2dd404dd30ac13005fdbaf9e7c4d1e795013))
+* **searchable-picker:** custom styles ([88357d1](https://github.com/webyom/pant-react/commit/88357d177ca2424a08c2c4bf119f2d3ec3b48450))
+
 ### [0.1.4](https://github.com/webyom/pant-react/compare/v0.1.3...v0.1.4) (2021-04-19)
 
 ### [0.1.3](https://github.com/webyom/pant-react/compare/v0.1.2...v0.1.3) (2021-04-16)
