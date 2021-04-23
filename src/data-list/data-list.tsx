@@ -14,9 +14,10 @@ export type DataListColumn<T = Record<string, any>> = {
 };
 
 export type DataListProps<T = Record<string, any>> = {
-  columns: DataListColumn<T>[];
   records: T[];
   recordKey?: RecordKey<T>;
+  recordRender?: (record: T, recordIndex: number) => JSX.Element;
+  columns?: DataListColumn<T>[];
   addons?: DataListAddon[];
   topTip?: React.ReactNode;
 };

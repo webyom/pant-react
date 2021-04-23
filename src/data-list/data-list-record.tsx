@@ -34,7 +34,15 @@ export const DataListRecord: React.FC<DataListRecordProps> = (props) => {
   const renderRecord = useMiddleware(
     addons,
     'onInjectRecord',
-  )(({ columns, record, recordIndex }) => {
+  )(({ columns, recordRender, record, recordIndex }) => {
+    if (recordRender) {
+      return <div className={bem('fields-wrapper')}>{recordRender(record, recordIndex)}</div>;
+    }
+
+    if (!columns) {
+      return;
+    }
+
     const expandable = columns.length > 4;
     return (
       <div className={bem('fields-wrapper')}>

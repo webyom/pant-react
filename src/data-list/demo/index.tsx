@@ -14,6 +14,7 @@ import {
 } from '../../data-list/addons';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
+import logoImg from '../../demos/assets/logo.png';
 import './index.scss';
 
 const bem = createBEM('demo-data-list');
@@ -217,6 +218,37 @@ export class DataListRouteComponent extends React.PureComponent {
       },
     });
 
+    const batchActionsReuse = batchActions({
+      getActions() {
+        return [
+          {
+            name: 'Toggle',
+            action(selectable) {
+              selectable.toggleAll();
+            },
+          },
+          {
+            name: 'New',
+            action(selectable) {
+              console.log(selectable.getValue()); /* eslint-disable-line */
+            },
+          },
+          {
+            name: 'View',
+            action(selectable) {
+              console.log(selectable.getValue()); /* eslint-disable-line */
+            },
+          },
+          {
+            name: 'Delete',
+            action(selectable) {
+              console.log(selectable.getValue()); /* eslint-disable-line */
+            },
+          },
+        ];
+      },
+    });
+
     return (
       <React.Fragment>
         <NavBar title="DataList" type="data-list" />
@@ -258,36 +290,7 @@ export class DataListRouteComponent extends React.PureComponent {
                 records={records}
                 addons={[
                   toolbar({ sticky: true, stickyContainer: this.containerRef }),
-                  batchActions({
-                    getActions() {
-                      return [
-                        {
-                          name: 'Toggle',
-                          action(selectable) {
-                            selectable.toggleAll();
-                          },
-                        },
-                        {
-                          name: 'New',
-                          action(selectable) {
-                            console.log(selectable.getValue()); /* eslint-disable-line */
-                          },
-                        },
-                        {
-                          name: 'View',
-                          action(selectable) {
-                            console.log(selectable.getValue()); /* eslint-disable-line */
-                          },
-                        },
-                        {
-                          name: 'Delete',
-                          action(selectable) {
-                            console.log(selectable.getValue()); /* eslint-disable-line */
-                          },
-                        },
-                      ];
-                    },
-                  }),
+                  batchActionsReuse,
                   sortable({
                     columns: [
                       { key: 'name', header: 'Name', prefer: 'asc' },
@@ -326,6 +329,66 @@ export class DataListRouteComponent extends React.PureComponent {
                 ]}
               />
             </div>
+          </section>
+
+          <section>
+            <h2>Record Render</h2>
+            <DataList
+              records={records}
+              recordRender={(record) => {
+                return (
+                  <div className="record-content">
+                    <img src={logoImg} />
+                    <div>
+                      <h3>{record.name}</h3>
+                      <div>{record.mobile}</div>
+                      <div>{record.wechat}</div>
+                      <div>{record.qq}</div>
+                      <div>{record.weibo}</div>
+                    </div>
+                  </div>
+                );
+              }}
+              addons={[
+                toolbar(),
+                batchActionsReuse,
+                sortable({
+                  columns: [
+                    { key: 'name', header: 'Name', prefer: 'asc' },
+                    { key: 'mobile', header: 'Mobile' },
+                    { key: 'wechat', header: 'Wechat' },
+                  ],
+                  value: this.state.sortValue,
+                  onChange: (value) => {
+                    this.setState({ sortValue: value });
+                  },
+                }),
+                filter,
+                selectable({
+                  value: this.state.selectedValue,
+                  onChange: (value) => {
+                    this.setState({ selectedValue: value });
+                  },
+                }),
+                recordActions({
+                  actions: [
+                    {
+                      name: 'View',
+                      action(record) {
+                        toast(`View ${record.name}`);
+                      },
+                    },
+                    {
+                      name: 'Delete',
+                      action(record) {
+                        toast(`Delete ${record.name}`);
+                      },
+                    },
+                  ],
+                }),
+                pageable(),
+              ]}
+            />
           </section>
         </div>
       </React.Fragment>

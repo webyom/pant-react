@@ -44,7 +44,7 @@ export class SkeletonRouteComponent extends React.PureComponent<any, SkeletonRou
                 <img src={logoImg} />
                 <div>
                   <h3>About Pant</h3>
-                  <p>Vant is a set of Mobile UI Components built on React. Ported from Vant.</p>
+                  <p>Pant is a set of Mobile UI Components built on React. Ported from Vant.</p>
                 </div>
               </div>
             </Skeleton>
