@@ -179,9 +179,9 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
   }
 
   private get showClear(): boolean {
-    const { clearable, clearTrigger, readOnly } = this.props;
+    const { clearable, clearTrigger, readOnly, disabled } = this.props;
     const { isInputType, focused, value } = this.state;
-    if (this.isPopup && !this.isEmptyValue(this.getRawValue())) {
+    if (this.isPopup && !readOnly && !disabled && !this.isEmptyValue(this.getRawValue())) {
       return clearable;
     }
     return (
@@ -320,7 +320,9 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
       return;
     }
 
-    if (this.isPopup && !this.props.disabled) {
+    const { disabled, readOnly } = this.props;
+
+    if (this.isPopup && !disabled && !readOnly) {
       const target = evt.target as HTMLElement;
       const field = closest(target, '.pant-field', true);
       if (field && field.querySelector('.pant-field__body') === this.bodyRef.current) {
@@ -585,7 +587,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
 
   render(): JSX.Element {
     const { props } = this;
-    const { disabled, clearTrigger, labelAlign, labelWidth } = props;
+    const { disabled, readOnly, clearTrigger, labelAlign, labelWidth } = props;
     const input = this.genInput();
     const onClick =
       typeof props.onClick === 'function' ? props.onClick : this.isPopup ? this.onPopupControlClick : null;
@@ -609,7 +611,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
         titleClassName={bem('title', { [`${labelAlign}`]: labelAlign })}
         titleStyle={labelWidth ? { width: addUnit(labelWidth) } : undefined}
         valueClassName={bem('value')}
-        onClick={(!disabled && onClick) || null}
+        onClick={(!disabled && !readOnly && onClick) || null}
       >
         <div ref={this.bodyRef} className={bem('body')}>
           {input}
