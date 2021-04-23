@@ -19,7 +19,7 @@ import { DataList } from 'pant-react/es/data-list';
 ```js
 import {
   toolbar,
-  filterable2,
+  filterable,
   sortable,
   batchActions,
   recordActions,

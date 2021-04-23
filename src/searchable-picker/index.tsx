@@ -51,6 +51,7 @@ type SearchablePickerState = {
   contentHeight: number;
   loading: boolean;
   data?: DataSet;
+  prevProps: SearchablePickerProps;
 };
 
 const bem = createBEM('pant-searchable-picker');
@@ -84,6 +85,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
       contentHeight: 0,
       loading: false,
       data: props.data || [],
+      prevProps: props,
     };
     this.select = this.select.bind(this);
     this.setData = this.setData.bind(this);
@@ -92,6 +94,14 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
     this.onSearchChange = debounce(this.onSearchChange.bind(this), 500);
     this.onPopupOpened = this.onPopupOpened.bind(this);
     this.rowRenderer = this.rowRenderer.bind(this);
+  }
+
+  static getDerivedStateFromProps(props: SearchablePickerProps, state: SearchablePickerState): SearchablePickerState {
+    const { prevProps } = state;
+    if (props.data !== prevProps.data) {
+      return { ...state, data: props.data || [], prevProps: props };
+    }
+    return null;
   }
 
   componentDidMount(): void {

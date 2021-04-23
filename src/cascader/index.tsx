@@ -55,6 +55,7 @@ type CascaderState = {
   backSteps: number;
   loading: boolean;
   data?: ColumnItem[];
+  prevProps: CascaderProps;
 };
 
 const bem = createBEM('pant-cascader');
@@ -92,6 +93,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
       backSteps: 0,
       loading: false,
       data: props.data || [],
+      prevProps: props,
     };
     this.onPopupOpened = this.onPopupOpened.bind(this);
     this.isItemSelected = this.isItemSelected.bind(this);
@@ -102,6 +104,14 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     this.backOneStep = this.backOneStep.bind(this);
     this.forwardOneStep = this.forwardOneStep.bind(this);
     this.normalizeItem = this.normalizeItem.bind(this);
+  }
+
+  static getDerivedStateFromProps(props: CascaderProps, state: CascaderState): CascaderState {
+    const { prevProps } = state;
+    if (props.data !== prevProps.data) {
+      return { ...state, data: props.data || [], prevProps: props };
+    }
+    return null;
   }
 
   componentDidMount(): void {
