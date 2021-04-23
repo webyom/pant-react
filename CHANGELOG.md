@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/webyom/pant-react/compare/v0.1.9...v0.1.10) (2021-04-23)
+
+
+### Bug Fixes
+
+* getDerivedStateFromProps ([c758786](https://github.com/webyom/pant-react/commit/c7587861c6cd3c889c4934ee4c923733e9b50d27))
+
 ### [0.1.9](https://github.com/webyom/pant-react/compare/v0.1.8...v0.1.9) (2021-04-23)
 
 
