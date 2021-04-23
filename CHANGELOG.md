@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/webyom/pant-react/compare/v0.1.8...v0.1.9) (2021-04-23)
+
+
+### Features
+
+* **datalist:** custom record render ([b6eb705](https://github.com/webyom/pant-react/commit/b6eb7053049827b0e9a42e9b2d485c9d4be3b822))
+
+
+### Bug Fixes
+
+* **field:** readonly ([1b26c6c](https://github.com/webyom/pant-react/commit/1b26c6c34dd6acba5b966a3b2822c2d036d3678d))
+
 ### [0.1.8](https://github.com/webyom/pant-react/compare/v0.1.7...v0.1.8) (2021-04-23)
 
 
