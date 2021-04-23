@@ -2,10 +2,6 @@
  * Normalize
  */
 
-* {
-  box-sizing: border-box;
-}
-
 html {
   -webkit-tap-highlight-color: transparent;
 }
@@ -21,8 +17,7 @@ a {
 a,
 input,
 button,
-textarea,
-[class*='pant-'] {
+textarea {
   &:focus {
     outline: none;
   }

@@ -9,7 +9,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-sizing: content-box;
+  box-sizing: content-box !important;
 
   // hack for avoid max-width when use left & fixed
   width: $toast-default-width;

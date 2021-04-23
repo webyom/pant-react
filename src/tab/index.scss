@@ -90,7 +90,7 @@
     user-select: none;
 
     &--line {
-      box-sizing: content-box;
+      box-sizing: content-box !important;
       height: 100%;
       padding-bottom: 15px; /* 15px padding to hide scrollbar in mobile safari */
     }

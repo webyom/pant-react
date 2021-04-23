@@ -93,6 +93,9 @@
 
     &__wrapper {
       transition-timing-function: cubic-bezier(0.23, 1, 0.68, 1);
+      padding: 0;
+      margin: 0;
+      list-style: none;
     }
 
     &__item {

@@ -3,7 +3,7 @@
 .pant-switch {
   position: relative;
   display: inline-block;
-  box-sizing: content-box;
+  box-sizing: content-box !important;
   width: $switch-width;
   height: $switch-height;
   font-size: $switch-size;

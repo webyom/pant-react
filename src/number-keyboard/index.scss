@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-sizing: content-box;
+    box-sizing: content-box !important;
     height: $number-keyboard-title-height;
     padding-top: 6px;
     color: $number-keyboard-title-color;
