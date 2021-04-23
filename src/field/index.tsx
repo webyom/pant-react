@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { isDef } from '../utils';
+import { isDef, addUnit } from '../utils';
 import { closest } from '../utils/dom';
 import { createBEM } from '../utils/bem';
 import { Icon } from '../icon';
@@ -585,7 +585,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
 
   render(): JSX.Element {
     const { props } = this;
-    const { disabled, clearTrigger } = props;
+    const { disabled, clearTrigger, labelAlign, labelWidth } = props;
     const input = this.genInput();
     const onClick =
       typeof props.onClick === 'function' ? props.onClick : this.isPopup ? this.onPopupControlClick : null;
@@ -606,7 +606,8 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
           }),
           props.className,
         )}
-        titleClassName={bem('title')}
+        titleClassName={bem('title', { [`${labelAlign}`]: labelAlign })}
+        titleStyle={labelWidth ? { width: addUnit(labelWidth) } : undefined}
         valueClassName={bem('value')}
         onClick={(!disabled && onClick) || null}
       >

@@ -16,6 +16,7 @@ export type CellProps = {
   required?: boolean;
   className?: string;
   titleClassName?: string;
+  titleStyle?: Record<string, string>;
   valueClassName?: string;
   onClick?(event: React.MouseEvent): void;
 };
@@ -35,7 +36,7 @@ export const Cell: React.FC<CellProps> = (props) => {
   function Title(): JSX.Element {
     if (showTitle) {
       return (
-        <div className={clsx(bem('title'), props.titleClassName)}>
+        <div className={clsx(bem('title'), props.titleClassName)} style={props.titleStyle}>
           {typeof title === 'string' ? <span>{title}</span> : title}
           {Label()}
         </div>
