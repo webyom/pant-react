@@ -18,7 +18,7 @@ const bem = createBEM('pant-form');
 
 export class Form<T = never> extends React.PureComponent<FormProps<T>> {
   private bindedOnSubmit = this.onSubmit.bind(this);
-  private readonly childRefs: Record<string, React.RefObject<Field<any>>> = {};
+  private childRefs: Record<string, React.RefObject<Field<any>>> = {};
 
   private onSubmit(evt: React.FormEvent): void {
     const { onSubmit } = this.props;
@@ -27,6 +27,7 @@ export class Form<T = never> extends React.PureComponent<FormProps<T>> {
       .map(([name, ref]) => {
         return { name, ref };
       })
+      .filter((item) => !!item.ref.current)
       .reduce(
         async (promise, item) => {
           return promise.then((res) => {
