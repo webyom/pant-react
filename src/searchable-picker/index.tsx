@@ -1,14 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import { debounce } from 'lodash-es';
-import { List, ListRowProps } from 'react-virtualized'; /* eslint-disable-line */
+import { InfiniteLoader, List, ListRowProps } from 'react-virtualized'; /* eslint-disable-line */
 import { toast } from '../toast';
 import { Icon } from '../icon';
 import { Loading } from '../loading';
 import { PopupToolbar } from '../popup/toolbar';
 import { Search } from '../search';
 import { i18n } from '../locale';
-import { interpolate } from '../utils';
+import { interpolate, addUnit } from '../utils';
 import { eventBus } from '../utils/event-bus';
 import { createBEM } from '../utils/bem';
 import './index.scss';
@@ -17,11 +17,27 @@ export type DataItem = string | Record<string, any>;
 
 export type DataSet = DataItem[];
 
+export type LoadParams = {
+  text: string;
+  offset: number;
+  limit: number;
+  prevData: DataSet;
+  loadMore?: boolean;
+};
+
+export type LoadResult = {
+  data: DataSet;
+  total: number;
+  params: LoadParams;
+};
+
 export type SearchablePickerProps = {
   title?: string;
-  height?: number;
+  height?: number | string;
   rowHeight?: number;
   maxSelection?: number;
+  firstLoadLimit?: number;
+  searchable?: boolean;
   fullscreen?: boolean;
   showToolbar?: boolean;
   toolbarPosition?: 'top' | 'bottom';
@@ -37,7 +53,7 @@ export type SearchablePickerProps = {
   onConfirm?: (value: string[] | string) => void;
   closePopup?: (confirm?: boolean) => void;
   onChange?: (value: string[] | string) => void;
-  onSearch?: (text: string) => Promise<DataSet>;
+  onLoad?: (params: LoadParams) => Promise<LoadResult>;
   onSelectionExceeds?: () => void;
   rowRenderer?: (
     rowProps: ListRowProps & { selected: boolean; item: Record<string, any>; select(index: number): void },
@@ -49,8 +65,10 @@ type SearchablePickerState = {
   pickerValue: string[];
   contentWidth: number;
   contentHeight: number;
+  searchText: string;
   loading: boolean;
-  data?: DataSet;
+  data: DataSet;
+  total: number;
   prevProps: SearchablePickerProps;
 };
 
@@ -58,9 +76,11 @@ const bem = createBEM('pant-searchable-picker');
 
 export class SearchablePicker extends React.PureComponent<SearchablePickerProps, SearchablePickerState> {
   static defaultProps = {
-    height: 360,
+    height: 300,
     rowHeight: 36,
     maxSelection: 1,
+    firstLoadLimit: 20,
+    searchable: true,
     showToolbar: true,
     toolbarPosition: 'top',
     valueKey: 'value',
@@ -69,7 +89,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
   };
 
   private contentRef = React.createRef<HTMLDivElement>();
-  private listRef = React.createRef<List>();
+  private listInstance: List;
 
   constructor(props: SearchablePickerProps) {
     super(props);
@@ -83,17 +103,21 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
       pickerValue: defaultValue || [],
       contentWidth: 0,
       contentHeight: 0,
+      searchText: '',
       loading: false,
       data: props.data || [],
+      total: props.data?.length ?? 0,
       prevProps: props,
     };
     this.select = this.select.bind(this);
-    this.setData = this.setData.bind(this);
+    this.setLoadResult = this.setLoadResult.bind(this);
     this.showLoading = this.showLoading.bind(this);
     this.hideLoading = this.hideLoading.bind(this);
     this.onSearchChange = debounce(this.onSearchChange.bind(this), 500);
     this.onPopupOpened = this.onPopupOpened.bind(this);
     this.rowRenderer = this.rowRenderer.bind(this);
+    this.isRowLoaded = this.isRowLoaded.bind(this);
+    this.loadMoreRows = this.loadMoreRows.bind(this);
   }
 
   static getDerivedStateFromProps(props: SearchablePickerProps, state: SearchablePickerState): SearchablePickerState {
@@ -106,7 +130,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
 
   componentDidMount(): void {
     eventBus.on('popup.opened', this.onPopupOpened);
-    const { _popupId, onSearch } = this.props;
+    const { _popupId, data, onLoad, firstLoadLimit } = this.props;
     if (!_popupId) {
       this.setState({
         contentWidth: this.contentRef.current.clientWidth,
@@ -114,9 +138,11 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
       });
     }
 
-    if (onSearch) {
+    if (onLoad) {
       this.showLoading();
-      onSearch('').then(this.setData).finally(this.hideLoading);
+      onLoad({ text: '', prevData: [...data], offset: 0, limit: firstLoadLimit })
+        .then(this.setLoadResult)
+        .finally(this.hideLoading);
     }
   }
 
@@ -135,13 +161,31 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
 
   clearValue(cb: () => void): void {
     this.setState({ pickerValue: [] }, () => {
-      this.listRef.current.forceUpdateGrid();
+      this.listInstance.forceUpdateGrid();
       cb();
     });
   }
 
-  setData(data: DataSet): void {
-    this.setState({ data: data || [] });
+  setLoadResult(res: LoadResult): void {
+    const {
+      data,
+      total,
+      params: { loadMore, offset, limit },
+    } = res;
+    let newData = data || [];
+    if (loadMore) {
+      const { data: prevData } = this.state;
+      const len = prevData.length;
+      if (len < offset) {
+        newData = [...prevData, ...new Array(offset - len).fill(null), ...data];
+      } else {
+        newData = [...prevData.slice(0, offset), ...data];
+        if (len > offset + limit) {
+          newData = [...newData, ...prevData.slice(offset + limit)];
+        }
+      }
+    }
+    this.setState({ data: newData, total, loading: false });
   }
 
   showLoading(): void {
@@ -153,10 +197,15 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
   }
 
   onSearchChange(text: string): void {
-    const { onSearch } = this.props;
-    if (onSearch) {
-      this.showLoading();
-      onSearch(text).then(this.setData).finally(this.hideLoading);
+    const { onLoad, firstLoadLimit } = this.props;
+    const { data } = this.state;
+    if (onLoad) {
+      this.setState({ searchText: text }, () => {
+        this.showLoading();
+        onLoad({ text, prevData: [...data], offset: 0, limit: firstLoadLimit })
+          .then(this.setLoadResult)
+          .finally(this.hideLoading);
+      });
     } else {
       let data: DataSet;
       if (!text) {
@@ -176,7 +225,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
           }
         });
       }
-      this.setState({ data });
+      this.setState({ data, total: data.length, searchText: text });
     }
   }
 
@@ -285,7 +334,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
       }
     }
     this.setState({ pickerValue: newPickerValue }, () => {
-      this.listRef.current.forceUpdateGrid();
+      this.listInstance.forceUpdateGrid();
       onChange && onChange(this.getValue());
     });
   }
@@ -296,8 +345,13 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
       index, // Index of row within collection
       style, // Style object to be applied to row (to position it)
     } = rowProps;
-    const item = this.normalizeItem(this.state.data[index]);
-    const selected = this.state.pickerValue.indexOf(item.value) >= 0;
+    const { data, pickerValue } = this.state;
+    const rawItem = data[index];
+    if (!rawItem) {
+      return <div key={key} style={style} className={bem('item')}></div>;
+    }
+    const item = this.normalizeItem(rawItem);
+    const selected = pickerValue.indexOf(item.value) >= 0;
     const { rowRenderer, checkedNode, uncheckedNode } = this.props;
     if (rowRenderer) {
       return rowRenderer({ ...rowProps, selected, item, select: this.select });
@@ -320,28 +374,61 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
     );
   }
 
+  isRowLoaded({ index }: { index: number }): boolean {
+    const { data } = this.state;
+    return !!data[index];
+  }
+
+  loadMoreRows({ startIndex, stopIndex }: { startIndex: number; stopIndex: number }): Promise<any> {
+    const { onLoad } = this.props;
+    const { data, searchText } = this.state;
+    if (!onLoad) {
+      return;
+    }
+    this.setState({ loading: true });
+    return onLoad({
+      text: searchText,
+      offset: startIndex,
+      limit: stopIndex - startIndex + 1,
+      prevData: data,
+      loadMore: true,
+    })
+      .then(this.setLoadResult)
+      .finally(this.hideLoading);
+  }
+
   render(): JSX.Element {
-    const { _popupId, height, rowHeight, fullscreen } = this.props;
-    const { contentWidth, contentHeight, loading, data } = this.state;
+    const { _popupId, height, rowHeight, fullscreen, searchable } = this.props;
+    const { contentWidth, contentHeight, loading, data, total } = this.state;
     return (
       <div
         className={bem({ fullscreen: fullscreen })}
-        style={{ height: fullscreen ? '100%' : _popupId ? 'auto' : height + 'px' }}
+        style={{ height: fullscreen ? '100%' : _popupId ? 'auto' : addUnit(height) }}
       >
         {this.genToolbar(true)}
-        <Search onChange={this.onSearchChange} icon={loading ? <Loading size={16} /> : undefined} />
+        {searchable ? (
+          <Search onChange={this.onSearchChange} icon={loading ? <Loading size={16} /> : undefined} />
+        ) : null}
         <div className={bem('content-wrapper')}>
           <div ref={this.contentRef} className={bem('content')}>
             {data.length ? (
-              <List
-                ref={this.listRef}
-                width={contentWidth}
-                height={contentHeight}
-                rowCount={data.length}
-                rowHeight={rowHeight}
-                rowRenderer={this.rowRenderer}
-              />
-            ) : (
+              <InfiniteLoader isRowLoaded={this.isRowLoaded} loadMoreRows={this.loadMoreRows} rowCount={total}>
+                {({ onRowsRendered, registerChild }) => (
+                  <List
+                    ref={(list) => {
+                      this.listInstance = list;
+                      registerChild(list);
+                    }}
+                    onRowsRendered={onRowsRendered}
+                    width={contentWidth}
+                    height={contentHeight}
+                    rowCount={total}
+                    rowHeight={rowHeight}
+                    rowRenderer={this.rowRenderer}
+                  />
+                )}
+              </InfiniteLoader>
+            ) : loading ? null : (
               <div className={bem('msg')}>{i18n().noData}</div>
             )}
           </div>

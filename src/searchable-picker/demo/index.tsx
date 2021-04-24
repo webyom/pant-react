@@ -2,7 +2,7 @@ import React from 'react';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../demos/scripts/components/nav-bar';
 import { Popup } from '../../popup';
-import { SearchablePicker, DataSet } from '..';
+import { SearchablePicker, LoadParams, LoadResult } from '..';
 import { toast } from '../../toast';
 import { data } from './constant';
 import './index.scss';
@@ -29,15 +29,22 @@ export class SearchablePickerRouteComponent extends React.PureComponent<any, Sea
       });
   }
 
-  onSearch(text: string): Promise<DataSet> {
-    text = text.trim();
-    if (!text) {
-      return Promise.resolve(data);
-    }
+  onLoad(params: LoadParams): Promise<LoadResult> {
+    const { text, offset, limit, loadMore } = params;
+    const newText = text.trim();
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(data.filter((item) => item.indexOf(text) >= 0));
-      }, 1000);
+        if (!newText) {
+          if (loadMore) {
+            resolve({ data: data.slice(offset, offset + limit), total: data.length, params });
+          } else {
+            resolve({ data: data.slice(0, 20), total: data.length, params });
+          }
+        } else {
+          const resData = data.filter((item) => item.indexOf(newText) >= 0);
+          resolve({ data: resData, total: resData.length, params });
+        }
+      }, 1000 + 500 * Math.random());
     });
   }
 
@@ -54,9 +61,9 @@ export class SearchablePickerRouteComponent extends React.PureComponent<any, Sea
           </section>
 
           <section>
-            <h2>On Search</h2>
+            <h2>On Load</h2>
             <div className={bem('card')}>
-              <SearchablePicker title="On Search" onChange={this.onChange} onSearch={this.onSearch.bind(this)} />
+              <SearchablePicker title="On Load" onChange={this.onChange} onLoad={this.onLoad.bind(this)} />
             </div>
           </section>
 
@@ -88,7 +95,8 @@ export class SearchablePickerRouteComponent extends React.PureComponent<any, Sea
                 data={data}
                 defaultValue={this.state.cityValue}
                 maxSelection={2}
-                onSearch={this.onSearch.bind(this)}
+                onLoad={this.onLoad.bind(this)}
+                searchable={false}
                 onCancel={(): void => {
                   this.setState({
                     showPicker1: false,
@@ -134,7 +142,7 @@ export class SearchablePickerRouteComponent extends React.PureComponent<any, Sea
                 maxSelection={2}
                 toolbarPosition="bottom"
                 fullscreen
-                onSearch={this.onSearch.bind(this)}
+                onLoad={this.onLoad.bind(this)}
                 onCancel={(): void => {
                   this.setState({
                     showPicker2: false,
