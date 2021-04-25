@@ -63,6 +63,7 @@ export type SearchablePickerProps = {
 
 type SearchablePickerState = {
   pickerValue: string[];
+  rollbackPickerValue: string[];
   contentWidth: number;
   contentHeight: number;
   searchText: string;
@@ -100,7 +101,8 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
           : undefined
         : props.defaultValue;
     this.state = {
-      pickerValue: defaultValue || [],
+      pickerValue: [...(defaultValue || [])],
+      rollbackPickerValue: [...(defaultValue || [])],
       contentWidth: 0,
       contentHeight: 0,
       searchText: '',
@@ -160,7 +162,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
   }
 
   clearValue(cb: () => void): void {
-    this.setState({ pickerValue: [] }, () => {
+    this.setState({ pickerValue: [], rollbackPickerValue: [] }, () => {
       this.listInstance.forceUpdateGrid();
       cb();
     });
@@ -285,15 +287,21 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
   }
 
   confirm(): void {
-    const { closePopup, onConfirm } = this.props;
-    onConfirm && onConfirm(this.getValue());
-    closePopup && closePopup(true);
+    this.setState({ rollbackPickerValue: [...this.state.pickerValue] }, () => {
+      this.listInstance.forceUpdateGrid();
+      const { closePopup, onConfirm } = this.props;
+      onConfirm && onConfirm(this.getValue());
+      closePopup && closePopup(true);
+    });
   }
 
   cancel(): void {
-    const { closePopup, onCancel } = this.props;
-    onCancel && onCancel();
-    closePopup && closePopup();
+    this.setState({ pickerValue: [...this.state.rollbackPickerValue] }, () => {
+      this.listInstance.forceUpdateGrid();
+      const { closePopup, onCancel } = this.props;
+      onCancel && onCancel();
+      closePopup && closePopup();
+    });
   }
 
   normalizeItem(item: string | Record<string, any>): Record<string, any> {

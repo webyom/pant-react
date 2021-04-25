@@ -266,12 +266,9 @@ export class Picker extends React.PureComponent<PickerProps, PickerState> {
       newPickerValue[i] = newFormattedColumns[i][0] && newFormattedColumns[i][0].value;
     }
 
-    this.setState({
-      formattedColumns: newFormattedColumns,
-      pickerValue: newPickerValue,
+    this.setState({ formattedColumns: newFormattedColumns, pickerValue: newPickerValue }, () => {
+      onChange && onChange(cols === 1 ? newPickerValue[0] : newPickerValue);
     });
-
-    onChange && onChange(cols === 1 ? newPickerValue[0] : newPickerValue);
   }
 
   onChange(selectedIndex: number, columnIndex: number): void {
@@ -291,10 +288,9 @@ export class Picker extends React.PureComponent<PickerProps, PickerState> {
         }
         return pickerValue[i];
       });
-      this.setState({
-        pickerValue: newPickerValue,
+      this.setState({ pickerValue: newPickerValue }, () => {
+        onChange && onChange(cols === 1 ? newPickerValue[0] : newPickerValue);
       });
-      onChange && onChange(cols === 1 ? newPickerValue[0] : newPickerValue);
     }
   }
 

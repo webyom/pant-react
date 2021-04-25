@@ -51,7 +51,9 @@ export type CascaderProps = {
 
 type CascaderState = {
   pickerValue: string[][];
+  rollbackPickerValue: string[][];
   currentValue: string[];
+  rollbackCurrentValue: string[];
   contentWidth: number;
   backSteps: number;
   loading: boolean;
@@ -87,9 +89,12 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
         : Array.isArray(props.defaultValue) && typeof props.defaultValue[0] === 'string'
         ? [props.defaultValue]
         : undefined) || [];
+    const currentValue = defaultValue.length ? (defaultValue[0].slice(0, -1) as string[]) : [];
     this.state = {
-      pickerValue: defaultValue as string[][],
-      currentValue: defaultValue.length ? (defaultValue[0].slice(0, -1) as string[]) : [],
+      pickerValue: [...defaultValue] as string[][],
+      rollbackPickerValue: [...defaultValue] as string[][],
+      currentValue: [...currentValue],
+      rollbackCurrentValue: [...currentValue],
       contentWidth: 0,
       backSteps: 0,
       loading: false,
@@ -154,7 +159,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   clearValue(cb: () => void): void {
-    this.setState({ pickerValue: [] }, cb);
+    this.setState({ pickerValue: [], rollbackPickerValue: [] }, cb);
   }
 
   showLoading(): void {
@@ -214,15 +219,21 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   confirm(): void {
-    const { closePopup, onConfirm } = this.props;
-    onConfirm && onConfirm(this.getValue());
-    closePopup && closePopup(true);
+    const { pickerValue, currentValue } = this.state;
+    this.setState({ rollbackPickerValue: [...pickerValue], rollbackCurrentValue: [...currentValue] }, () => {
+      const { closePopup, onConfirm } = this.props;
+      onConfirm && onConfirm(this.getValue());
+      closePopup && closePopup(true);
+    });
   }
 
   cancel(): void {
-    const { closePopup, onCancel } = this.props;
-    onCancel && onCancel();
-    closePopup && closePopup();
+    const { rollbackPickerValue, rollbackCurrentValue } = this.state;
+    this.setState({ pickerValue: [...rollbackPickerValue], currentValue: [...rollbackCurrentValue] }, () => {
+      const { closePopup, onCancel } = this.props;
+      onCancel && onCancel();
+      closePopup && closePopup();
+    });
   }
 
   normalizeItem(item: ColumnItem): StandardColumnItem {

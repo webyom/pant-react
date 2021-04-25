@@ -124,12 +124,13 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
   constructor(props: React.PropsWithChildren<FieldProps<T>>) {
     super(props);
     const iit = isInputType(props.type, props.children);
+    const value = normalizeDefaultValue(props.defaultValue, iit);
     this.state = {
       isInputType: iit,
       focused: false,
       showPopup: false,
-      popupValue: null,
-      value: normalizeDefaultValue(props.defaultValue, iit),
+      popupValue: value,
+      value: value,
       validateMessage: '',
       prevProps: props,
     };
@@ -149,12 +150,13 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
   ): FieldState<T> {
     const defaultValueChanged = props.defaultValue !== state.prevProps.defaultValue;
     const iit = isInputType(props.type, props.children);
+    const value = normalizeDefaultValue(props.defaultValue, iit);
     return {
       isInputType: iit,
       focused: state.focused,
       showPopup: state.showPopup,
-      popupValue: state.popupValue,
-      value: defaultValueChanged ? normalizeDefaultValue(props.defaultValue, iit) : state.value,
+      popupValue: defaultValueChanged ? value : state.popupValue,
+      value: defaultValueChanged ? value : state.value,
       validateMessage: defaultValueChanged ? '' : state.validateMessage,
       prevProps: props,
     };
@@ -180,8 +182,8 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
 
   private get showClear(): boolean {
     const { clearable, clearTrigger, readOnly, disabled } = this.props;
-    const { isInputType, focused, value } = this.state;
-    if (this.isPopup && !readOnly && !disabled && !this.isEmptyValue(this.getRawValue())) {
+    const { isInputType, focused, value, popupValue } = this.state;
+    if (this.isPopup && !readOnly && !disabled && !this.isEmptyValue(popupValue)) {
       return clearable;
     }
     return (
