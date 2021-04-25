@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { get } from 'lodash-es';
 import { removeUnit } from '../utils';
 import { BORDER_UNSET_TOP_BOTTOM } from '../utils/constant';
 import { createBEM } from '../utils/bem';
@@ -43,9 +44,9 @@ export type PickerProps = {
   /** 窗口内可视行数 */
   visibleItemCount?: number;
   /** 自定义value的key值 */
-  valueKey?: string;
+  valueKey?: string | string[];
   /** 自定义label的key值 */
-  labelKey?: string;
+  labelKey?: string | string[];
   /** 滑动惯性滚动速度 */
   swipeDuration?: number;
   /** 加载中展示 */
@@ -79,8 +80,8 @@ const bem = createBEM('pant-picker');
 // 生成formattedColumns
 const getFormatted = (
   columns: string[] | string[][] | ColumnItem[] | ColumnItem[][],
-  valueKey: string,
-  labelKey: string,
+  valueKey: string | string[],
+  labelKey: string | string[],
   pickerValue: string[],
   cols: number,
   cascade: boolean,
@@ -100,9 +101,10 @@ const getFormatted = (
               label: item,
             });
           } else {
+            const value = get(item, valueKey, '') + '';
             options.push({
-              value: item[valueKey] as string,
-              label: item[labelKey] as string,
+              value: value,
+              label: get(item, labelKey, value),
             });
           }
         });
@@ -125,9 +127,10 @@ const getFormatted = (
             label: item,
           });
         } else {
+          const value = get(item, valueKey, '') + '';
           options.push({
-            value: item[valueKey] as string,
-            label: item[labelKey] as string,
+            value: value,
+            label: get(item, labelKey, value),
           });
         }
       });

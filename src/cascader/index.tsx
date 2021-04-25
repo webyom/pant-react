@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { get } from 'lodash-es';
 import { Icon } from '../icon';
 import { Loading } from '../loading';
 import { toast } from '../toast';
@@ -33,8 +34,8 @@ export type CascaderProps = {
   toolbarPosition?: 'top' | 'bottom';
   cancelButtonText?: string;
   confirmButtonText?: string;
-  valueKey?: string;
-  labelKey?: string;
+  valueKey?: string | string[];
+  labelKey?: string | string[];
   data?: ColumnItem[];
   defaultValue?: string[] | string[][];
   checkedNode?: React.ReactNode;
@@ -226,7 +227,8 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
 
   normalizeItem(item: ColumnItem): StandardColumnItem {
     const { valueKey, labelKey } = this.props;
-    return { ...item, value: item[valueKey] + '', label: item[labelKey] };
+    const value = get(item, valueKey, '') + '';
+    return { ...item, value, label: get(item, labelKey, value) };
   }
 
   isSameValue(a: string[], b: string[]): boolean {

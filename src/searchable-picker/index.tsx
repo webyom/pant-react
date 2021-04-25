@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { debounce } from 'lodash-es';
+import { debounce, get } from 'lodash-es';
 import { InfiniteLoader, List, ListRowProps } from 'react-virtualized'; /* eslint-disable-line */
 import { toast } from '../toast';
 import { Icon } from '../icon';
@@ -43,8 +43,8 @@ export type SearchablePickerProps = {
   toolbarPosition?: 'top' | 'bottom';
   cancelButtonText?: string;
   confirmButtonText?: string;
-  valueKey?: string;
-  labelKey?: string;
+  valueKey?: string | string[];
+  labelKey?: string | string[];
   data?: DataSet;
   defaultValue?: string | string[];
   checkedNode?: React.ReactNode;
@@ -304,7 +304,8 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
       };
     }
     const { valueKey, labelKey } = this.props;
-    return { ...item, value: item[valueKey] + '', label: item[labelKey] };
+    const value = get(item, valueKey, '') + '';
+    return { ...item, value, label: get(item, labelKey, value) };
   }
 
   select(index: number): void {

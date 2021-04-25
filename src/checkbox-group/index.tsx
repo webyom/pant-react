@@ -1,4 +1,5 @@
 import React from 'react';
+import { get } from 'lodash-es';
 import { Cell } from '../cell';
 import { CellGroup, CellGroupProps } from '../cell-group';
 import { Checkbox, CheckboxBaseProps, CheckboxProps, CheckboxRole } from '../checkbox';
@@ -20,8 +21,8 @@ export type CheckboxGroupOptions = CheckboxGroupOption[];
 export type CheckboxGroupBaseProps = CheckboxBaseProps & {
   cellGroup?: boolean | CellGroupProps;
   options?: CheckboxGroupOptions;
-  valueKey?: string;
-  labelKey?: string;
+  valueKey?: string | string[];
+  labelKey?: string | string[];
   onClick?(event: Event, checkboxProps: CheckboxProps): void;
   onChange?(value: string[], props: CheckboxGroupProps): void;
 };
@@ -97,7 +98,8 @@ export class CheckboxGroup extends React.PureComponent<CheckboxGroupProps, Check
     if (typeof option === 'string') {
       return { label: option, value: option };
     }
-    return { ...option, label: option[labelKey], value: option[valueKey] };
+    const value = get(option, valueKey, '') + '';
+    return { ...option, label: get(option, labelKey, value), value };
   }
 
   private onClick(event: Event, checkboxProps: CheckboxProps): void {
