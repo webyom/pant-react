@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.13](https://github.com/webyom/pant-react/compare/v0.1.12...v0.1.13) (2021-04-25)
+
+
+### Features
+
+* **searchable-picker:** getDataList ([ec0a2c7](https://github.com/webyom/pant-react/commit/ec0a2c7825d3cc711a848b2a3f4ea0f5a82a851d))
+* rollback picker value after cancel the selection ([5bd1448](https://github.com/webyom/pant-react/commit/5bd1448e934ba66c9eb048a253859485ef095cca))
+
 ### [0.1.12](https://github.com/webyom/pant-react/compare/v0.1.11...v0.1.12) (2021-04-25)
 
 ### [0.1.11](https://github.com/webyom/pant-react/compare/v0.1.10...v0.1.11) (2021-04-24)
