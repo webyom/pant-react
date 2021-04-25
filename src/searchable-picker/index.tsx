@@ -168,6 +168,10 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
     });
   }
 
+  getDataList(): DataSet {
+    return [...this.state.data];
+  }
+
   setLoadResult(res: LoadResult): void {
     const {
       data,

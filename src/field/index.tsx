@@ -70,7 +70,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   showWordLimit?: boolean;
   validateTrigger?: ValidateTrigger[];
   valueFormatter?(value: any): T;
-  displayValueFormatter?(value: T): string;
+  displayValueFormatter?(value: T): React.ReactNode;
   onClosePopup?(field: Field<T>, confirm?: boolean): void;
   onInputKeyDown?(evt: React.KeyboardEvent): void;
   onInputChange?(evt: React.ChangeEvent): string | void;
@@ -445,7 +445,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
     return valueFormatter(value);
   }
 
-  private formatDisplayValue(value: any): string {
+  private formatDisplayValue(value: any): React.ReactNode {
     const { displayValueFormatter } = this.props;
     if (!isDef(value)) {
       return '';
