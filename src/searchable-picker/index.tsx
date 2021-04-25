@@ -292,7 +292,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
 
   confirm(): void {
     this.setState({ rollbackPickerValue: [...this.state.pickerValue] }, () => {
-      this.listInstance.forceUpdateGrid();
+      this.listInstance && this.listInstance.forceUpdateGrid();
       const { closePopup, onConfirm } = this.props;
       onConfirm && onConfirm(this.getValue());
       closePopup && closePopup(true);
@@ -301,7 +301,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
 
   cancel(): void {
     this.setState({ pickerValue: [...this.state.rollbackPickerValue] }, () => {
-      this.listInstance.forceUpdateGrid();
+      this.listInstance && this.listInstance.forceUpdateGrid();
       const { closePopup, onCancel } = this.props;
       onCancel && onCancel();
       closePopup && closePopup();
