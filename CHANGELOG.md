@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.15](https://github.com/webyom/pant-react/compare/v0.1.14...v0.1.15) (2021-04-26)
+
+
+### Bug Fixes
+
+* **searchable-picker:** forceUpdateGrid ([74c37cc](https://github.com/webyom/pant-react/commit/74c37cc7f11bf3f83a43d9da8b31630eed53ac34))
+
 ### [0.1.14](https://github.com/webyom/pant-react/compare/v0.1.13...v0.1.14) (2021-04-25)
 
 
