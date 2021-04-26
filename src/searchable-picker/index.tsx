@@ -125,7 +125,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
   static getDerivedStateFromProps(props: SearchablePickerProps, state: SearchablePickerState): SearchablePickerState {
     const { prevProps } = state;
     if (props.data !== prevProps.data) {
-      return { ...state, data: props.data || [], prevProps: props };
+      return { ...state, data: props.data || [], total: props.data?.length ?? 0, prevProps: props };
     }
     return null;
   }
