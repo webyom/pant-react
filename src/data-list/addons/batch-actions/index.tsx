@@ -11,7 +11,8 @@ type BatchActionItem<T = Record<string, any>> = ActionSheetItem & {
 };
 
 export type BatchActionsOptions<T = Record<string, any>> = {
-  getActions: (selectable: SelectableManager<T>) => BatchActionItem<T>[];
+  render?: (selectable: SelectableManager<T>, showActions: () => void) => JSX.Element;
+  getActions?: (selectable: SelectableManager<T>) => BatchActionItem<T>[];
   cancelText?: string;
 };
 
@@ -28,8 +29,29 @@ export function batchActions(options: BatchActionsOptions): DataListAddon {
   };
 }
 
-function BatchActions({ getActions, cancelText }: BatchActionsOptions) {
+function BatchActions({ render, getActions, cancelText }: BatchActionsOptions) {
   const selectable = useContext(SelectableContext);
+
+  const showActions = () => {
+    if (!getActions) {
+      return;
+    }
+    const actions = getActions(selectable);
+    actionSheet({
+      position: 'top',
+      round: false,
+      actions: actions.slice(1),
+      cancelText: typeof cancelText === 'undefined' ? i18n().cancel : cancelText,
+      onSelect({ action }: BatchActionItem) {
+        action(selectable);
+      },
+    });
+  };
+
+  if (render) {
+    return <div className="pant-data-list__batch-actions">{render(selectable, showActions)}</div>;
+  }
+
   const actions = getActions(selectable);
   const firstAction = actions[0];
   const secondAction = actions[1];
@@ -40,18 +62,6 @@ function BatchActions({ getActions, cancelText }: BatchActionsOptions) {
 
   const performSecondAction = (): void => {
     secondAction.action(selectable);
-  };
-
-  const showActions = () => {
-    actionSheet({
-      position: 'top',
-      round: false,
-      actions: actions.slice(1),
-      cancelText: typeof cancelText === 'undefined' ? i18n().cancel : cancelText,
-      onSelect({ action }: BatchActionItem) {
-        action(selectable);
-      },
-    });
   };
 
   return (

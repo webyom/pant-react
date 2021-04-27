@@ -10,6 +10,8 @@ import './index.scss';
 export { SelectableManager };
 
 export type SelectableOptions = {
+  checkedIcon?: JSX.Element;
+  uncheckedIcon?: JSX.Element;
   value: string[];
   onChange: (value: string[]) => void;
 };
@@ -53,15 +55,28 @@ function DataListSelectable({
 
 const bem = createBEM('pant-data-list__select');
 
-function Selectable({ record, recordIndex, recordKey }: DataListRecordProps & SelectableOptions) {
+function Selectable({
+  record,
+  recordIndex,
+  recordKey,
+  checkedIcon,
+  uncheckedIcon,
+}: DataListRecordProps & SelectableOptions) {
   const manager = useContext(SelectableContext);
   const key = select(recordKey)(record, recordIndex);
 
   const toggle = () => manager.toggle(key);
 
-  return (
-    <div className={bem()}>
-      <Icon name={manager.hasKey(key) ? 'passed' : 'circle'} onClick={toggle} />
-    </div>
-  );
+  let icon;
+  if (manager.hasKey(key)) {
+    icon = (checkedIcon && React.cloneElement(checkedIcon, { onClick: toggle })) || (
+      <Icon name="passed" onClick={toggle} />
+    );
+  } else {
+    icon = (uncheckedIcon && React.cloneElement(uncheckedIcon, { onClick: toggle })) || (
+      <Icon name="circle" onClick={toggle} />
+    );
+  }
+
+  return <div className={bem()}>{icon}</div>;
 }

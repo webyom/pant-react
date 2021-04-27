@@ -1,3 +1,4 @@
+import React from 'react';
 import { Icon } from '../../../icon';
 import { ActionSheetItem, actionSheet } from '../../../action-sheet';
 import { i18n } from '../../../locale';
@@ -9,6 +10,7 @@ type RecordActionItem<T = Record<string, any>> = ActionSheetItem & {
 
 export type RecordActionsOptions<T = Record<string, any>> = {
   actions: RecordActionItem<T>[];
+  actionIcon?: JSX.Element;
   cancelText?: string;
 };
 
@@ -25,7 +27,7 @@ export function recordActions(options: RecordActionsOptions): DataListAddon {
   };
 }
 
-function RecordActions({ actions, record, cancelText }: RecordActionsOptions & { record: any }) {
+function RecordActions({ actions, record, actionIcon, cancelText }: RecordActionsOptions & { record: any }) {
   const showActions = () => {
     actionSheet({
       round: false,
@@ -39,7 +41,9 @@ function RecordActions({ actions, record, cancelText }: RecordActionsOptions & {
 
   return (
     <div className="pant-data-list__record__actions">
-      <Icon name="ellipsis" onClick={showActions} />
+      {(actionIcon && React.cloneElement(actionIcon, { onClick: showActions })) || (
+        <Icon name="ellipsis" onClick={showActions} />
+      )}
     </div>
   );
 }

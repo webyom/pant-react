@@ -17,6 +17,8 @@ export type DataListProps<T = Record<string, any>> = {
   records: T[];
   recordKey?: RecordKey<T>;
   recordRender?: (record: T, recordIndex: number) => JSX.Element;
+  expandButton?: JSX.Element;
+  collapseButton?: JSX.Element;
   columns?: DataListColumn<T>[];
   addons?: DataListAddon[];
   topTip?: React.ReactNode;

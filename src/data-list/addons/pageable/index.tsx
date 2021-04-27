@@ -16,6 +16,8 @@ export type PageableOptions = {
   pageIndex?: number;
   pageSize?: number;
   recordCount?: number;
+  prevPageText?: string;
+  nextPageText?: string;
   onPagingChange?: (query: PagingQuery) => void;
 };
 
@@ -45,6 +47,7 @@ function DataListPagination({
   pageSize,
   recordCount,
   onPagingChange,
+  ...props
 }: PageableOptions & {
   dataListProps: DataListProps<any>;
   dataListRender: (props: DataListProps<any>) => JSX.Element;
@@ -69,7 +72,13 @@ function DataListPagination({
 
   const { records } = dataListProps;
   const pagination = (
-    <Pagination recordCount={recordCount} pageIndex={pageIndex} pageSize={pageSize} onPagingChange={onPagingChange} />
+    <Pagination
+      recordCount={recordCount}
+      pageIndex={pageIndex}
+      pageSize={pageSize}
+      onPagingChange={onPagingChange}
+      {...props}
+    />
   );
 
   return (
@@ -90,7 +99,7 @@ function DataListPagination({
   );
 }
 
-function Pagination({ recordCount, pageSize, pageIndex, onPagingChange }: PageableOptions) {
+function Pagination({ recordCount, pageSize, pageIndex, prevPageText, nextPageText, onPagingChange }: PageableOptions) {
   const pages = Math.ceil(recordCount / pageSize);
 
   return (
@@ -100,7 +109,7 @@ function Pagination({ recordCount, pageSize, pageIndex, onPagingChange }: Pageab
         disabled={pageIndex === 1}
         onClick={() => onPagingChange({ pageSize, pageIndex: pageIndex - 1 })}
       >
-        {i18n().prevPage}
+        {prevPageText || i18n().prevPage}
       </Button>
       <span>
         {pageIndex} / {pages}
@@ -110,7 +119,7 @@ function Pagination({ recordCount, pageSize, pageIndex, onPagingChange }: Pageab
         disabled={pageIndex >= pages}
         onClick={() => onPagingChange({ pageSize, pageIndex: pageIndex + 1 })}
       >
-        {i18n().nextPage}
+        {nextPageText || i18n().nextPage}
       </Button>
     </div>
   );

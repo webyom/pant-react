@@ -47,8 +47,8 @@ export type SearchablePickerProps = {
   labelKey?: string | string[];
   data?: DataSet;
   defaultValue?: string | string[];
-  checkedNode?: React.ReactNode;
-  uncheckedNode?: React.ReactNode;
+  checkedIcon?: JSX.Element;
+  uncheckedIcon?: JSX.Element;
   onCancel?: () => void;
   onConfirm?: (value: string[] | string) => void;
   closePopup?: (confirm?: boolean) => void;
@@ -367,7 +367,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
     }
     const item = this.normalizeItem(rawItem);
     const selected = pickerValue.indexOf(item.value) >= 0;
-    const { rowRenderer, checkedNode, uncheckedNode } = this.props;
+    const { rowRenderer, checkedIcon, uncheckedIcon } = this.props;
     if (rowRenderer) {
       return rowRenderer({ ...rowProps, selected, item, select: this.select });
     }
@@ -375,13 +375,13 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
       <div key={key} style={style} className={bem('item', { selected })} onClick={() => this.select(index)}>
         <span>{item.label}</span>
         {selected ? (
-          checkedNode !== undefined ? (
-            checkedNode
+          checkedIcon !== undefined ? (
+            checkedIcon
           ) : (
             <Icon name="passed" />
           )
-        ) : uncheckedNode !== undefined ? (
-          uncheckedNode
+        ) : uncheckedIcon !== undefined ? (
+          uncheckedIcon
         ) : (
           <Icon name="circle" />
         )}

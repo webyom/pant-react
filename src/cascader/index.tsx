@@ -38,8 +38,8 @@ export type CascaderProps = {
   labelKey?: string | string[];
   data?: ColumnItem[];
   defaultValue?: string[] | string[][];
-  checkedNode?: React.ReactNode;
-  uncheckedNode?: React.ReactNode;
+  checkedIcon?: JSX.Element;
+  uncheckedIcon?: JSX.Element;
   onLoad?: (value: string[]) => Promise<ColumnItem[]>;
   onCancel?: () => void;
   onConfirm?: (value: string[] | string[][]) => void;
@@ -346,7 +346,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   genColumns(): JSX.Element[] {
-    const { maxSelection, checkedNode, uncheckedNode } = this.props;
+    const { maxSelection, checkedIcon, uncheckedIcon } = this.props;
     const { data, currentValue, contentWidth } = this.state;
     const len = currentValue.length;
     const columnWidth = this.getColumnWidth();
@@ -358,8 +358,8 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
         index={0}
         value={currentValue[0]}
         width={len ? columnWidth : contentWidth}
-        checkedNode={checkedNode}
-        uncheckedNode={uncheckedNode}
+        checkedIcon={checkedIcon}
+        uncheckedIcon={uncheckedIcon}
         isItemSelected={this.isItemSelected}
         hasChildrenSelected={this.hasChildrenSelected}
         normalizeItem={this.normalizeItem}
@@ -386,8 +386,8 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
           index={i + 1}
           value={currentValue[i + 1]}
           width={width}
-          checkedNode={checkedNode}
-          uncheckedNode={uncheckedNode}
+          checkedIcon={checkedIcon}
+          uncheckedIcon={uncheckedIcon}
           isItemSelected={this.isItemSelected}
           hasChildrenSelected={this.hasChildrenSelected}
           normalizeItem={this.normalizeItem}

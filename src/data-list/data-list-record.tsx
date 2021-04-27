@@ -34,7 +34,7 @@ export const DataListRecord: React.FC<DataListRecordProps> = (props) => {
   const renderRecord = useMiddleware(
     addons,
     'onInjectRecord',
-  )(({ columns, recordRender, record, recordIndex }) => {
+  )(({ columns, recordRender, expandButton, collapseButton, record, recordIndex }) => {
     if (recordRender) {
       return <div className={bem('fields-wrapper')}>{recordRender(record, recordIndex)}</div>;
     }
@@ -66,8 +66,16 @@ export const DataListRecord: React.FC<DataListRecordProps> = (props) => {
         </div>
         {expandable ? (
           <div className={bem('expand')} onClick={toggle}>
-            <span>{collapsed ? i18n().expand : i18n().collapse}</span>
-            <Icon name={collapsed ? 'arrow-down' : 'arrow-up'} />
+            {expandButton && collapsed ? (
+              expandButton
+            ) : collapseButton && !collapsed ? (
+              collapseButton
+            ) : (
+              <>
+                <span>{collapsed ? i18n().expand : i18n().collapse}</span>
+                <Icon name={collapsed ? 'arrow-down' : 'arrow-up'} />
+              </>
+            )}
           </div>
         ) : null}
       </div>

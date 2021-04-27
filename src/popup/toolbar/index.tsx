@@ -5,6 +5,7 @@ import { createBEM } from '../../utils/bem';
 import './index.scss';
 
 export type PopupToolbarProps = {
+  className?: string;
   title?: string;
   cancelButtonText?: string;
   confirmButtonText?: string;
@@ -15,10 +16,10 @@ export type PopupToolbarProps = {
 const bem = createBEM('pant-popup-toolbar');
 
 export const PopupToolbar: React.FC<PopupToolbarProps> = (props) => {
-  const { title, cancelButtonText, confirmButtonText, onCancel, onConfirm } = props;
+  const { className, title, cancelButtonText, confirmButtonText, onCancel, onConfirm } = props;
   const onlyTitle = !onCancel && !onConfirm;
   return (
-    <div className={bem({ title: onlyTitle })}>
+    <div className={clsx(bem({ title: onlyTitle }), className)}>
       {!onlyTitle ? (
         <button key="cancel" type="button" className={bem('cancel')} onClick={onCancel}>
           {cancelButtonText || i18n().cancel}

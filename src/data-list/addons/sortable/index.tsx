@@ -24,6 +24,12 @@ export type SortableOptions = {
   columns: SortableColumn[];
   value?: SortBy[];
   multiple?: boolean;
+  sortButton?: JSX.Element;
+  ascIcon?: JSX.Element;
+  descIcon?: JSX.Element;
+  sortIcon?: JSX.Element;
+  cancelButtonText?: string;
+  confirmButtonText?: string;
   onChange: (value: SortBy[]) => void;
 };
 
@@ -124,15 +130,19 @@ export class Sortable extends React.PureComponent<SortableOptions, SortableState
   }
 
   render(): JSX.Element {
-    const { columns } = this.props;
+    const { columns, sortButton, ascIcon, descIcon, sortIcon, cancelButtonText, confirmButtonText } = this.props;
     const { show, value = [] } = this.state;
     return (
       <>
         <div className={bem()} onClick={this.show}>
-          <span>{i18n().sorting}</span>
-          <Icon name="sort" />
+          {sortButton || (
+            <>
+              <span>{i18n().sorting}</span>
+              <Icon name="sort" />
+            </>
+          )}
         </div>
-        <Popup show={show} position="top" onClickClose={this.hide}>
+        <Popup className={bem('popup')} show={show} position="top" onClickClose={this.hide}>
           <>
             <div className={bem('list')}>
               {columns.map(({ key, prefer, header }) => {
@@ -142,13 +152,27 @@ export class Sortable extends React.PureComponent<SortableOptions, SortableState
                   <div className={bem('item')} key={key} onClick={() => this.sort(key, prefer, order)}>
                     <div className={bem('by')}>{header}</div>
                     <div className={bem('order', { empty: !order })}>
-                      <Icon name={order === 'desc' ? 'descending' : order === 'asc' ? 'ascending' : 'sort'} />
+                      {order === 'desc' && descIcon ? (
+                        descIcon
+                      ) : order === 'asc' && ascIcon ? (
+                        ascIcon
+                      ) : sortIcon ? (
+                        sortIcon
+                      ) : (
+                        <Icon name={order === 'desc' ? 'descending' : order === 'asc' ? 'ascending' : 'sort'} />
+                      )}
                     </div>
                   </div>
                 );
               })}
             </div>
-            <PopupToolbar onCancel={this.hide} onConfirm={this.confirm} />
+            <PopupToolbar
+              className={bem('footer')}
+              onCancel={this.hide}
+              onConfirm={this.confirm}
+              cancelButtonText={cancelButtonText}
+              confirmButtonText={confirmButtonText}
+            />
           </>
         </Popup>
       </>

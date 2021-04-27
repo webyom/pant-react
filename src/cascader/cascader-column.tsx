@@ -9,8 +9,8 @@ type CascaderColumnProps = {
   index: number;
   value?: string;
   items: ColumnItem[];
-  checkedNode?: React.ReactNode;
-  uncheckedNode?: React.ReactNode;
+  checkedIcon?: JSX.Element;
+  uncheckedIcon?: JSX.Element;
   normalizeItem: (item: ColumnItem) => StandardColumnItem;
   isItemSelected: (columnIndex: number, item: StandardColumnItem) => boolean;
   hasChildrenSelected: (columnIndex: number, item: StandardColumnItem) => boolean;
@@ -25,8 +25,8 @@ export const CascaderColumn: React.FC<CascaderColumnProps> = (props) => {
     index,
     value,
     items,
-    checkedNode,
-    uncheckedNode,
+    checkedIcon,
+    uncheckedIcon,
     isItemSelected,
     hasChildrenSelected,
     normalizeItem,
@@ -48,13 +48,13 @@ export const CascaderColumn: React.FC<CascaderColumnProps> = (props) => {
     return (
       <div className={bem('item-selection', { selected })}>
         {selected ? (
-          checkedNode !== undefined ? (
-            checkedNode
+          checkedIcon !== undefined ? (
+            checkedIcon
           ) : (
             <Icon name="passed" />
           )
-        ) : uncheckedNode !== undefined ? (
-          uncheckedNode
+        ) : uncheckedIcon !== undefined ? (
+          uncheckedIcon
         ) : (
           <Icon name="circle" />
         )}

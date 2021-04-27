@@ -31,6 +31,10 @@ export type FilterableColumn = {
 export type FilterableOptions = {
   columns: FilterableColumn[];
   value?: Record<string, any>;
+  filterButton?: JSX.Element;
+  filterTitle?: string;
+  cancelButtonText?: string;
+  confirmButtonText?: string;
   onChange: (value: Record<string, any>) => void;
   onPopup?: (event: React.SyntheticEvent) => boolean;
 };
@@ -67,7 +71,16 @@ function formatDatetime(date: Date, type: DatetimeType): string {
   }
 }
 
-function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableOptions) {
+function Filterable({
+  columns = [],
+  value = {},
+  filterButton,
+  filterTitle,
+  cancelButtonText,
+  confirmButtonText,
+  onPopup,
+  onChange,
+}: FilterableOptions) {
   const submitBtnRef = useRef<HTMLButtonElement>();
   const [show, setShow] = useState(false);
   const onClick = (event: React.SyntheticEvent) => {
@@ -99,12 +112,16 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
   return (
     <>
       <div className={bem()} onClick={onClick}>
-        <span>{i18n().filter}</span>
-        <Icon name="filter-o" />
+        {filterButton || (
+          <>
+            <span>{i18n().filter}</span>
+            <Icon name="filter-o" />
+          </>
+        )}
       </div>
       <Popup show={show} position="right" onClickClose={hide} style={{ width: '85%', height: '100%' }} lazyRender>
         <div className={bem('popup')}>
-          <PopupToolbar title={i18n().filter} />
+          <PopupToolbar className={bem('title')} title={filterTitle || i18n().filter} />
           <div className={bem('list')}>
             <Form<Record<string, any>>
               onSubmit={(promise): void => {
@@ -241,7 +258,13 @@ function Filterable({ columns = [], value = {}, onPopup, onChange }: FilterableO
               <button ref={submitBtnRef} type="submit" style={{ display: 'none' }}></button>
             </Form>
           </div>
-          <PopupToolbar onCancel={hide} onConfirm={confirm} />
+          <PopupToolbar
+            className={bem('footer')}
+            onCancel={hide}
+            onConfirm={confirm}
+            cancelButtonText={cancelButtonText}
+            confirmButtonText={confirmButtonText}
+          />
         </div>
       </Popup>
     </>
