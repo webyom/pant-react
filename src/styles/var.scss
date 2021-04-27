@@ -182,6 +182,14 @@ $checkbox-disabled-icon-color: $gray-5;
 $checkbox-disabled-label-color: $gray-5;
 $checkbox-disabled-background-color: $border-color;
 
+// DataList
+$data-list-sortable-item-line-height: 36px;
+$data-list-sortable-item-font-size: $font-size-md;
+$data-list-pageable-button-width: 120px;
+$data-list-pageable-button-height: 32px;
+$data-list-pageable-button-font-size: $font-size-md;
+$data-list-pageable-text-font-size: $font-size-md;
+
 // Dialog
 $dialog-z-index: 900;
 $dialog-width: 320px;

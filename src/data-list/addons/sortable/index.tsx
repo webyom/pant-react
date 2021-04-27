@@ -149,7 +149,11 @@ export class Sortable extends React.PureComponent<SortableOptions, SortableState
                 const sortBy = value.find((v) => v.by === key);
                 const order = sortBy?.order;
                 return (
-                  <div className={bem('item')} key={key} onClick={() => this.sort(key, prefer, order)}>
+                  <div
+                    className={bem('item', { active: order === 'desc' || order === 'asc' })}
+                    key={key}
+                    onClick={() => this.sort(key, prefer, order)}
+                  >
                     <div className={bem('by')}>{header}</div>
                     <div className={bem('order', { empty: !order })}>
                       {order === 'desc' && descIcon ? (

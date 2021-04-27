@@ -7,11 +7,19 @@
     font-size: $font-size-md;
     position: relative;
     padding: $padding-xs;
-    text-align: center;
+    display: flex;
+    align-items: center;
 
-    > button {
-      margin: 0 $padding-xs;
-      min-width: 100px;
+    &__text {
+      flex: 1;
+      text-align: center;
+      font-size: $data-list-pageable-text-font-size;
+    }
+
+    &__prev, &__next {
+      width: $data-list-pageable-button-width;
+      height: $data-list-pageable-button-height;
+      font-size: $data-list-pageable-button-font-size;
     }
   }
 }

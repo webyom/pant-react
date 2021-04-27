@@ -105,16 +105,18 @@ function Pagination({ recordCount, pageSize, pageIndex, prevPageText, nextPageTe
   return (
     <div className="pant-data-list__pagination pant-hairline--top">
       <Button
+        className="pant-data-list__pagination__prev"
         size="small"
         disabled={pageIndex === 1}
         onClick={() => onPagingChange({ pageSize, pageIndex: pageIndex - 1 })}
       >
         {prevPageText || i18n().prevPage}
       </Button>
-      <span>
+      <span className="pant-data-list__pagination__text">
         {pageIndex} / {pages}
       </span>
       <Button
+        className="pant-data-list__pagination__next"
         size="small"
         disabled={pageIndex >= pages}
         onClick={() => onPagingChange({ pageSize, pageIndex: pageIndex + 1 })}

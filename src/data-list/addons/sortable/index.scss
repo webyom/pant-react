@@ -24,7 +24,8 @@
       position: relative;
       display: flex;
       padding: 0 $padding-md;
-      line-height: 36px;
+      line-height: $data-list-sortable-item-line-height;
+      font-size: $data-list-sortable-item-font-size;
       cursor: pointer;
       user-select: none;
       &:active {
