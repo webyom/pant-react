@@ -151,7 +151,7 @@ export class DataListRouteComponent extends React.PureComponent {
   state: DataListRouteState = {
     selectedValue: ['0'],
     sortValue: [{ by: 'name', order: 'desc' }],
-    filterValue: { exactMatch: true, name: 'Gary', birthday: new Date() },
+    filterValue: { exactMatch: true, name: 'Gary' },
   };
 
   render(): JSX.Element {

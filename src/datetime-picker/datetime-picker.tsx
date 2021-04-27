@@ -27,6 +27,7 @@ export type DatetimePickerProps = Pick<
 type DatetimePickerState = {
   columns: StandardColumnItem[][];
   pickerValue: string[];
+  viewPickerValue: string[];
 };
 
 const bem = createBEM('pant-datetime-picker');
@@ -52,29 +53,31 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
 
   constructor(props: DatetimePickerProps) {
     super(props);
-    const pickerValue = this.genInitPickerValue();
+    const pickerValue = this.genPickerValue();
     this.state = {
       columns: this.genColumns(pickerValue),
       pickerValue: pickerValue,
+      viewPickerValue: pickerValue.length ? pickerValue : this.genPickerValue(new Date()),
     };
     this.onChange = this.onChange.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
     this.onCancel = this.onCancel.bind(this);
   }
 
-  getValue(): Date {
+  getValue(value?: string[]): Date {
     const { type, seconds } = this.props;
     const { pickerValue } = this.state;
-    if (!pickerValue.length) {
+    value = value || pickerValue;
+    if (!value.length) {
       return null;
     }
 
     if (type === 'time') {
-      const [h, mm, s] = pickerValue.map((v) => parseInt(v));
+      const [h, mm, s] = value.map((v) => parseInt(v));
       const now = new Date();
       return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, mm, seconds ? s : 0);
     } else {
-      const [y, m, d, h, mm, s] = pickerValue.map((v) => parseInt(v));
+      const [y, m, d, h, mm, s] = value.map((v) => parseInt(v));
       if (type === 'datetime') {
         return new Date(y, m, d, h, mm, seconds ? s : 0);
       } else {
@@ -84,7 +87,7 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
   }
 
   clearValue(cb: () => void): void {
-    this.setState({ pickerValue: [] }, cb);
+    this.setState({ pickerValue: [], viewPickerValue: this.genPickerValue(new Date()) }, cb);
   }
 
   range(start: number, end: number): number[] {
@@ -318,29 +321,32 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
     return res;
   }
 
-  genInitPickerValue(): string[] {
+  genPickerValue(date?: Date): string[] {
     const { type, min, max, seconds, defaultValue } = this.props;
     if (min > max) {
       throw new Error('min must not be greater than max');
     }
-    let date: Date;
-    let defaultDate = defaultValue;
-    if (type === 'time' && defaultValue) {
-      defaultDate = new Date(
-        min.getFullYear(),
-        min.getMonth(),
-        min.getDate(),
-        defaultValue.getHours(),
-        defaultValue.getMinutes(),
-        defaultValue.getSeconds(),
-      );
+
+    if (!date) {
+      let defaultDate = defaultValue;
+      if (type === 'time' && defaultValue) {
+        defaultDate = new Date(
+          min.getFullYear(),
+          min.getMonth(),
+          min.getDate(),
+          defaultValue.getHours(),
+          defaultValue.getMinutes(),
+          defaultValue.getSeconds(),
+        );
+      }
+
+      if (defaultDate && defaultDate >= min && defaultDate <= max) {
+        date = defaultDate;
+      } else {
+        return [];
+      }
     }
 
-    if (defaultDate && defaultDate >= min && defaultDate <= max) {
-      date = defaultDate;
-    } else {
-      return [];
-    }
     const res = [];
     if (type === 'date' || type === 'datetime') {
       res.push(date.getFullYear() + '');
@@ -376,25 +382,26 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
     this.setState(
       {
         columns,
-        pickerValue: newPickerValue,
+        viewPickerValue: newPickerValue,
       },
       () => {
         const { onChange } = this.props;
-        onChange && onChange(this.getValue());
+        onChange && onChange(this.getValue(newPickerValue));
       },
     );
   }
 
   onConfirm(): void {
-    const newPickerValue = [...this.state.pickerValue];
-    this.state.columns.forEach((item: StandardColumnItem[], index: number) => {
+    const { viewPickerValue, columns } = this.state;
+    const newPickerValue = [...viewPickerValue];
+    columns.forEach((item: StandardColumnItem[], index: number) => {
       if (item && item.length) {
         if (typeof newPickerValue[index] === 'undefined') {
           newPickerValue[index] = item[0].value;
         }
       }
     });
-    this.setState({ pickerValue: newPickerValue }, () => {
+    this.setState({ pickerValue: newPickerValue, viewPickerValue: newPickerValue }, () => {
       const { closePopup, onConfirm } = this.props;
       closePopup && closePopup(true);
       onConfirm && onConfirm(this.getValue());
@@ -402,9 +409,12 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
   }
 
   onCancel(): void {
-    const { closePopup, onCancel } = this.props;
-    closePopup && closePopup();
-    onCancel && onCancel();
+    const { pickerValue } = this.state;
+    this.setState({ pickerValue, viewPickerValue: pickerValue }, () => {
+      const { closePopup, onCancel } = this.props;
+      closePopup && closePopup();
+      onCancel && onCancel();
+    });
   }
 
   render(): JSX.Element {
@@ -418,17 +428,18 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
       confirmButtonText,
       cancelButtonText,
     } = this.props;
-    const { columns, pickerValue } = this.state;
+    const { columns, viewPickerValue } = this.state;
     return (
       <div className={bem([type, { seconds, seperator }])}>
         <Picker
+          key={viewPickerValue.join('_')}
           showToolbar={showToolbar}
           toolbarPosition={toolbarPosition}
           title={title}
           confirmButtonText={confirmButtonText}
           cancelButtonText={cancelButtonText}
           columns={columns}
-          defaultValue={pickerValue}
+          defaultValue={viewPickerValue}
           cols={columns.length}
           onChange={this.onChange}
           onConfirm={this.onConfirm}

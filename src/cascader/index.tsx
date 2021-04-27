@@ -110,6 +110,8 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     this.backOneStep = this.backOneStep.bind(this);
     this.forwardOneStep = this.forwardOneStep.bind(this);
     this.normalizeItem = this.normalizeItem.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onConfirm = this.onConfirm.bind(this);
   }
 
   static getDerivedStateFromProps(props: CascaderProps, state: CascaderState): CascaderState {
@@ -195,8 +197,8 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
             title={props.title}
             cancelButtonText={props.cancelButtonText || i18n().cancel}
             confirmButtonText={props.confirmButtonText || i18n().confirm}
-            onCancel={this.cancel.bind(this)}
-            onConfirm={this.confirm.bind(this)}
+            onCancel={this.onCancel}
+            onConfirm={this.onConfirm}
           />
         );
       }
@@ -210,15 +212,15 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
           <PopupToolbar
             cancelButtonText={props.cancelButtonText || i18n().cancel}
             confirmButtonText={props.confirmButtonText || i18n().confirm}
-            onCancel={this.cancel.bind(this)}
-            onConfirm={this.confirm.bind(this)}
+            onCancel={this.onCancel}
+            onConfirm={this.onConfirm}
           />
         );
       }
     }
   }
 
-  confirm(): void {
+  onConfirm(): void {
     const { pickerValue, currentValue } = this.state;
     this.setState({ rollbackPickerValue: [...pickerValue], rollbackCurrentValue: [...currentValue] }, () => {
       const { closePopup, onConfirm } = this.props;
@@ -227,7 +229,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
     });
   }
 
-  cancel(): void {
+  onCancel(): void {
     const { rollbackPickerValue, rollbackCurrentValue } = this.state;
     this.setState({ pickerValue: [...rollbackPickerValue], currentValue: [...rollbackCurrentValue] }, () => {
       const { closePopup, onCancel } = this.props;

@@ -88,8 +88,8 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
     const { onClickClose, closePopup } = props;
     onClickClose && onClickClose(event, props);
     const child = this.childRef.current as any;
-    if (child?.cancel) {
-      child.cancel();
+    if (child?.onCancel) {
+      child.onCancel();
     } else {
       closePopup && closePopup();
     }

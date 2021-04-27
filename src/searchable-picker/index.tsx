@@ -120,6 +120,8 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
     this.rowRenderer = this.rowRenderer.bind(this);
     this.isRowLoaded = this.isRowLoaded.bind(this);
     this.loadMoreRows = this.loadMoreRows.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onConfirm = this.onConfirm.bind(this);
   }
 
   static getDerivedStateFromProps(props: SearchablePickerProps, state: SearchablePickerState): SearchablePickerState {
@@ -267,8 +269,8 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
             title={props.title}
             cancelButtonText={props.cancelButtonText || i18n().cancel}
             confirmButtonText={props.confirmButtonText || i18n().confirm}
-            onCancel={this.cancel.bind(this)}
-            onConfirm={this.confirm.bind(this)}
+            onCancel={this.onCancel}
+            onConfirm={this.onConfirm}
           />
         );
       }
@@ -282,15 +284,15 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
           <PopupToolbar
             cancelButtonText={props.cancelButtonText || i18n().cancel}
             confirmButtonText={props.confirmButtonText || i18n().confirm}
-            onCancel={this.cancel.bind(this)}
-            onConfirm={this.confirm.bind(this)}
+            onCancel={this.onCancel}
+            onConfirm={this.onConfirm}
           />
         );
       }
     }
   }
 
-  confirm(): void {
+  onConfirm(): void {
     this.setState({ rollbackPickerValue: [...this.state.pickerValue] }, () => {
       this.listInstance && this.listInstance.forceUpdateGrid();
       const { closePopup, onConfirm } = this.props;
@@ -299,7 +301,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
     });
   }
 
-  cancel(): void {
+  onCancel(): void {
     this.setState({ pickerValue: [...this.state.rollbackPickerValue] }, () => {
       this.listInstance && this.listInstance.forceUpdateGrid();
       const { closePopup, onCancel } = this.props;

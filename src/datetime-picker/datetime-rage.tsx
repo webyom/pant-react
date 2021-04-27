@@ -110,6 +110,7 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
       <div className={bem([type, { seconds, seperator }])}>
         <Popup round position="bottom" show={show && step === 1} closePopup={this.closePopup} closeOnClickOverlay>
           <DatetimePicker
+            key={Date.now()}
             title={titleStart}
             confirmButtonText={confirmButtonText}
             cancelButtonText={cancelButtonText}

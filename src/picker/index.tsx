@@ -210,6 +210,8 @@ export class Picker extends React.PureComponent<PickerProps, PickerState> {
       pickerValue: defaultValue || [],
     };
     this.injectChildren = this.injectChildren.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onConfirm = this.onConfirm.bind(this);
   }
 
   // 将pickerColumn实例注入到state.children
@@ -231,13 +233,13 @@ export class Picker extends React.PureComponent<PickerProps, PickerState> {
       return (
         <div className={bem('toolbar')}>
           {[
-            <button key="cancel" type="button" className={bem('cancel')} onClick={this.cancel.bind(this)}>
+            <button key="cancel" type="button" className={bem('cancel')} onClick={this.onCancel}>
               {props.cancelButtonText || i18n().cancel}
             </button>,
             <div key="title" className={clsx(bem('title'), 'pant-ellipsis')}>
               {props.title}
             </div>,
-            <button key="confirm" type="button" className={bem('confirm')} onClick={this.confirm.bind(this)}>
+            <button key="confirm" type="button" className={bem('confirm')} onClick={this.onConfirm}>
               {props.confirmButtonText || i18n().confirm}
             </button>,
           ]}
@@ -307,7 +309,7 @@ export class Picker extends React.PureComponent<PickerProps, PickerState> {
     this.setState({ pickerValue: [] }, cb);
   }
 
-  confirm(): void {
+  onConfirm(): void {
     this.state.children.forEach((child: PickerColumn) => child.stopMomentum());
     const newPickerValue = [...this.state.pickerValue];
     this.state.formattedColumns.forEach((item: StandardColumnItem[], index: number) => {
@@ -324,7 +326,7 @@ export class Picker extends React.PureComponent<PickerProps, PickerState> {
     });
   }
 
-  cancel(): void {
+  onCancel(): void {
     this.emit('onCancel');
     const { closePopup } = this.props;
     closePopup && closePopup();
