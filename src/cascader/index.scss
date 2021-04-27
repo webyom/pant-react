@@ -51,9 +51,9 @@
   &__item {
     @include ellipsis();
     position: relative;
-    padding: 0 $padding-xs;
+    padding: $cascader-item-padding;
     font-size: $font-size-md;
-    line-height: 36px;
+    line-height: $cascader-item-height;
     cursor: pointer;
     user-select: none;
     &:active {
@@ -101,6 +101,7 @@
     background-color: $white;
     color: $gray-6;
     cursor: pointer;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, .3);
   }
   &__forward {
     left: auto;
