@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.17](https://github.com/webyom/pant-react/compare/v0.1.16...v0.1.17) (2021-04-27)
+
+
+### Features
+
+* **datetime-range:** popup round configrable ([19d156c](https://github.com/webyom/pant-react/commit/19d156c1880f4734924792e858d489ae7d7cccf7))
+
+
+### Bug Fixes
+
+* **datetime-picker:** reset state ([aa89a7f](https://github.com/webyom/pant-react/commit/aa89a7feddebb84755b80ff9d237e2add827a6e1))
+
 ### [0.1.16](https://github.com/webyom/pant-react/compare/v0.1.15...v0.1.16) (2021-04-26)
 
 
