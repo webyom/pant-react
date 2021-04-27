@@ -20,6 +20,7 @@ export type DatetimeRangeProps = Pick<
   titleEnd?: string;
   prefixZero?: boolean;
   seperator?: boolean;
+  roundPopup?: boolean;
   formatter?: (text: string, type: 'y' | 'm' | 'd' | 'h' | 'mm' | 's') => string;
   closePopup?: (confirm?: boolean) => void;
   onConfirm?: (value: [Date, Date]) => void;
@@ -37,6 +38,7 @@ const bem = createBEM('pant-datetime-range');
 export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, DatetimeRangeState> {
   static readonly __FIELD_BEHAVIOR__ = 'Popup';
   static defaultProps = {
+    roundPopup: true,
     titleStart: i18n().selectStartDate,
     titleEnd: i18n().selectEndDate,
     defaultValue: [] as Date[],
@@ -102,13 +104,20 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
       cancelButtonText,
       prefixZero,
       seperator,
+      roundPopup,
       formatter,
       toolbarPosition,
     } = this.props;
     const { step, startDate, endDate } = this.state;
     return (
       <div className={bem([type, { seconds, seperator }])}>
-        <Popup round position="bottom" show={show && step === 1} closePopup={this.closePopup} closeOnClickOverlay>
+        <Popup
+          position="bottom"
+          show={show && step === 1}
+          closePopup={this.closePopup}
+          round={roundPopup}
+          closeOnClickOverlay
+        >
           <DatetimePicker
             key={Date.now()}
             title={titleStart}
@@ -126,7 +135,13 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
             defaultValue={startDate}
           />
         </Popup>
-        <Popup round position="bottom" show={show && step === 2} closePopup={this.closePopup} closeOnClickOverlay>
+        <Popup
+          position="bottom"
+          show={show && step === 2}
+          closePopup={this.closePopup}
+          round={roundPopup}
+          closeOnClickOverlay
+        >
           <DatetimePicker
             key={Date.now()}
             title={titleEnd}
