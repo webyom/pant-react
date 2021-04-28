@@ -12,7 +12,7 @@ export { SelectableManager };
 export type SelectableOptions = {
   checkedIcon?: JSX.Element;
   uncheckedIcon?: JSX.Element;
-  value: string[];
+  value?: string[];
   onChange: (value: string[]) => void;
 };
 
