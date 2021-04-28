@@ -35,6 +35,10 @@
       &:not(:last-child)::after {
         @include hairline-bottom($cell-border-color, 0, 0);
       }
+
+      &--active {
+        color: $data-list-sortable-item-active-color;
+      }
     }
 
     &__by {
