@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.21](https://github.com/webyom/pant-react/compare/v0.1.20...v0.1.21) (2021-04-29)
+
+
+### Features
+
+* **field:** custom body style ([d74e008](https://github.com/webyom/pant-react/commit/d74e008fcb4ba94ca0179ef86faaf0d860596760))
+
 ### [0.1.20](https://github.com/webyom/pant-react/compare/v0.1.19...v0.1.20) (2021-04-28)
 
 ### [0.1.19](https://github.com/webyom/pant-react/compare/v0.1.18...v0.1.19) (2021-04-27)
