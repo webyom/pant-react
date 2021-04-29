@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.22](https://github.com/webyom/pant-react/compare/v0.1.21...v0.1.22) (2021-04-29)
+
+
+### Bug Fixes
+
+* **button:** style ([6f9fb7f](https://github.com/webyom/pant-react/commit/6f9fb7f162ebf6e1bd82e76e884b70a6cb886261))
+
 ### [0.1.21](https://github.com/webyom/pant-react/compare/v0.1.20...v0.1.21) (2021-04-29)
 
 
