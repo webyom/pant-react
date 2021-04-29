@@ -51,7 +51,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
 
     // hide border when color is linear-gradient
     if (color.indexOf('gradient') !== -1) {
-      style.border = 0;
+      style.border = '0';
     } else {
       style.borderColor = color;
     }
