@@ -28,7 +28,7 @@ export type PopupProps = {
   overlay?: boolean;
   closeOnClickOverlay?: boolean;
   lockScroll?: boolean;
-  style?: Record<string, string | number>;
+  style?: Record<string, string>;
   zIndex?: number | string;
   className?: string;
   children?: React.ReactElement;

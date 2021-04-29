@@ -12,7 +12,7 @@ export type OverlayProps = {
   zIndex?: number | string;
   duration?: number;
   className?: any;
-  style?: Record<string, string | number>;
+  style?: Record<string, string>;
   onClick?(event: React.MouseEvent): void;
 } & TransitionEvents;
 

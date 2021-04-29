@@ -14,7 +14,7 @@ export type SwitchProps = {
   disabled?: boolean;
   activeColor?: string;
   inactiveColor?: string;
-  style?: Record<string, string | number>;
+  style?: Record<string, string>;
   onClick?(event: React.MouseEvent, props: SwitchProps): void;
 };
 

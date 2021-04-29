@@ -12,7 +12,7 @@ export type NotifyProps = PopupProps & {
   type?: NotifyType;
   color?: string;
   background?: string;
-  style?: Record<string, string | number>;
+  style?: Record<string, string>;
   onClick?(event: React.MouseEvent): void;
 };
 

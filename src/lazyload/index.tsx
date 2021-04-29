@@ -10,7 +10,7 @@ export type LazyloadProps = {
   preloadOffset?: number;
   inline?: boolean;
   className?: string;
-  style?: Record<string, string | number>;
+  style?: Record<string, string>;
   children?: React.ReactNode;
   scroller?: HTMLElement | Window;
 };

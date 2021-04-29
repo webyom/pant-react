@@ -17,6 +17,7 @@ export type CellProps = {
   className?: string;
   titleClassName?: string;
   titleStyle?: Record<string, string>;
+  style?: Record<string, string>;
   valueClassName?: string;
   onClick?(event: React.MouseEvent): void;
 };
@@ -86,6 +87,7 @@ export const Cell: React.FC<CellProps> = (props) => {
       role={clickable ? 'button' : null}
       tabIndex={clickable ? 0 : null}
       onClick={onClick}
+      style={props.style}
     >
       {LeftIcon()}
       {Title()}

@@ -30,7 +30,7 @@ export type ButtonProps = {
   loadingType?: LoadingType;
   loadingText?: string;
   className?: string;
-  style?: Record<string, string | number>;
+  style?: Record<string, string>;
   onClick?(event: React.MouseEvent): void;
 };
 
@@ -39,7 +39,7 @@ const bem = createBEM('pant-button');
 export const Button: React.FC<ButtonProps> = (props) => {
   const { url, icon, type, color, plain, disabled, loading, hairline, loadingText } = props;
 
-  let style: Record<string, string | number> = {};
+  let style: Record<string, string> = {};
 
   if (color) {
     style.color = plain ? color : WHITE;

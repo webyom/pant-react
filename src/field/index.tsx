@@ -64,6 +64,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   labelAlign?: 'center' | 'right';
   inputAlign?: 'center' | 'right';
   direction?: 'row' | 'column';
+  bodyStyle?: Record<string, string>;
   placeholder?: string;
   errorMessage?: string;
   errorMessageAlign?: 'center' | 'right';
@@ -589,7 +590,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
 
   render(): JSX.Element {
     const { props } = this;
-    const { disabled, readOnly, clearTrigger, labelAlign, labelWidth } = props;
+    const { disabled, readOnly, clearTrigger, labelAlign, labelWidth, style, bodyStyle } = props;
     const input = this.genInput();
     const onClick =
       typeof props.onClick === 'function' ? props.onClick : this.isPopup ? this.onPopupControlClick : null;
@@ -614,8 +615,9 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
         titleStyle={labelWidth ? { width: addUnit(labelWidth) } : undefined}
         valueClassName={bem('value')}
         onClick={(!disabled && !readOnly && onClick) || null}
+        style={style}
       >
-        <div ref={this.bodyRef} className={bem('body')}>
+        <div ref={this.bodyRef} className={bem('body')} style={bodyStyle}>
           {input}
           {this.showClear && (
             <Icon
