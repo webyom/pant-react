@@ -56,7 +56,9 @@ export class FormRouteComponent extends React.PureComponent {
                     });
                   },
                 ]}
-              ></Field>
+              >
+                xxx
+              </Field>
               <Field<string>
                 type="password"
                 defaultValue=""

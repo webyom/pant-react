@@ -471,12 +471,15 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
 
   private genInput(): JSX.Element {
     const { props } = this;
-    const { type, name, inputAlign, children } = props;
+    const { type, name, inputAlign, readOnly, children } = props;
     const { showPopup, popupValue, isInputType, value } = this.state;
 
     if (this.isCustomChild()) {
       const childrenWithProps = [].concat(children).map((child, index) => {
-        const isPopup = (this.isPopup = child.type.__FIELD_BEHAVIOR__ === 'Popup');
+        const isPopup = (this.isPopup = child.type?.__FIELD_BEHAVIOR__ === 'Popup');
+        if (!child.type || typeof child.type === 'string') {
+          return child;
+        }
         return React.cloneElement(child, {
           key: index,
           ref: this.inputRef,
@@ -495,7 +498,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
               <input
                 className={bem('control', [inputAlign, 'custom'])}
                 value=""
-                placeholder={props.placeholder}
+                placeholder={readOnly ? '' : props.placeholder}
                 readOnly
               />
             )}
