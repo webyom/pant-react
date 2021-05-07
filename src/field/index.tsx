@@ -607,7 +607,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
         required={props.required}
         className={clsx(
           bem({
-            row: props.direction === 'row',
+            row: props.direction !== 'column',
             column: props.direction === 'column',
             error: this.showError,
             disabled: disabled,
