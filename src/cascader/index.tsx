@@ -116,8 +116,23 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
 
   static getDerivedStateFromProps(props: CascaderProps, state: CascaderState): CascaderState {
     const { prevProps } = state;
-    if (props.data !== prevProps.data) {
-      return { ...state, data: props.data || [], prevProps: props };
+    if (props.data !== prevProps.data || props.defaultValue !== prevProps.defaultValue) {
+      const defaultValue =
+        (Array.isArray(props.defaultValue) && Array.isArray(props.defaultValue[0])
+          ? props.defaultValue
+          : Array.isArray(props.defaultValue) && typeof props.defaultValue[0] === 'string'
+          ? [props.defaultValue]
+          : undefined) || [];
+      const currentValue = defaultValue.length ? (defaultValue[0].slice(0, -1) as string[]) : [];
+      return {
+        ...state,
+        pickerValue: [...defaultValue] as string[][],
+        rollbackPickerValue: [...defaultValue] as string[][],
+        currentValue: [...currentValue],
+        rollbackCurrentValue: [...currentValue],
+        data: props.data || [],
+        prevProps: props,
+      };
     }
     return null;
   }
