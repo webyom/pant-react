@@ -337,7 +337,10 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
   private clearInput(): void {
     if (this.isPopup) {
       (this.inputRef.current as any).clearValue(() => {
-        this.setState({ popupValue: this.formatReturnValue(this.getRawValue()) });
+        this.setState({ popupValue: this.formatReturnValue(this.getRawValue()) }, () => {
+          const { onChange } = this.props;
+          onChange && onChange(this.getValue());
+        });
       });
     } else {
       const value: any = '';
