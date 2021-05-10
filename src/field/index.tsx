@@ -614,6 +614,7 @@ export class Field<T = never> extends React.PureComponent<FieldProps<T>, FieldSt
             column: props.direction === 'column',
             error: this.showError,
             disabled: disabled,
+            readonly: readOnly,
             'min-height': props.type === 'textarea' && !props.autosize,
           }),
           props.className,
