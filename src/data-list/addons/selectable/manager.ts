@@ -1,3 +1,6 @@
+import { toast } from '../../../toast';
+import { i18n } from '../../../locale';
+import { interpolate } from '../../../utils';
 import { RecordKey, select } from '../../key-selector';
 
 export class SelectableManager<T = Record<string, any>> {
@@ -5,6 +8,8 @@ export class SelectableManager<T = Record<string, any>> {
     private records: T[] = [],
     private value: string[] = [],
     private recordKey: RecordKey<T>,
+    private maxSelection: number = 9999,
+    private maxSelectionMsg: string,
     private onChange: (value: string[]) => void,
   ) {}
 
@@ -21,7 +26,14 @@ export class SelectableManager<T = Record<string, any>> {
     if (this.hasKey(key)) {
       onChange(this.value.filter((v) => v !== key));
     } else {
-      onChange([...this.value, key]);
+      const { maxSelection, maxSelectionMsg } = this;
+      if (maxSelection === 1) {
+        onChange([key]);
+      } else if (maxSelection > this.value.length) {
+        onChange([...this.value, key]);
+      } else {
+        toast(interpolate(maxSelectionMsg || i18n().maxSelection, [maxSelection]));
+      }
     }
   }
 
@@ -31,7 +43,7 @@ export class SelectableManager<T = Record<string, any>> {
     if (all.every((v) => this.value.includes(v))) {
       onChange([]);
     } else {
-      onChange(all);
+      onChange(all.slice(0, this.maxSelection));
     }
   }
 }

@@ -36,6 +36,7 @@ export type SearchablePickerProps = {
   height?: number | string;
   rowHeight?: number;
   maxSelection?: number;
+  maxSelectionMsg?: string;
   firstLoadLimit?: number;
   searchable?: boolean;
   fullscreen?: boolean;
@@ -337,7 +338,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
   }
 
   select(index: number): void {
-    const { maxSelection, onChange, onSelectionExceeds } = this.props;
+    const { maxSelection, onChange, onSelectionExceeds, maxSelectionMsg } = this.props;
     const { pickerValue, data } = this.state;
     const item = this.normalizeItem(data[index]);
     let newPickerValue: string[];
@@ -357,7 +358,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
         if (onSelectionExceeds) {
           onSelectionExceeds();
         } else {
-          toast(interpolate(i18n().maxSelection, [maxSelection]));
+          toast(interpolate(maxSelectionMsg || i18n().maxSelection, [maxSelection]));
         }
         return;
       }

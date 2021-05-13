@@ -30,6 +30,7 @@ export type CascaderProps = {
   height?: number;
   columnWidth?: number;
   maxSelection?: number;
+  maxSelectionMsg?: string;
   showToolbar?: boolean;
   toolbarPosition?: 'top' | 'bottom';
   cancelButtonText?: string;
@@ -286,7 +287,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   onClickItem(columnIndex: number, item: StandardColumnItem): void {
-    const { maxSelection, onChange, onLoad } = this.props;
+    const { maxSelection, maxSelectionMsg, onChange, onLoad } = this.props;
     const { currentValue, pickerValue, data } = this.state;
     const newValue = [...currentValue.slice(0, columnIndex), item.value];
     if (item.children) {
@@ -321,7 +322,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
         newPickerValue = pickerValue.filter((value) => !this.isSameValue(value, newValue));
         if (newPickerValue.length === pickerValue.length) {
           if (pickerValue.length >= maxSelection) {
-            toast(interpolate(i18n().maxSelection, [maxSelection]));
+            toast(interpolate(maxSelectionMsg || i18n().maxSelection, [maxSelection]));
             return;
           } else {
             newPickerValue = [...pickerValue, newValue];

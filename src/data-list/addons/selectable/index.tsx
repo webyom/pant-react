@@ -13,6 +13,8 @@ export type SelectableOptions = {
   checkedIcon?: JSX.Element;
   uncheckedIcon?: JSX.Element;
   value?: string[];
+  maxSelection?: number;
+  maxSelectionMsg?: string;
   onChange: (value: string[]) => void;
 };
 
@@ -26,7 +28,16 @@ export function selectable(options: SelectableOptions): DataListAddon {
     onInjectDataList: (render) => (props) => {
       return (
         <SelectableContext.Provider
-          value={new SelectableManager(props.records, options.value, props.recordKey, options.onChange)}
+          value={
+            new SelectableManager(
+              props.records,
+              options.value,
+              props.recordKey,
+              options.maxSelection,
+              options.maxSelectionMsg,
+              options.onChange,
+            )
+          }
         >
           {render(props)}
         </SelectableContext.Provider>
