@@ -46,6 +46,7 @@ export type SearchablePickerProps = {
   valueKey?: string | string[];
   labelKey?: string | string[];
   data?: DataSet;
+  noDataMsg?: string;
   defaultValue?: string | string[];
   checkedIcon?: JSX.Element;
   uncheckedIcon?: JSX.Element;
@@ -426,7 +427,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
   }
 
   render(): JSX.Element {
-    const { _popupId, height, rowHeight, fullscreen, searchable } = this.props;
+    const { _popupId, height, rowHeight, fullscreen, searchable, noDataMsg } = this.props;
     const { contentWidth, contentHeight, loading, data, total } = this.state;
     return (
       <div
@@ -457,7 +458,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
                 )}
               </InfiniteLoader>
             ) : loading ? null : (
-              <div className={bem('msg')}>{i18n().noData}</div>
+              <div className={bem('msg')}>{noDataMsg || i18n().noData}</div>
             )}
           </div>
         </div>
