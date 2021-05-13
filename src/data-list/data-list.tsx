@@ -22,6 +22,7 @@ export type DataListProps<T = Record<string, any>> = {
   columns?: DataListColumn<T>[];
   addons?: DataListAddon[];
   topTip?: React.ReactNode;
+  noDataMsg?: React.ReactNode;
 };
 
 type DataListState = Record<string, any>;
@@ -47,7 +48,7 @@ export class DataList<T = Record<string, any>> extends React.PureComponent<DataL
         {props.topTip ? (
           <div className={bem('tips')}>{props.topTip}</div>
         ) : !records.length ? (
-          <div className={bem('tips')}>{i18n().noData}</div>
+          <div className={bem('tips')}>{this.props.noDataMsg || i18n().noData}</div>
         ) : null}
         {records.map((record, recordIndex) => (
           <DataListRecord
