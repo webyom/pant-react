@@ -31,6 +31,7 @@ export type CascaderProps = {
   columnWidth?: number;
   maxSelection?: number;
   maxSelectionMsg?: string;
+  changeOnSelect?: boolean;
   showToolbar?: boolean;
   toolbarPosition?: 'top' | 'bottom';
   cancelButtonText?: string;
@@ -287,7 +288,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
   }
 
   onClickItem(columnIndex: number, item: StandardColumnItem): void {
-    const { maxSelection, maxSelectionMsg, onChange, onLoad } = this.props;
+    const { maxSelection, maxSelectionMsg, changeOnSelect, onChange, onLoad } = this.props;
     const { currentValue, pickerValue, data } = this.state;
     const newValue = [...currentValue.slice(0, columnIndex), item.value];
     if (item.children) {
@@ -304,11 +305,23 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
               res = item && item.children;
             }
             item.children = items;
-            this.setState({ data, backSteps: 0, currentValue: newValue });
+            if (changeOnSelect && maxSelection === 1) {
+              this.setState({ pickerValue: [newValue], data, backSteps: 0, currentValue: newValue }, () => {
+                onChange && onChange(this.getValue());
+              });
+            } else {
+              this.setState({ data, backSteps: 0, currentValue: newValue });
+            }
           })
           .finally(this.hideLoading);
       } else {
-        this.setState({ backSteps: 0, currentValue: newValue });
+        if (changeOnSelect && maxSelection === 1) {
+          this.setState({ pickerValue: [newValue], backSteps: 0, currentValue: newValue }, () => {
+            onChange && onChange(this.getValue());
+          });
+        } else {
+          this.setState({ backSteps: 0, currentValue: newValue });
+        }
       }
     } else {
       let newPickerValue: string[][];
