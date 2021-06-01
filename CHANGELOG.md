@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.32](https://github.com/webyom/pant-react/compare/v0.1.31...v0.1.32) (2021-06-01)
+
+
+### Bug Fixes
+
+* **searchable-picker:** data lost ([e33b0f2](https://github.com/webyom/pant-react/commit/e33b0f24f3adc411b5700d59703b1fd1457c2b60))
+
 ### [0.1.31](https://github.com/webyom/pant-react/compare/v0.1.30...v0.1.31) (2021-06-01)
 
 
