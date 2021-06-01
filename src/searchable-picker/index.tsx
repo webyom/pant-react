@@ -139,8 +139,12 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
         ...state,
         pickerValue: [...(defaultValue || [])],
         rollbackPickerValue: [...(defaultValue || [])],
-        data: props.data || [],
-        total: props.data?.length ?? 0,
+        ...(props.data !== prevProps.data
+          ? {
+              data: props.data || [],
+              total: props.data?.length ?? 0,
+            }
+          : {}),
         prevProps: props,
       };
     }
