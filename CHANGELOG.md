@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.31](https://github.com/webyom/pant-react/compare/v0.1.30...v0.1.31) (2021-06-01)
+
+
+### Features
+
+* **cascader:** changeOnSelect ([9aea2d9](https://github.com/webyom/pant-react/commit/9aea2d983a19f87b997902cb6578c994acedb256))
+
 ### [0.1.30](https://github.com/webyom/pant-react/compare/v0.1.29...v0.1.30) (2021-05-17)
 
 
