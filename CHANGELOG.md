@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.33](https://github.com/webyom/pant-react/compare/v0.1.32...v0.1.33) (2021-06-04)
+
+
+### Features
+
+* datetime-picker yearmonth type ([3fd563f](https://github.com/webyom/pant-react/commit/3fd563fbd54285a096efacd3022aff2bddadcadd))
+
 ### [0.1.32](https://github.com/webyom/pant-react/compare/v0.1.31...v0.1.32) (2021-06-01)
 
 
