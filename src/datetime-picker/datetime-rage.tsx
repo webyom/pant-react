@@ -11,7 +11,7 @@ export type DatetimeRangeProps = Pick<
   'showToolbar' | 'toolbarPosition' | 'cancelButtonText' | 'confirmButtonText'
 > & {
   show?: boolean;
-  type: 'date' | 'datetime' | 'time';
+  type: 'date' | 'datetime' | 'time' | 'yearmonth';
   seconds?: boolean;
   min?: Date;
   max?: Date;

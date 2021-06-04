@@ -3,7 +3,7 @@ import { Picker, StandardColumnItem, PickerProps } from '../picker';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
-export type DatetimeType = 'date' | 'datetime' | 'time';
+export type DatetimeType = 'date' | 'datetime' | 'time' | 'yearmonth';
 
 export type DatetimePickerProps = Pick<
   PickerProps,
@@ -80,6 +80,8 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
       const [y, m, d, h, mm, s] = value.map((v) => parseInt(v));
       if (type === 'datetime') {
         return new Date(y, m, d, h, mm, seconds ? s : 0);
+      } else if (type === 'yearmonth') {
+        return new Date(y, m);
       } else {
         return new Date(y, m, d);
       }
@@ -241,6 +243,10 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
     res.push(
       this.range(minV, maxV).map((item) => ({ value: item + '', label: formatter(this.prefixZero(item + 1), 'm') })),
     );
+
+    if (type === 'yearmonth') {
+      return res;
+    }
 
     if (pickY === minY && pickM === minM) {
       minV = minD;
