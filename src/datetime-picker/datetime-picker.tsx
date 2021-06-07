@@ -358,6 +358,9 @@ export class DatetimePicker extends React.PureComponent<DatetimePickerProps, Dat
       res.push(date.getFullYear() + '');
       res.push(date.getMonth() + '');
       res.push(date.getDate() + '');
+    } else if (type === 'yearmonth') {
+      res.push(date.getFullYear() + '');
+      res.push(date.getMonth() + '');
     }
 
     if (type === 'datetime' || type === 'time') {

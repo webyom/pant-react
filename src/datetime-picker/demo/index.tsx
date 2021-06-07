@@ -49,7 +49,7 @@ export class DatetimePickerRouteComponent extends React.PureComponent<any, Datet
           <section>
             <h2>Choose Date</h2>
             <div className={bem('card')}>
-              <DatetimePicker type="date" title="Choose Date" defaultValue={new Date()} />
+              <DatetimePicker type="yearmonth" title="Choose Date" />
             </div>
           </section>
 
