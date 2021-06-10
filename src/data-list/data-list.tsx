@@ -17,6 +17,7 @@ export type DataListProps<T = Record<string, any>> = {
   records: T[];
   recordKey?: RecordKey<T>;
   recordRender?: (record: T, recordIndex: number) => JSX.Element;
+  listRender?: (records: T[]) => JSX.Element;
   expandButton?: JSX.Element;
   collapseButton?: JSX.Element;
   columns?: DataListColumn<T>[];
@@ -43,23 +44,28 @@ export class DataList<T = Record<string, any>> extends React.PureComponent<DataL
     const renderDataList = useMiddleware(
       addons,
       'onInjectDataList',
-    )(({ records }) => (
-      <div className={bem('records')}>
-        {props.topTip ? (
-          <div className={bem('tips')}>{props.topTip}</div>
-        ) : !records.length ? (
-          <div className={bem('tips')}>{this.props.noDataMsg || i18n().noData}</div>
-        ) : null}
-        {records.map((record, recordIndex) => (
-          <DataListRecord
-            key={select(props.recordKey)(record, recordIndex)}
-            {...props}
-            record={record}
-            recordIndex={recordIndex}
-          />
-        ))}
-      </div>
-    ));
+    )(({ records, listRender }) => {
+      if (listRender) {
+        return listRender(records);
+      }
+      return (
+        <div className={bem('records')}>
+          {props.topTip ? (
+            <div className={bem('tips')}>{props.topTip}</div>
+          ) : !records.length ? (
+            <div className={bem('tips')}>{this.props.noDataMsg || i18n().noData}</div>
+          ) : null}
+          {records.map((record, recordIndex) => (
+            <DataListRecord
+              key={select(props.recordKey)(record, recordIndex)}
+              {...props}
+              record={record}
+              recordIndex={recordIndex}
+            />
+          ))}
+        </div>
+      );
+    });
 
     return <div className={bem()}>{renderDataList(props)}</div>;
   }
