@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.35](https://github.com/webyom/pant-react/compare/v0.1.34...v0.1.35) (2021-06-10)
+
+
+### Features
+
+* data-list listRender ([8baba9c](https://github.com/webyom/pant-react/commit/8baba9c1ef421201b7206dc29dd1ee9e5e7c85a3))
+
 ### [0.1.34](https://github.com/webyom/pant-react/compare/v0.1.33...v0.1.34) (2021-06-07)
 
 
