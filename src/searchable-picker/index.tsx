@@ -260,6 +260,7 @@ export class SearchablePicker extends React.PureComponent<SearchablePickerProps,
     if (id === this.props._popupId) {
       this.setState({ contentWidth: this.contentRef.current.clientWidth });
       this.setState({ contentHeight: this.contentRef.current.clientHeight });
+      this.listInstance && this.listInstance.forceUpdateGrid();
     }
   }
 
