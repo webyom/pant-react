@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.37](https://github.com/webyom/pant-react/compare/v0.1.36...v0.1.37) (2021-06-13)
+
+
+### Bug Fixes
+
+* **data-list:** field width ([b609928](https://github.com/webyom/pant-react/commit/b609928507c8a352e58750cdac897a8f2dc56285))
+
 ### [0.1.36](https://github.com/webyom/pant-react/compare/v0.1.35...v0.1.36) (2021-06-11)
 
 
