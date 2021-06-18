@@ -42,6 +42,9 @@ export function isRootScroller(el: ScrollElement): boolean {
 }
 
 export function getScrollTop(el: ScrollElement): number {
+  if (isRootScroller(el)) {
+    return getRootScrollTop();
+  }
   return 'scrollTop' in el ? el.scrollTop : el.pageYOffset;
 }
 
@@ -62,14 +65,19 @@ export function setRootScrollTop(value: number): void {
   setScrollTop(document.body, value);
 }
 
-// get distance from element top to page top
-export function getElementTop(el: ScrollElement, scroller?: HTMLElement): number {
+// get distance from element top to scroller content top
+export function getElementTop(el: ScrollElement, scroller?: ScrollElement): number {
   if (isWindow(el)) {
     return 0;
   }
 
-  const scrollTop = scroller ? getScrollTop(scroller) : getRootScrollTop();
-  return el.getBoundingClientRect().top + scrollTop;
+  if (!scroller || isRootScroller(scroller)) {
+    return el.getBoundingClientRect().top + getRootScrollTop();
+  }
+
+  return (
+    el.getBoundingClientRect().top - (scroller as HTMLElement).getBoundingClientRect().top + getScrollTop(scroller)
+  );
 }
 
 export function getVisibleHeight(el: ScrollElement): number {
@@ -91,6 +99,13 @@ export function getVisibleBottom(el: ScrollElement): number {
     return 0;
   }
   return el.getBoundingClientRect().bottom;
+}
+
+export function getViewportSize(): { width: number; height: number } {
+  return {
+    width: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
+    height: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
+  };
 }
 
 export function scrollLeftTo(scroller: HTMLElement, to: number, duration: number): void {

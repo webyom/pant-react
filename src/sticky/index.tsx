@@ -2,7 +2,15 @@ import React from 'react';
 import { isDef, addUnit, removeUnit } from '../utils';
 import { isHidden } from '../utils/dom';
 import { on, off } from '../utils/event';
-import { getRootScrollTop, getElementTop, getScroller, ScrollElement, isRootScroller } from '../utils/scroll';
+import {
+  getScrollTop,
+  getElementTop,
+  getScroller,
+  getViewportSize,
+  getVisibleHeight,
+  ScrollElement,
+  isRootScroller,
+} from '../utils/scroll';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
@@ -13,13 +21,14 @@ export type StickyProps = {
   offsetBottom?: number | string;
   stickBottom?: boolean;
   container?: React.RefObject<HTMLElement>;
+  scroller?: ScrollElement;
 };
 
 type StickyState = {
   fixed: boolean;
   height: number;
   left: number;
-  right: number;
+  width: number;
   transform: number;
 };
 
@@ -34,34 +43,41 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
 
   private domRef = React.createRef<HTMLDivElement>();
   private bindedOnScroll = this.onScroll.bind(this);
+  private bindedOnRootScroll = this.onRootScroll.bind(this);
   private scroller: ScrollElement;
+  private toRef: NodeJS.Timeout = null;
 
   state = {
     fixed: false,
     height: 0,
     left: 0,
-    right: 0,
+    width: 0,
     transform: 0,
   };
 
   componentDidMount(): void {
     const el = this.domRef.current;
-    this.scroller = getScroller(el);
-    if (isRootScroller(this.scroller)) {
-      on(this.scroller, 'scroll', this.bindedOnScroll);
-      this.onScroll();
+    this.scroller = this.props.scroller || getScroller(el);
+    on(this.scroller, 'scroll', this.bindedOnScroll);
+    if (!isRootScroller(this.scroller)) {
+      on(window, 'scroll', this.bindedOnRootScroll);
     }
+    this.onRootScroll();
+    this.toRef = setInterval(() => {
+      this.onRootScroll();
+    }, 1000);
   }
 
   componentWillUnmount(): void {
-    if (isRootScroller(this.scroller)) {
-      off(this.scroller, 'scroll', this.bindedOnScroll);
+    off(this.scroller, 'scroll', this.bindedOnScroll);
+    if (!isRootScroller(this.scroller)) {
+      off(window, 'scroll', this.bindedOnRootScroll);
     }
   }
 
   private getStyle(): Record<string, string | number> {
     const { keepWidth, zIndex, offsetTop, offsetBottom, stickBottom } = this.props;
-    const { left, right, fixed, transform } = this.state;
+    const { left, width, fixed, transform } = this.state;
 
     if (!fixed) {
       return;
@@ -75,15 +91,26 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
 
     if (fixed) {
       if (stickBottom) {
-        style.bottom = addUnit(offsetBottom);
+        if (isRootScroller(this.scroller)) {
+          style.bottom = addUnit(offsetBottom);
+        } else {
+          const { height } = getViewportSize();
+          const { bottom } = (this.scroller as HTMLElement).getBoundingClientRect();
+          style.bottom = addUnit(+offsetBottom + height - bottom);
+        }
       } else {
-        style.top = addUnit(offsetTop);
+        if (isRootScroller(this.scroller)) {
+          style.top = addUnit(offsetTop);
+        } else {
+          const { top } = (this.scroller as HTMLElement).getBoundingClientRect();
+          style.top = addUnit(+offsetTop + top);
+        }
       }
     }
 
     if (keepWidth) {
       style.left = addUnit(left);
-      style.right = addUnit(right);
+      style.width = addUnit(width);
     }
 
     if (transform) {
@@ -97,7 +124,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     return this.state.fixed;
   }
 
-  stick(): void {
+  stick(isRootScroll?: boolean): void {
     const el = this.domRef.current;
     const { left, right, width } = el.getBoundingClientRect();
     const height = el.offsetHeight;
@@ -106,34 +133,40 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
 
     const { container, offsetTop, offsetBottom } = this.props;
     const offsetTopNumber = removeUnit(offsetTop);
-    const scrollTop = getRootScrollTop();
-    const topToPageTop = getElementTop(el);
+    const scrollTop = getScrollTop(this.scroller);
+    const topToScrollerTop = getElementTop(el, this.scroller);
 
     // The sticky component should be kept inside the container element
     if (container) {
       const containerEl = container.current;
-      const bottomToPageTop = getElementTop(containerEl) + containerEl.offsetHeight;
+      const bottomToScrollerTop = getElementTop(containerEl, this.scroller) + containerEl.offsetHeight;
       const offsetBottomNumber = removeUnit(offsetBottom);
 
-      if (scrollTop + offsetTopNumber + height + offsetBottomNumber > bottomToPageTop) {
-        const distanceToBottom = height + scrollTop - bottomToPageTop;
+      if (scrollTop + offsetTopNumber + height + offsetBottomNumber > bottomToScrollerTop) {
+        const distanceToBottom = height + scrollTop - bottomToScrollerTop;
 
         if (distanceToBottom < height) {
           fixed = true;
           transform = -(distanceToBottom + offsetTopNumber + offsetBottomNumber);
         }
-        this.setState({ height, left, right: right - width, fixed, transform });
+        this.setState({ height, left, width, fixed, transform });
+        if (isRootScroll && !isRootScroller(this.scroller)) {
+          this.forceUpdate();
+        }
         return;
       }
     }
 
-    if (scrollTop + offsetTopNumber > topToPageTop) {
+    if (scrollTop + offsetTopNumber > topToScrollerTop) {
       fixed = true;
     }
-    this.setState({ height, left, right: right - width, fixed, transform });
+    this.setState({ height, left, width, fixed, transform });
+    if (isRootScroll && !isRootScroller(this.scroller)) {
+      this.forceUpdate();
+    }
   }
 
-  stickBottom(): void {
+  stickBottom(isRootScroll?: boolean): void {
     const el = this.domRef.current;
     const { left, right, width } = el.getBoundingClientRect();
     const height = el.offsetHeight;
@@ -142,35 +175,42 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
 
     const { container, offsetTop, offsetBottom } = this.props;
     const offsetBottomNumber = removeUnit(offsetBottom);
-    const scrollTop = getRootScrollTop();
-    const topToPageTop = getElementTop(el);
-    const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+    const scrollTop = getScrollTop(this.scroller);
+    const topToScrollerTop = getElementTop(el, this.scroller);
+    const viewportHeight = getVisibleHeight(this.scroller);
 
     // The sticky component should be kept inside the container element
     if (container) {
       const containerEl = container.current;
-      const containerTopToPageTop = getElementTop(containerEl);
+      const containerTopToScrollerTop = getElementTop(containerEl, this.scroller);
       const offsetTopNumber = removeUnit(offsetTop);
 
-      if (containerTopToPageTop + offsetTopNumber + height + offsetBottomNumber > scrollTop + viewportHeight) {
-        const distanceToBottom = height + containerTopToPageTop - scrollTop - viewportHeight;
+      if (containerTopToScrollerTop + offsetTopNumber + height + offsetBottomNumber > scrollTop + viewportHeight) {
+        const distanceToBottom = height + containerTopToScrollerTop - scrollTop - viewportHeight;
 
         if (distanceToBottom < height) {
           fixed = true;
           transform = distanceToBottom + offsetTopNumber + offsetBottomNumber;
         }
-        this.setState({ height, left, right: right - width, fixed, transform });
+        this.setState({ height, left, width, fixed, transform });
+        if (isRootScroll && !isRootScroller(this.scroller)) {
+          this.forceUpdate();
+        }
         return;
       }
     }
 
-    if (scrollTop + viewportHeight < topToPageTop + height + offsetBottomNumber) {
+    if (scrollTop + viewportHeight < topToScrollerTop + height + offsetBottomNumber) {
       fixed = true;
     }
-    this.setState({ height, left, right: right - width, fixed, transform });
+    this.setState({ height, left, width, fixed, transform });
+    if (isRootScroll && !isRootScroller(this.scroller)) {
+      this.forceUpdate();
+    }
   }
 
-  onScroll(): void {
+  onScroll(_: Event, isRootScroll?: boolean): void {
+    clearInterval(this.toRef);
     const el = this.domRef.current;
     if (isHidden(el)) {
       return;
@@ -179,7 +219,11 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     if (container && !container.current) {
       return;
     }
-    this.props.stickBottom ? this.stickBottom() : this.stick();
+    this.props.stickBottom ? this.stickBottom(isRootScroll) : this.stick(isRootScroll);
+  }
+
+  onRootScroll(evt?: Event): void {
+    this.onScroll(evt, true);
   }
 
   render(): JSX.Element {

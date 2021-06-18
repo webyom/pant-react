@@ -9,6 +9,7 @@ const bem = createBEM('demo-sticky');
 
 export class StickyRouteComponent extends React.PureComponent {
   private containerRef = React.createRef<HTMLDivElement>();
+  private containerRef2 = React.createRef<HTMLDivElement>();
 
   render(): JSX.Element {
     return (
@@ -55,6 +56,21 @@ export class StickyRouteComponent extends React.PureComponent {
               <Button type="danger">Stick Bottom</Button>
             </Sticky>
           </section>
+
+          {/* <section>
+            <h2>Stick Bottom</h2>
+            <div style={{ height: '500px', backgroundColor: '#FFF', overflowY: 'auto' }}>
+              <div style={{ height: '600px' }}></div>
+              <div ref={this.containerRef2} style={{ backgroundColor: '#CCC', margin: '10px' }}>
+                <div style={{ height: '300px' }}></div>
+                <Sticky offsetTop="50" offsetBottom="50" container={this.containerRef2} stickBottom>
+                  <Button type="danger">Stick Bottom</Button>
+                </Sticky>
+                <div style={{ height: '300px' }}></div>
+              </div>
+              <div style={{ height: '600px' }}></div>
+            </div>
+          </section> */}
         </div>
       </React.Fragment>
     );
