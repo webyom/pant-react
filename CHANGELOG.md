@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.38](https://github.com/webyom/pant-react/compare/v0.1.37...v0.1.38) (2021-06-18)
+
+
+### Bug Fixes
+
+* **sticky:** scroller ([effa4eb](https://github.com/webyom/pant-react/commit/effa4eb761838dd0a5c7fd86f950cbb6ddc440d0))
+
 ### [0.1.37](https://github.com/webyom/pant-react/compare/v0.1.36...v0.1.37) (2021-06-13)
 
 
