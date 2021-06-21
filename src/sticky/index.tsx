@@ -126,7 +126,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
 
   stick(isRootScroll?: boolean): void {
     const el = this.domRef.current;
-    const { left, right, width } = el.getBoundingClientRect();
+    const { left, width } = el.getBoundingClientRect();
     const height = el.offsetHeight;
     let fixed = false;
     let transform = 0;
@@ -168,7 +168,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
 
   stickBottom(isRootScroll?: boolean): void {
     const el = this.domRef.current;
-    const { left, right, width } = el.getBoundingClientRect();
+    const { left, width } = el.getBoundingClientRect();
     const height = el.offsetHeight;
     let fixed = false;
     let transform = 0;
