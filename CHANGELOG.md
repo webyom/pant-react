@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.39](https://github.com/webyom/pant-react/compare/v0.1.38...v0.1.39) (2021-06-29)
+
+
+### Bug Fixes
+
+* **sticky:** container null ([15383e6](https://github.com/webyom/pant-react/commit/15383e6859140949c3f63b0301abc53a59b8aa06))
+
 ### [0.1.38](https://github.com/webyom/pant-react/compare/v0.1.37...v0.1.38) (2021-06-18)
 
 
