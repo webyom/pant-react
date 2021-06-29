@@ -137,7 +137,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     const topToScrollerTop = getElementTop(el, this.scroller);
 
     // The sticky component should be kept inside the container element
-    if (container) {
+    if (container && container.current) {
       const containerEl = container.current;
       const bottomToScrollerTop = getElementTop(containerEl, this.scroller) + containerEl.offsetHeight;
       const offsetBottomNumber = removeUnit(offsetBottom);
@@ -180,7 +180,7 @@ export class Sticky extends React.PureComponent<StickyProps, StickyState> {
     const viewportHeight = getVisibleHeight(this.scroller);
 
     // The sticky component should be kept inside the container element
-    if (container) {
+    if (container && container.current) {
       const containerEl = container.current;
       const containerTopToScrollerTop = getElementTop(containerEl, this.scroller);
       const offsetTopNumber = removeUnit(offsetTop);
