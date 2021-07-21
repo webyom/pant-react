@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.40](https://github.com/webyom/pant-react/compare/v0.1.39...v0.1.40) (2021-07-21)
+
+
+### Bug Fixes
+
+* **cell:** icon ([02b3fd9](https://github.com/webyom/pant-react/commit/02b3fd95e99384d076c98fa8f87bdbca4587e11c))
+
 ### [0.1.39](https://github.com/webyom/pant-react/compare/v0.1.38...v0.1.39) (2021-06-29)
 
 
