@@ -53,6 +53,10 @@
     height: $cell-line-height;
     font-size: $cell-icon-size;
     line-height: $cell-line-height;
+    &.pant-icon { /* overwrite icon default style */
+      font-size: $cell-icon-size;
+      line-height: $cell-line-height;
+    }
   }
 
   &__left-icon {
