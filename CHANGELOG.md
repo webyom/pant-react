@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.41](https://github.com/webyom/pant-react/compare/v0.1.40...v0.1.41) (2021-11-04)
+
+
+### Bug Fixes
+
+* locale typo ([8769ba4](https://github.com/webyom/pant-react/commit/8769ba4918c2127e0fa60909eb07384d17ee0dde))
+
 ### [0.1.40](https://github.com/webyom/pant-react/compare/v0.1.39...v0.1.40) (2021-07-21)
 
 
