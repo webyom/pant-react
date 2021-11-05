@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.42](https://github.com/webyom/pant-react/compare/v0.1.41...v0.1.42) (2021-11-05)
+
+
+### Features
+
+* **datalist:** custmize sigle selection icon ([26a01df](https://github.com/webyom/pant-react/commit/26a01df81c8c48177113941441433df766d89208))
+
 ### [0.1.41](https://github.com/webyom/pant-react/compare/v0.1.40...v0.1.41) (2021-11-04)
 
 
