@@ -12,6 +12,8 @@ export { SelectableManager };
 export type SelectableOptions = {
   checkedIcon?: JSX.Element;
   uncheckedIcon?: JSX.Element;
+  singleCheckedIcon?: JSX.Element;
+  singleUncheckedIcon?: JSX.Element;
   value?: string[];
   maxSelection?: number;
   maxSelectionMsg?: string;
@@ -70,8 +72,11 @@ function Selectable({
   record,
   recordIndex,
   recordKey,
+  maxSelection,
   checkedIcon,
   uncheckedIcon,
+  singleCheckedIcon,
+  singleUncheckedIcon,
 }: DataListRecordProps & SelectableOptions) {
   const manager = useContext(SelectableContext);
   const key = select(recordKey)(record, recordIndex);
@@ -80,13 +85,19 @@ function Selectable({
 
   let icon;
   if (manager.hasKey(key)) {
-    icon = (checkedIcon && React.cloneElement(checkedIcon, { onClick: toggle })) || (
-      <Icon name="passed" onClick={toggle} />
-    );
+    icon =
+      maxSelection === 1 && singleCheckedIcon
+        ? React.cloneElement(singleCheckedIcon, { onClick: toggle })
+        : (checkedIcon && React.cloneElement(checkedIcon, { onClick: toggle })) || (
+            <Icon name="passed" onClick={toggle} />
+          );
   } else {
-    icon = (uncheckedIcon && React.cloneElement(uncheckedIcon, { onClick: toggle })) || (
-      <Icon name="circle" onClick={toggle} />
-    );
+    icon =
+      maxSelection === 1 && singleUncheckedIcon
+        ? React.cloneElement(singleUncheckedIcon, { onClick: toggle })
+        : (uncheckedIcon && React.cloneElement(uncheckedIcon, { onClick: toggle })) || (
+            <Icon name="circle" onClick={toggle} />
+          );
   }
 
   return <div className={bem()}>{icon}</div>;
