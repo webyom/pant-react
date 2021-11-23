@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.43](https://github.com/webyom/pant-react/compare/v0.1.42...v0.1.43) (2021-11-23)
+
+
+### Features
+
+* pass record index for record action ([4b05d0c](https://github.com/webyom/pant-react/commit/4b05d0cb0fddf567a277aed6efaa9f655edaea3a))
+
 ### [0.1.42](https://github.com/webyom/pant-react/compare/v0.1.41...v0.1.42) (2021-11-05)
 
 
