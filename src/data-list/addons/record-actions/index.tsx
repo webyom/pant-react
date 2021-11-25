@@ -37,7 +37,7 @@ function RecordActions({
   const actions = getActions(record, recordIndex);
 
   if (!actions || !actions.length) {
-    return;
+    return null;
   }
 
   const showActions = () => {
