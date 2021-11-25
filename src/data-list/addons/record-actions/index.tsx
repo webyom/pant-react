@@ -9,7 +9,7 @@ type RecordActionItem<T = Record<string, any>> = ActionSheetItem & {
 };
 
 export type RecordActionsOptions<T = Record<string, any>> = {
-  actions: RecordActionItem<T>[];
+  getActions: (record: T, recordIndex: number) => RecordActionItem<T>[];
   actionIcon?: JSX.Element;
   cancelText?: string;
 };
@@ -28,12 +28,18 @@ export function recordActions(options: RecordActionsOptions): DataListAddon {
 }
 
 function RecordActions({
-  actions,
+  getActions,
   record,
   recordIndex,
   actionIcon,
   cancelText,
 }: RecordActionsOptions & { record: any; recordIndex: number }) {
+  const actions = getActions(record, recordIndex);
+
+  if (!actions || !actions.length) {
+    return;
+  }
+
   const showActions = () => {
     actionSheet({
       round: false,

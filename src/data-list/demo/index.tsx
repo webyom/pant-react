@@ -262,20 +262,32 @@ export class DataListRouteComponent extends React.PureComponent {
                 toolbar(),
                 filter,
                 recordActions({
-                  actions: [
-                    {
-                      name: 'View',
-                      action(record) {
-                        toast(`View ${record.name}`);
+                  getActions(_, recordIndex) {
+                    if (recordIndex === 0) {
+                      return [
+                        {
+                          name: 'Delete',
+                          action(record) {
+                            toast(`Delete ${record.name}`);
+                          },
+                        },
+                      ];
+                    }
+                    return [
+                      {
+                        name: 'View',
+                        action(record) {
+                          toast(`View ${record.name}`);
+                        },
                       },
-                    },
-                    {
-                      name: 'Delete',
-                      action(record) {
-                        toast(`Delete ${record.name}`);
+                      {
+                        name: 'Delete',
+                        action(record) {
+                          toast(`Delete ${record.name}`);
+                        },
                       },
-                    },
-                  ],
+                    ];
+                  },
                 }),
                 pageable(),
               ]}
@@ -310,20 +322,22 @@ export class DataListRouteComponent extends React.PureComponent {
                     },
                   }),
                   recordActions({
-                    actions: [
-                      {
-                        name: 'View',
-                        action(record) {
-                          toast(`View ${record.name}`);
+                    getActions() {
+                      return [
+                        {
+                          name: 'View',
+                          action(record) {
+                            toast(`View ${record.name}`);
+                          },
                         },
-                      },
-                      {
-                        name: 'Delete',
-                        action(record) {
-                          toast(`Delete ${record.name}`);
+                        {
+                          name: 'Delete',
+                          action(record) {
+                            toast(`Delete ${record.name}`);
+                          },
                         },
-                      },
-                    ],
+                      ];
+                    },
                   }),
                   pageable({ pageSize: 10, sticky: true, stickyContainer: this.containerRef }),
                 ]}
@@ -371,20 +385,22 @@ export class DataListRouteComponent extends React.PureComponent {
                   },
                 }),
                 recordActions({
-                  actions: [
-                    {
-                      name: 'View',
-                      action(record) {
-                        toast(`View ${record.name}`);
+                  getActions() {
+                    return [
+                      {
+                        name: 'View',
+                        action(record) {
+                          toast(`View ${record.name}`);
+                        },
                       },
-                    },
-                    {
-                      name: 'Delete',
-                      action(record) {
-                        toast(`Delete ${record.name}`);
+                      {
+                        name: 'Delete',
+                        action(record) {
+                          toast(`Delete ${record.name}`);
+                        },
                       },
-                    },
-                  ],
+                    ];
+                  },
                 }),
                 pageable(),
               ]}
