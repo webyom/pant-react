@@ -102,6 +102,10 @@ function DataListPagination({
 function Pagination({ recordCount, pageSize, pageIndex, prevPageText, nextPageText, onPagingChange }: PageableOptions) {
   const pages = Math.ceil(recordCount / pageSize);
 
+  if (pages <= 1) {
+    return null;
+  }
+
   return (
     <div className="pant-data-list__pagination pant-hairline--top">
       <Button
