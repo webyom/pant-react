@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/webyom/pant-react/compare/v0.2.2...v0.2.3) (2022-01-24)
+
+
+### Features
+
+* custom scroller for pullRefresh ([de58d32](https://github.com/webyom/pant-react/commit/de58d325716ae582d7a23b8adbda216089ed9e19))
+
 ### [0.2.2](https://github.com/webyom/pant-react/compare/v0.2.1...v0.2.2) (2021-12-02)
 
 
