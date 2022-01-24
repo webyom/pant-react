@@ -23,6 +23,7 @@ export type PullRefreshProps = {
   successDuration?: number | string;
   animationDuration?: number | string;
   headHeight?: number | string;
+  scroller?: ScrollElement;
   onRefresh?(): Promise<void>;
 };
 
@@ -56,7 +57,7 @@ export class PullRefresh extends React.PureComponent<PullRefreshProps, PullRefre
   }
 
   componentDidMount(): void {
-    this.scroller = getScroller(this.containerRef.current);
+    this.scroller = this.props.scroller || getScroller(this.containerRef.current);
     this.touchHandler = new TouchHandler(this.containerRef.current, {
       onBeforeTouchStart: this.onBeforeTouchStart.bind(this),
       onTouchMove: this.onTouchMove.bind(this),
