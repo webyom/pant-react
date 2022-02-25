@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.4](https://github.com/webyom/pant-react/compare/v0.2.3...v0.2.4) (2022-02-25)
+
+
+### Bug Fixes
+
+* datetime-picker i18n ([b3329b1](https://github.com/webyom/pant-react/commit/b3329b15f3ac645318bf18790a27c945404fe9d1))
+
 ### [0.2.3](https://github.com/webyom/pant-react/compare/v0.2.2...v0.2.3) (2022-01-24)
 
 
