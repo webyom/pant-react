@@ -39,8 +39,6 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
   static readonly __FIELD_BEHAVIOR__ = 'Popup';
   static defaultProps = {
     roundPopup: true,
-    titleStart: i18n().selectStartDate,
-    titleEnd: i18n().selectEndDate,
     defaultValue: [] as Date[],
   };
 
@@ -120,7 +118,7 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
         >
           <DatetimePicker
             key={Date.now()}
-            title={titleStart}
+            title={titleStart || i18n().selectStartDate}
             confirmButtonText={confirmButtonText}
             cancelButtonText={cancelButtonText}
             type={type}
@@ -144,7 +142,7 @@ export class DatetimeRange extends React.PureComponent<DatetimeRangeProps, Datet
         >
           <DatetimePicker
             key={Date.now()}
-            title={titleEnd}
+            title={titleEnd || i18n().selectEndDate}
             confirmButtonText={confirmButtonText}
             cancelButtonText={cancelButtonText}
             type={type}
